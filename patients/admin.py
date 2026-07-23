@@ -11,3 +11,6 @@ class PatientAdmin(admin.ModelAdmin):
     
     # Filters
     list_filter = ('species', 'location', 'sex')
+
+    # Auto-generated fields read-only in admin panel
+    readonly_fields = ('avatar_style',)

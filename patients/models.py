@@ -41,5 +41,15 @@ class Patient(models.Model):
     main_symptom = models.CharField(max_length=200, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
+    # Flag for soft-delete
+    is_active = models.BooleanField(default=True)
+
     def __str__(self):
         return f"[{self.location}-{self.id_number}] {self.name} the {self.species.capitalize()}"
+
+    def save(self, *args, **kwargs):
+        """
+        Auto-generate the avatar style based on the selected species and sex.
+        """
+        self.avatar_style = f"{self.species}_{self.sex}"
+        super().save(*args, **kwargs)
