@@ -1,3 +1,11 @@
-body {
+/* Global typography */
+body,
+button,
+input,
+select,
+textarea,
+.btn,
+.nav-link,
+.navbar-brand {
     text-transform: lowercase;
 }
