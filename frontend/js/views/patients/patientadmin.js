@@ -1,5 +1,18 @@
 // --- MODULE: patient administration view ---
 
+import { AVATAR_BASE_PATH, DEFAULT_AVATAR } from '../../config.js';
+import { fetchPatients, createPatient, updatePatient, dischargePatient, ApiError } from '../../api/patients.js';
+import {
+    LOCATIONS,
+    SPECIES,
+    SEXES,
+    ID_NUMBER_PATTERN,
+    ID_NUMBER_MAXLENGTH,
+    renderOptions,
+} from '../../constants/patientOptions.js';
+import { escapeHtml, setAvatarWithFallback } from '../../utils/dom.js';
+import { showToast, confirmAction } from '../../utils/toast.js';
+
 export const getPatientAdminView = () => {
     return `
     <div class="container">
@@ -36,7 +49,7 @@ export const getPatientModal = () => {
                         <div class="col-md-5 text-center border-end d-flex flex-column">
                             <h5 class="fw-bold mb-4 mt-2">Admit New Patient</h5>
                             <div class="mt-auto mb-auto">
-                                <img id="avatar-preview" src="assets/default-avatar.png" alt="Avatar Preview" class="img-fluid rounded mb-2" style="max-height: 200px; image-rendering: pixelated;">
+                                <img id="avatar-preview" src="${DEFAULT_AVATAR}" alt="Avatar Preview" class="img-fluid rounded mb-2" style="max-height: 200px; image-rendering: pixelated;">
                                 <p class="text-muted small mb-0">auto-generated avatar</p>
                             </div>
                         </div>
@@ -48,23 +61,31 @@ export const getPatientModal = () => {
                                 </div>
                                 <div class="mb-2">
                                     <label class="form-label small text-muted mb-0">Age</label>
-                                    <input type="number" class="form-control form-control-sm" id="age" required>
+                                    <input type="number" class="form-control form-control-sm" id="age" min="0" required>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6 mb-2">
+                                        <label class="form-label small text-muted mb-0">Location</label>
+                                        <select class="form-select form-select-sm" id="location" required>
+                                            ${renderOptions(LOCATIONS)}
+                                        </select>
+                                    </div>
+                                    <div class="col-6 mb-2">
+                                        <label class="form-label small text-muted mb-0">ID Number</label>
+                                        <input type="text" class="form-control form-control-sm" id="id_number" maxlength="${ID_NUMBER_MAXLENGTH}" pattern="${ID_NUMBER_PATTERN}" title="Up to 5 alphanumeric characters" required>
+                                    </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-6 mb-2">
                                         <label class="form-label small text-muted mb-0">Species</label>
                                         <select class="form-select form-select-sm" id="species">
-                                            <option value="human">Human</option>
-                                            <option value="cat">Cat</option>
-                                            <option value="bunny">Bunny</option>
+                                            ${renderOptions(SPECIES)}
                                         </select>
                                     </div>
                                     <div class="col-6 mb-2">
                                         <label class="form-label small text-muted mb-0">Sex</label>
                                         <select class="form-select form-select-sm" id="sex">
-                                            <option value="unknown">Unknown</option>
-                                            <option value="male">Male</option>
-                                            <option value="female">Female</option>
+                                            ${renderOptions(SEXES)}
                                         </select>
                                     </div>
                                 </div>
@@ -91,7 +112,7 @@ export const getPatientModal = () => {
                         <div class="col-md-5 text-center border-end d-flex flex-column">
                             <h5 class="fw-bold mb-4 mt-2" id="details-modal-title">Patient Profile</h5>
                             <div class="mt-auto mb-auto">
-                                <img id="details-avatar" src="assets/default-avatar.png" alt="Patient Avatar" class="img-fluid rounded mb-2" style="max-height: 200px; image-rendering: pixelated;">
+                                <img id="details-avatar" src="${DEFAULT_AVATAR}" alt="Patient Avatar" class="img-fluid rounded mb-2" style="max-height: 200px; image-rendering: pixelated;">
                                 <p class="text-muted small mb-0" id="details-patient-id"></p>
                             </div>
                         </div>
@@ -104,29 +125,38 @@ export const getPatientModal = () => {
                                     </div>
                                     <div class="mb-2">
                                         <label class="form-label small text-muted mb-0">Age</label>
-                                        <input type="number" class="form-control form-control-sm" id="details-age">
+                                        <input type="number" class="form-control form-control-sm" id="details-age" min="0">
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-6 mb-2">
+                                            <label class="form-label small text-muted mb-0">Location</label>
+                                            <select class="form-select form-select-sm" id="details-location">
+                                                ${renderOptions(LOCATIONS)}
+                                            </select>
+                                        </div>
+                                        <div class="col-6 mb-2">
+                                            <label class="form-label small text-muted mb-0">ID Number</label>
+                                            <input type="text" class="form-control form-control-sm" id="details-id_number" maxlength="${ID_NUMBER_MAXLENGTH}" pattern="${ID_NUMBER_PATTERN}" title="Up to 5 alphanumeric characters">
+                                        </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-6 mb-2">
                                             <label class="form-label small text-muted mb-0">Species</label>
                                             <select class="form-select form-select-sm" id="details-species">
-                                                <option value="human">Human</option>
-                                                <option value="cat">Cat</option>
-                                                <option value="bunny">Bunny</option>
+                                                ${renderOptions(SPECIES)}
                                             </select>
                                         </div>
                                         <div class="col-6 mb-2">
                                             <label class="form-label small text-muted mb-0">Sex</label>
                                             <select class="form-select form-select-sm" id="details-sex">
-                                                <option value="unknown">Unknown</option>
-                                                <option value="male">Male</option>
-                                                <option value="female">Female</option>
+                                                ${renderOptions(SEXES)}
                                             </select>
                                         </div>
                                     </div>
                                 </fieldset>
-                                <div class="text-end mt-3">
-                                    <button type="button" class="btn btn-outline-primary w-100" id="edit-toggle-btn">Edit Profile</button>
+                                <div class="d-flex gap-2 mt-3">
+                                    <button type="button" class="btn btn-outline-danger" id="discharge-btn">Discharge</button>
+                                    <button type="button" class="btn btn-outline-primary flex-grow-1" id="edit-toggle-btn">Edit Profile</button>
                                 </div>
                             </form>
                         </div>
@@ -138,26 +168,20 @@ export const getPatientModal = () => {
     `;
 };
 
-// --- Mock data ---
-
-let mockPatients = [
-    { id: 'VH-001', name: 'dinky', age: 4, species: 'bunny', sex: 'female' },
-    { id: 'VH-002', name: 'stinky', age: 2, species: 'cat', sex: 'male' },
-    { id: 'VH-003', name: 'minky', age: 35, species: 'human', sex: 'male' }
-];
-
 // --- LOGIC: event listeners and dom manipulation ---
 
 export const initPatientAdminLogic = () => {
-    
+
     // DOM elements
     const patientForm = document.getElementById('patient-form');
     const avatarPreview = document.getElementById('avatar-preview');
     const speciesSelect = document.getElementById('species');
     const sexSelect = document.getElementById('sex');
+    const locationSelect = document.getElementById('location');
+    const idNumberInput = document.getElementById('id_number');
     const patientGallery = document.getElementById('patient-gallery');
     const patientCount = document.getElementById('patient-count');
-    
+
     // Details modal elements
     const detailsModalElement = document.getElementById('patientDetailsModal');
     const detailsAvatar = document.getElementById('details-avatar');
@@ -166,124 +190,199 @@ export const initPatientAdminLogic = () => {
     const detailsAge = document.getElementById('details-age');
     const detailsSpecies = document.getElementById('details-species');
     const detailsSex = document.getElementById('details-sex');
+    const detailsLocation = document.getElementById('details-location');
+    const detailsIdNumber = document.getElementById('details-id_number');
     const patientFieldset = document.getElementById('patient-fieldset');
     const editToggleBtn = document.getElementById('edit-toggle-btn');
+    const dischargeBtn = document.getElementById('discharge-btn');
+
+    let localPatients = [];
+    let currentEditingPatientId = null;
 
     if (!patientForm || !patientGallery) {
         console.error('Patient Admin DOM elements not found.');
         return;
     }
 
-    // Render patients to the DOM
+    const loadPatients = async () => {
+        try {
+            localPatients = await fetchPatients();
+            renderPatients(localPatients);
+        } catch (error) {
+            console.error('API Error:', error);
+            patientGallery.innerHTML = '<div class="col-12 text-center text-danger">Failed to connect to database.</div>';
+            patientCount.textContent = 'API Error';
+        }
+    };
+
     const renderPatients = (patients) => {
-        patientGallery.innerHTML = '';
-        
         if (patients.length === 0) {
             patientGallery.innerHTML = '<div class="col-12 text-center text-muted">no patients admitted yet.</div>';
             patientCount.textContent = '0 patients';
             return;
         }
 
-        const cardsHtml = patients.map(patient => `
+        patientGallery.innerHTML = patients.map((patient) => {
+            const displayId = `${patient.location}-${patient.id_number}`;
+            return `
             <div class="col">
                 <div class="card h-100 shadow-sm border-0 text-center patient-card" data-id="${patient.id}" style="cursor: pointer; transition: transform 0.2s;">
-                    <img src="assets/avatars/${patient.species}_${patient.sex}.png" 
-                         class="card-img-top p-3 mx-auto" 
-                         alt="${patient.name}" 
-                         style="image-rendering: pixelated; max-height: 120px; width: auto;"
-                         onerror="this.onerror=null; this.src='assets/default-avatar.png'">
+                    <img data-avatar-src="${AVATAR_BASE_PATH}/${patient.avatar_style}.png"
+                         class="card-img-top p-3 mx-auto patient-avatar"
+                         alt="${escapeHtml(patient.name)}"
+                         style="image-rendering: pixelated; max-height: 120px; width: auto;">
                     <div class="card-body pt-0">
-                        <h6 class="card-title fw-bold mb-1">${patient.name}</h6>
-                        <p class="card-text small text-muted mb-0">${patient.id}</p>
+                        <h6 class="card-title fw-bold mb-1">${escapeHtml(patient.name)}</h6>
+                        <p class="card-text small text-muted mb-0">${escapeHtml(displayId)}</p>
                     </div>
                 </div>
             </div>
-        `).join('');
+            `;
+        }).join('');
 
-        patientGallery.innerHTML = cardsHtml;
         patientCount.textContent = `${patients.length} active patients`;
 
-        // Attach click event
-        document.querySelectorAll('.patient-card').forEach(card => {
-            card.addEventListener('click', () => {
-                const patientId = card.getAttribute('data-id');
-                openPatientDetails(patientId);
-            });
+        patientGallery.querySelectorAll('.patient-avatar').forEach((img) => {
+            setAvatarWithFallback(img, img.dataset.avatarSrc, DEFAULT_AVATAR);
         });
     };
 
-    // Open and populate details
+    // Listener for all cards
+    patientGallery.addEventListener('click', (event) => {
+        const card = event.target.closest('.patient-card');
+        if (!card) return;
+        openPatientDetails(card.dataset.id);
+    });
+
     const openPatientDetails = (id) => {
-        const patient = mockPatients.find(p => p.id === id);
+        const patient = localPatients.find((p) => p.id == id);
         if (!patient) return;
 
-        detailsAvatar.src = `assets/avatars/${patient.species}_${patient.sex}.png`;
-        detailsAvatar.onerror = function() { this.onerror=null; this.src='assets/default-avatar.png'; };
-        detailsPatientId.textContent = patient.id;
+        currentEditingPatientId = patient.id;
+
+        setAvatarWithFallback(detailsAvatar, `${AVATAR_BASE_PATH}/${patient.avatar_style}.png`, DEFAULT_AVATAR);
+        detailsPatientId.textContent = `[${patient.location}-${patient.id_number}]`;
         detailsName.value = patient.name;
         detailsAge.value = patient.age;
         detailsSpecies.value = patient.species;
         detailsSex.value = patient.sex;
+        detailsLocation.value = patient.location;
+        detailsIdNumber.value = patient.id_number;
 
-        // Read-only mode
         patientFieldset.setAttribute('disabled', 'true');
         editToggleBtn.textContent = 'Edit Profile';
         editToggleBtn.classList.replace('btn-success', 'btn-outline-primary');
 
-        const modal = new bootstrap.Modal(detailsModalElement);
-        modal.show();
+        bootstrap.Modal.getOrCreateInstance(detailsModalElement).show();
     };
 
-    // Toggle edit mode
-    editToggleBtn.addEventListener('click', () => {
+    editToggleBtn.addEventListener('click', async () => {
         const isDisabled = patientFieldset.hasAttribute('disabled');
-        
+
         if (isDisabled) {
             patientFieldset.removeAttribute('disabled');
             editToggleBtn.textContent = 'Save Changes';
             editToggleBtn.classList.replace('btn-outline-primary', 'btn-success');
-        } else {
-            // Save logic for later aaaaaaaaaa
+            return;
+        }
+
+        editToggleBtn.disabled = true;
+        editToggleBtn.textContent = 'Saving...';
+
+        const updatedPatient = {
+            name: detailsName.value,
+            age: parseInt(detailsAge.value, 10),
+            species: detailsSpecies.value,
+            sex: detailsSex.value,
+            location: detailsLocation.value,
+            id_number: detailsIdNumber.value.toUpperCase(),
+        };
+
+        try {
+            await updatePatient(currentEditingPatientId, updatedPatient);
+            await loadPatients();
+
             patientFieldset.setAttribute('disabled', 'true');
             editToggleBtn.textContent = 'Edit Profile';
             editToggleBtn.classList.replace('btn-success', 'btn-outline-primary');
+
+            // Refresh
+            openPatientDetails(currentEditingPatientId);
+            showToast('Patient updated successfully.');
+        } catch (error) {
+            console.error(error);
+            showToast(error instanceof ApiError ? error.message : 'Error saving changes.', 'error');
+            editToggleBtn.textContent = 'Save Changes';
+        } finally {
+            editToggleBtn.disabled = false;
         }
     });
 
-    // Initial render
-    renderPatients(mockPatients);
+    dischargeBtn.addEventListener('click', async () => {
+        const confirmed = await confirmAction(
+            'This patient will be discharged and removed from the active roster.',
+            'Yes, discharge'
+        );
+        if (!confirmed) return;
 
-    // Avatar update
+        dischargeBtn.disabled = true;
+
+        try {
+            await dischargePatient(currentEditingPatientId);
+            bootstrap.Modal.getInstance(detailsModalElement)?.hide();
+            await loadPatients();
+            showToast('Patient discharged successfully.');
+        } catch (error) {
+            console.error(error);
+            showToast(error instanceof ApiError ? error.message : 'Error discharging patient.', 'error');
+        } finally {
+            dischargeBtn.disabled = false;
+        }
+    });
+
     const updateAvatarPreview = () => {
-        const species = speciesSelect.value;
-        const sex = sexSelect.value;
-        avatarPreview.src = `assets/avatars/${species}_${sex}.png`; 
+        const src = `${AVATAR_BASE_PATH}/${speciesSelect.value}_${sexSelect.value}.png`;
+        setAvatarWithFallback(avatarPreview, src, DEFAULT_AVATAR);
     };
 
     speciesSelect.addEventListener('change', updateAvatarPreview);
     sexSelect.addEventListener('change', updateAvatarPreview);
 
-    patientForm.addEventListener('submit', (e) => {
+    patientForm.addEventListener('submit', async (e) => {
         e.preventDefault();
-        
+
+        const submitBtn = patientForm.querySelector('button[type="submit"]');
+        const originalBtnText = submitBtn.textContent;
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Admitting...';
+
         const newPatient = {
-            id: `VH-00${mockPatients.length + 1}`,
             name: document.getElementById('name').value,
-            age: document.getElementById('age').value,
+            age: parseInt(document.getElementById('age').value, 10),
             species: speciesSelect.value,
-            sex: sexSelect.value
+            sex: sexSelect.value,
+            location: locationSelect.value,
+            id_number: idNumberInput.value.toUpperCase(),
         };
 
-        mockPatients.push(newPatient);
-        renderPatients(mockPatients);
-        
-        patientForm.reset();
-        updateAvatarPreview();
-        
-        const modalElement = document.getElementById('createPatientModal');
-        const modalInstance = bootstrap.Modal.getInstance(modalElement);
-        if (modalInstance) {
-            modalInstance.hide();
+        try {
+            await createPatient(newPatient);
+            await loadPatients();
+
+            patientForm.reset();
+            updateAvatarPreview();
+
+            bootstrap.Modal.getInstance(document.getElementById('createPatientModal'))?.hide();
+            showToast('Patient admitted successfully.');
+        } catch (error) {
+            console.error(error);
+            showToast(error instanceof ApiError ? error.message : 'Make sure the Django server (port 8000) is running.', 'error');
+        } finally {
+            submitBtn.disabled = false;
+            submitBtn.textContent = originalBtnText;
         }
     });
+
+    // Initial render
+    loadPatients();
 };

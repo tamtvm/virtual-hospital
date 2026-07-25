@@ -35,7 +35,7 @@ class Patient(models.Model):
     
     # Composite patient ID + location acting as the prefix (e.g.,'EA-99999')
     location = models.CharField(max_length=2, choices=LOCATION_CHOICES, default='EA')
-    id_number = models.CharField(max_length=5, unique=True)
+    id_number = models.CharField(max_length=5)
 
     avatar_style = models.CharField(max_length=50, blank=True)
     main_symptom = models.CharField(max_length=200, blank=True)
@@ -43,6 +43,17 @@ class Patient(models.Model):
 
     # Flag for soft-delete
     is_active = models.BooleanField(default=True)
+
+    class Meta:
+        # id_number is only meaningful scoped to its location
+        # (e.g. 'EA-2222' and 'PL-2222' r different patients)
+        constraints = [
+            models.UniqueConstraint(
+                fields=['location', 'id_number'],
+                condition=models.Q(is_active=True),
+                name='unique_active_patient_id_per_location',
+            )
+        ]
 
     def __str__(self):
         return f"[{self.location}-{self.id_number}] {self.name} the {self.species.capitalize()}"

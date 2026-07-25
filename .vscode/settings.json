@@ -1,0 +1,11 @@
+{
+    "liveServer.settings.root": "/frontend",
+    "liveServer.settings.ignoreFiles": [
+        "**/*.sqlite3*",
+        "**/venv/**",
+        "**/__pycache__/**",
+        "**/migrations/**",
+        "**/*.py",
+        "**/.git/**"
+    ]
+}
