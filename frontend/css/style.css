@@ -118,3 +118,26 @@ textarea,
     width: 20px;
     height: 20px;
 }
+
+/* --- Global readonly & disabled style coz i didnt like default lol --- */
+
+input[readonly],
+input:disabled,
+select:disabled,
+fieldset[disabled] .mlvh-rounded-input {
+    background-color: #e9ecef;
+    border-color: #ced4da;
+    color: #6c757d;
+    opacity: 1;
+}
+
+.mlvh-date-badge:has(input[readonly]),
+fieldset[disabled] .mlvh-date-badge {
+    background-color: #e9ecef;
+    border-color: #ced4da;
+}
+
+.mlvh-date-badge:has(input[readonly]) *,
+fieldset[disabled] .mlvh-date-badge * {
+    color: #6c757d;
+}
