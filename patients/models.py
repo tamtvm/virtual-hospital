@@ -20,6 +20,12 @@ class Patient(models.Model):
         ('unknown', 'Unknown'),
     ]
 
+    PRONOUN_CHOICES = [
+        ('she/her', 'She/Her'),
+        ('he/him', 'He/Him'),
+        ('they/them', 'They/Them'),
+    ]
+
     LOCATION_CHOICES = [
         ('EA', 'Earth'),
         ('PL', 'Pluto'),
@@ -33,7 +39,8 @@ class Patient(models.Model):
     age = models.PositiveIntegerField()
     species = models.CharField(max_length=20, choices=SPECIES_CHOICES, default='human')
     sex = models.CharField(max_length=20, choices=SEX_CHOICES, default='unknown')
-    
+    pronouns = models.CharField(max_length=20, choices=PRONOUN_CHOICES, default='they/them')
+
     # Composite patient ID + location acting as the prefix (e.g.,'EA-99999')
     location = models.CharField(max_length=2, choices=LOCATION_CHOICES, default='EA')
     id_number = models.CharField(max_length=5)

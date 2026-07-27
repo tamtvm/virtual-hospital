@@ -396,7 +396,7 @@ export const initPatientAdminLogic = () => {
         setAvatarWithFallback(detailsAvatar, `${AVATAR_BASE_PATH}/${patient.avatar_style}.png`, DEFAULT_AVATAR);
         detailsPatientId.textContent = `[${patient.location}-${patient.id_number}]`;
         detailsName.value = patient.name;
-        detailsPronouns.value = patient.sex === 'unknown' ? 'they/them' : (detailsPronouns.value || 'they/them');
+        detailsPronouns.value = patient.pronouns;
         detailsAge.value = patient.age;
         detailsSpecies.value = patient.species;
         detailsSex.value = patient.sex;
@@ -433,6 +433,7 @@ export const initPatientAdminLogic = () => {
             species: detailsSpecies.value,
             sex: detailsSex.value,
             location: detailsLocation.value,
+            pronouns: detailsPronouns.value,
             id_number: detailsIdNumber.value.toUpperCase(),
         };
 
@@ -500,6 +501,7 @@ export const initPatientAdminLogic = () => {
             species: speciesSelect.value,
             sex: sexSelect.value,
             location: locationSelect.value,
+            pronouns: pronounsSelect.value,
             id_number: idNumberInput.value.toUpperCase(),
         };
 
