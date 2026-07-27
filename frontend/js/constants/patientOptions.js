@@ -52,6 +52,7 @@ export const SEX_ICONS = {
 };
 
 export const CALENDAR_ICON = 'assets/icons/misc/calendar.svg';
+export const PENCIL_ICON = 'assets/icons/misc/pencil.svg';
 
 export const renderIconButtons = (options, iconsMap, groupName) =>
     options.map(({ value, label }) => `

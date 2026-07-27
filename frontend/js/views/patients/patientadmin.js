@@ -10,6 +10,7 @@ import {
     SPECIES_ICONS,
     SEX_ICONS,
     CALENDAR_ICON,
+    PENCIL_ICON,
     ID_NUMBER_PATTERN,
     ID_NUMBER_MAXLENGTH,
     renderOptions,
@@ -55,7 +56,10 @@ export const getPatientModal = () => {
                             <h5 class="fw-bold mb-3 mt-2">Admit New Patient</h5>
                             <div class="mlvh-avatar-stage">
                                 <img id="avatar-preview" src="${DEFAULT_AVATAR}" alt="Avatar Preview" class="img-fluid mb-2" style="max-height: 180px; image-rendering: pixelated;">
-                                <input type="text" class="form-control form-control-sm text-center mlvh-name-input" id="name" placeholder="name" required>
+                                <div class="mlvh-name-field">
+                                    <input type="text" class="form-control form-control-sm text-center mlvh-name-input" id="name" placeholder="name" required>
+                                    <img src="${PENCIL_ICON}" alt="">
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-7">
@@ -137,7 +141,10 @@ export const getPatientModal = () => {
                                     <h5 class="fw-bold mb-3 mt-2" id="details-modal-title">Patient Profile</h5>
                                     <div class="mlvh-avatar-stage">
                                         <img id="details-avatar" src="${DEFAULT_AVATAR}" alt="Patient Avatar" class="img-fluid mb-2" style="max-height: 180px; image-rendering: pixelated;">
-                                        <input type="text" class="form-control form-control-sm text-center mlvh-name-input" id="details-name">
+                                        <div class="mlvh-name-field">
+                                            <input type="text" class="form-control form-control-sm text-center mlvh-name-input" id="details-name">
+                                            <img src="${PENCIL_ICON}" alt="">
+                                        </div>
                                         <p class="text-muted small mb-0 mt-2" id="details-patient-id"></p>
                                     </div>
                                 </div>
