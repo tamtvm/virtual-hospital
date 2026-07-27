@@ -120,7 +120,7 @@ textarea,
 }
 
 /* --- Global readonly & disabled style coz i didnt like default lol --- */
-
+/* for inputs */
 input[readonly],
 input:disabled,
 select:disabled,
@@ -140,4 +140,28 @@ fieldset[disabled] .mlvh-date-badge {
 .mlvh-date-badge:has(input[readonly]) *,
 fieldset[disabled] .mlvh-date-badge * {
     color: #6c757d;
+}
+/* for icon buttons */
+fieldset[disabled] .mlvh-icon-btn {
+    background-color: #e9ecef;
+    border-color: #e9ecef;
+    opacity: 1;
+    pointer-events: none;
+}
+
+fieldset[disabled] .mlvh-icon-btn img {
+    opacity: 0.5;
+}
+
+fieldset[disabled] .mlvh-icon-btn:hover {
+    transform: none;
+}
+
+fieldset[disabled] .mlvh-icon-btn.active {
+    border-color: #ced4da;
+    background-color: #dee2e6;
+}
+
+fieldset[disabled] .mlvh-icon-btn.active img {
+    opacity: 0.9;
 }
