@@ -69,6 +69,15 @@ class Patient(models.Model):
     def save(self, *args, **kwargs):
         """
         Auto-generate the avatar style based on the selected species and sex.
+        Enforces the "unknown" character as a single, indivisible unit:
+        sex, species, location and pronouns only ever move to their unknown
+        value together. :D
         """
+        if self.sex == 'unknown' or self.species == 'unknown' or self.location == 'XX':
+            self.sex = 'unknown'
+            self.species = 'unknown'
+            self.location = 'XX'
+            self.pronouns = 'they/them'
+
         self.avatar_style = f"{self.species}_{self.sex}"
         super().save(*args, **kwargs)
