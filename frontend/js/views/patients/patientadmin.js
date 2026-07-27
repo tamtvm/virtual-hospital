@@ -277,7 +277,7 @@ export const initPatientAdminLogic = () => {
         setAvatarWithFallback(imgEl, src, DEFAULT_AVATAR);
     };
 
-    // -- "unknown" as starting character with neutral pronouns (needs fix later im hungry) --
+    // -- "unknown" as starting character with neutral pronouns  --
   
     const setUnknownDefaults = (speciesEl, sexEl, locationEl, pronounsEl, speciesGroupEl, sexGroupEl, avatarEl) => {
         speciesEl.value = 'unknown';
@@ -288,16 +288,21 @@ export const initPatientAdminLogic = () => {
         syncIconGroup(sexGroupEl, sexEl);
         refreshAvatarPreview(avatarEl, speciesEl, sexEl);
     };
-
+    // If any field is set to unknown, it will populate the rest of the fields as unknown too (the default character profile)
     const handleIdentityChange = (changedField, speciesEl, sexEl, locationEl, pronounsEl, speciesGroupEl, sexGroupEl, avatarEl) => {
-        if (changedField === 'sex' && sexEl.value === 'unknown') {
+        const changedToUnknown =
+            (changedField === 'sex' && sexEl.value === 'unknown') ||
+            (changedField === 'species' && speciesEl.value === 'unknown') ||
+            (changedField === 'location' && locationEl.value === 'XX');
+
+        if (changedToUnknown) {
             setUnknownDefaults(speciesEl, sexEl, locationEl, pronounsEl, speciesGroupEl, sexGroupEl, avatarEl);
             return;
         }
 
-        if (changedField !== 'sex' && sexEl.value === 'unknown') sexEl.value = 'male';
-        if (changedField !== 'species' && speciesEl.value === 'unknown') speciesEl.value = 'human';
-        if (changedField !== 'location' && locationEl.value === 'XX') locationEl.value = 'EA';
+        if (sexEl.value === 'unknown') sexEl.value = 'male';
+        if (speciesEl.value === 'unknown') speciesEl.value = 'human';
+        if (locationEl.value === 'XX') locationEl.value = 'EA';
 
         syncIconGroup(speciesGroupEl, speciesEl);
         syncIconGroup(sexGroupEl, sexEl);
