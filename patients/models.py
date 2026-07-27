@@ -11,7 +11,7 @@ class Patient(models.Model):
         ('bunny', 'Bunny'),
         ('rat', 'Rat'),
         ('monkey', 'Monkey'),
-        ('other', 'Other'),
+        ('unknown', 'Unknown'),
     ]
 
     SEX_CHOICES = [
@@ -25,6 +25,7 @@ class Patient(models.Model):
         ('PL', 'Pluto'),
         ('ET', 'Ether'),
         ('NW', 'Nowhere'),
+        ('XX', 'Unknown'),
     ]
 
     # Core character stats

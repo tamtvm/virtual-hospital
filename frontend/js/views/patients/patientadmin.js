@@ -6,9 +6,14 @@ import {
     LOCATIONS,
     SPECIES,
     SEXES,
+    PRONOUNS,
+    SPECIES_ICONS,
+    SEX_ICONS,
+    CALENDAR_ICON,
     ID_NUMBER_PATTERN,
     ID_NUMBER_MAXLENGTH,
     renderOptions,
+    renderIconButtons,
 } from '../../constants/patientOptions.js';
 import { escapeHtml, setAvatarWithFallback } from '../../utils/dom.js';
 import { showToast, confirmAction } from '../../utils/toast.js';
@@ -46,47 +51,64 @@ export const getPatientModal = () => {
                 </div>
                 <div class="modal-body pt-0">
                     <div class="row">
-                        <div class="col-md-5 text-center border-end d-flex flex-column">
-                            <h5 class="fw-bold mb-4 mt-2">Admit New Patient</h5>
-                            <div class="mt-auto mb-auto">
-                                <img id="avatar-preview" src="${DEFAULT_AVATAR}" alt="Avatar Preview" class="img-fluid rounded mb-2" style="max-height: 200px; image-rendering: pixelated;">
-                                <p class="text-muted small mb-0">auto-generated avatar</p>
+                        <div class="col-md-5 text-center d-flex flex-column">
+                            <h5 class="fw-bold mb-3 mt-2">Admit New Patient</h5>
+                            <div class="mlvh-avatar-stage">
+                                <img id="avatar-preview" src="${DEFAULT_AVATAR}" alt="Avatar Preview" class="img-fluid mb-2" style="max-height: 180px; image-rendering: pixelated;">
+                                <input type="text" class="form-control form-control-sm text-center mlvh-name-input" id="name" placeholder="name" required>
                             </div>
                         </div>
                         <div class="col-md-7">
                             <form id="patient-form">
-                                <div class="mb-2">
-                                    <label class="form-label small text-muted mb-0">Name</label>
-                                    <input type="text" class="form-control form-control-sm" id="name" required>
-                                </div>
-                                <div class="mb-2">
-                                    <label class="form-label small text-muted mb-0">Age</label>
-                                    <input type="number" class="form-control form-control-sm" id="age" min="0" required>
-                                </div>
                                 <div class="row">
-                                    <div class="col-6 mb-2">
-                                        <label class="form-label small text-muted mb-0">Location</label>
-                                        <select class="form-select form-select-sm" id="location" required>
-                                            ${renderOptions(LOCATIONS)}
+                                    <div class="col-7 mb-2">
+                                        <label class="form-label small text-muted mb-0 d-block">Sex</label>
+                                        <div class="mlvh-icon-group" id="sex-icons" data-target="sex">
+                                            ${renderIconButtons(SEXES, SEX_ICONS, 'sex')}
+                                        </div>
+                                        <select class="d-none" id="sex">
+                                            ${renderOptions(SEXES)}
                                         </select>
                                     </div>
-                                    <div class="col-6 mb-2">
-                                        <label class="form-label small text-muted mb-0">ID Number</label>
-                                        <input type="text" class="form-control form-control-sm" id="id_number" maxlength="${ID_NUMBER_MAXLENGTH}" pattern="${ID_NUMBER_PATTERN}" title="Up to 5 alphanumeric characters" required>
+                                    <div class="col-5 mb-2">
+                                        <label class="form-label small text-muted mb-0">Pronouns</label>
+                                        <select class="form-select form-select-sm mlvh-rounded-input" id="pronouns">
+                                            ${renderOptions(PRONOUNS)}
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-6 mb-2">
-                                        <label class="form-label small text-muted mb-0">Species</label>
-                                        <select class="form-select form-select-sm" id="species">
+                                    <div class="col-7 mb-2">
+                                        <label class="form-label small text-muted mb-0 d-block">Species</label>
+                                        <div class="mlvh-icon-group" id="species-icons" data-target="species">
+                                            ${renderIconButtons(SPECIES, SPECIES_ICONS, 'species')}
+                                        </div>
+                                        <select class="d-none" id="species">
                                             ${renderOptions(SPECIES)}
                                         </select>
                                     </div>
-                                    <div class="col-6 mb-2">
-                                        <label class="form-label small text-muted mb-0">Sex</label>
-                                        <select class="form-select form-select-sm" id="sex">
-                                            ${renderOptions(SEXES)}
+                                    <div class="col-5 mb-2">
+                                        <label class="form-label small text-muted mb-0">Age</label>
+                                        <input type="number" class="form-control form-control-sm mlvh-rounded-input" id="age" min="0" required>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-7 mb-2">
+                                        <label class="form-label small text-muted mb-0">Location</label>
+                                        <select class="form-select form-select-sm mlvh-rounded-input" id="location" required>
+                                            ${renderOptions(LOCATIONS)}
                                         </select>
+                                    </div>
+                                    <div class="col-5 mb-2">
+                                        <label class="form-label small text-muted mb-0">ID Number</label>
+                                        <input type="text" class="form-control form-control-sm mlvh-rounded-input" id="id_number" maxlength="${ID_NUMBER_MAXLENGTH}" pattern="${ID_NUMBER_PATTERN}" title="Up to 5 alphanumeric characters" required>
+                                    </div>
+                                </div>
+                                <div class="mb-2">
+                                    <label class="form-label small text-muted mb-0 d-block">Admission Date</label>
+                                    <div class="mlvh-date-badge">
+                                        <img src="${CALENDAR_ICON}" alt="">
+                                        <input type="date" class="form-control form-control-sm border-0 bg-transparent p-0" id="admission_date" readonly>
                                     </div>
                                 </div>
                                 <div class="text-end mt-3">
@@ -108,59 +130,77 @@ export const getPatientModal = () => {
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body pt-0">
-                    <div class="row">
-                        <div class="col-md-5 text-center border-end d-flex flex-column">
-                            <h5 class="fw-bold mb-4 mt-2" id="details-modal-title">Patient Profile</h5>
-                            <div class="mt-auto mb-auto">
-                                <img id="details-avatar" src="${DEFAULT_AVATAR}" alt="Patient Avatar" class="img-fluid rounded mb-2" style="max-height: 200px; image-rendering: pixelated;">
-                                <p class="text-muted small mb-0" id="details-patient-id"></p>
-                            </div>
-                        </div>
-                        <div class="col-md-7">
-                            <form id="patient-details-form">
-                                <fieldset id="patient-fieldset" disabled>
-                                    <div class="mb-2">
-                                        <label class="form-label small text-muted mb-0">Name</label>
-                                        <input type="text" class="form-control form-control-sm" id="details-name">
+                    <form id="patient-details-form">
+                        <fieldset id="patient-fieldset" disabled>
+                            <div class="row">
+                                <div class="col-md-5 text-center d-flex flex-column">
+                                    <h5 class="fw-bold mb-3 mt-2" id="details-modal-title">Patient Profile</h5>
+                                    <div class="mlvh-avatar-stage">
+                                        <img id="details-avatar" src="${DEFAULT_AVATAR}" alt="Patient Avatar" class="img-fluid mb-2" style="max-height: 180px; image-rendering: pixelated;">
+                                        <input type="text" class="form-control form-control-sm text-center mlvh-name-input" id="details-name">
+                                        <p class="text-muted small mb-0 mt-2" id="details-patient-id"></p>
                                     </div>
-                                    <div class="mb-2">
-                                        <label class="form-label small text-muted mb-0">Age</label>
-                                        <input type="number" class="form-control form-control-sm" id="details-age" min="0">
-                                    </div>
+                                </div>
+                                <div class="col-md-7">
                                     <div class="row">
-                                        <div class="col-6 mb-2">
-                                            <label class="form-label small text-muted mb-0">Location</label>
-                                            <select class="form-select form-select-sm" id="details-location">
-                                                ${renderOptions(LOCATIONS)}
-                                            </select>
-                                        </div>
-                                        <div class="col-6 mb-2">
-                                            <label class="form-label small text-muted mb-0">ID Number</label>
-                                            <input type="text" class="form-control form-control-sm" id="details-id_number" maxlength="${ID_NUMBER_MAXLENGTH}" pattern="${ID_NUMBER_PATTERN}" title="Up to 5 alphanumeric characters">
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-6 mb-2">
-                                            <label class="form-label small text-muted mb-0">Species</label>
-                                            <select class="form-select form-select-sm" id="details-species">
-                                                ${renderOptions(SPECIES)}
-                                            </select>
-                                        </div>
-                                        <div class="col-6 mb-2">
-                                            <label class="form-label small text-muted mb-0">Sex</label>
-                                            <select class="form-select form-select-sm" id="details-sex">
+                                        <div class="col-7 mb-2">
+                                            <label class="form-label small text-muted mb-0 d-block">Sex</label>
+                                            <div class="mlvh-icon-group" id="details-sex-icons" data-target="details-sex">
+                                                ${renderIconButtons(SEXES, SEX_ICONS, 'details-sex')}
+                                            </div>
+                                            <select class="d-none" id="details-sex">
                                                 ${renderOptions(SEXES)}
                                             </select>
                                         </div>
+                                        <div class="col-5 mb-2">
+                                            <label class="form-label small text-muted mb-0">Pronouns</label>
+                                            <select class="form-select form-select-sm mlvh-rounded-input" id="details-pronouns">
+                                                ${renderOptions(PRONOUNS)}
+                                            </select>
+                                        </div>
                                     </div>
-                                </fieldset>
-                                <div class="d-flex gap-2 mt-3">
-                                    <button type="button" class="btn btn-outline-danger" id="discharge-btn">Discharge</button>
-                                    <button type="button" class="btn btn-outline-primary flex-grow-1" id="edit-toggle-btn">Edit Profile</button>
+                                    <div class="row">
+                                        <div class="col-7 mb-2">
+                                            <label class="form-label small text-muted mb-0 d-block">Species</label>
+                                            <div class="mlvh-icon-group" id="details-species-icons" data-target="details-species">
+                                                ${renderIconButtons(SPECIES, SPECIES_ICONS, 'details-species')}
+                                            </div>
+                                            <select class="d-none" id="details-species">
+                                                ${renderOptions(SPECIES)}
+                                            </select>
+                                        </div>
+                                        <div class="col-5 mb-2">
+                                            <label class="form-label small text-muted mb-0">Age</label>
+                                            <input type="number" class="form-control form-control-sm mlvh-rounded-input" id="details-age" min="0">
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-7 mb-2">
+                                            <label class="form-label small text-muted mb-0">Location</label>
+                                            <select class="form-select form-select-sm mlvh-rounded-input" id="details-location">
+                                                ${renderOptions(LOCATIONS)}
+                                            </select>
+                                        </div>
+                                        <div class="col-5 mb-2">
+                                            <label class="form-label small text-muted mb-0">ID Number</label>
+                                            <input type="text" class="form-control form-control-sm mlvh-rounded-input" id="details-id_number" maxlength="${ID_NUMBER_MAXLENGTH}" pattern="${ID_NUMBER_PATTERN}" title="Up to 5 alphanumeric characters">
+                                        </div>
+                                    </div>
+                                    <div class="mb-2">
+                                        <label class="form-label small text-muted mb-0 d-block">Admission Date</label>
+                                        <div class="mlvh-date-badge">
+                                            <img src="${CALENDAR_ICON}" alt="">
+                                            <input type="date" class="form-control form-control-sm border-0 bg-transparent p-0" id="details-admission_date" readonly>
+                                        </div>
+                                    </div>
                                 </div>
-                            </form>
+                            </div>
+                        </fieldset>
+                        <div class="d-flex gap-2 mt-3">
+                            <button type="button" class="btn btn-outline-danger" id="discharge-btn">Discharge</button>
+                            <button type="button" class="btn btn-outline-primary flex-grow-1" id="edit-toggle-btn">Edit Profile</button>
                         </div>
-                    </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -175,10 +215,15 @@ export const initPatientAdminLogic = () => {
     // DOM elements
     const patientForm = document.getElementById('patient-form');
     const avatarPreview = document.getElementById('avatar-preview');
+    const nameInput = document.getElementById('name');
+    const pronounsSelect = document.getElementById('pronouns');
     const speciesSelect = document.getElementById('species');
     const sexSelect = document.getElementById('sex');
     const locationSelect = document.getElementById('location');
     const idNumberInput = document.getElementById('id_number');
+    const admissionDateInput = document.getElementById('admission_date');
+    const speciesIconGroup = document.getElementById('species-icons');
+    const sexIconGroup = document.getElementById('sex-icons');
     const patientGallery = document.getElementById('patient-gallery');
     const patientCount = document.getElementById('patient-count');
 
@@ -187,11 +232,15 @@ export const initPatientAdminLogic = () => {
     const detailsAvatar = document.getElementById('details-avatar');
     const detailsPatientId = document.getElementById('details-patient-id');
     const detailsName = document.getElementById('details-name');
+    const detailsPronouns = document.getElementById('details-pronouns');
     const detailsAge = document.getElementById('details-age');
     const detailsSpecies = document.getElementById('details-species');
     const detailsSex = document.getElementById('details-sex');
     const detailsLocation = document.getElementById('details-location');
     const detailsIdNumber = document.getElementById('details-id_number');
+    const detailsAdmissionDate = document.getElementById('details-admission_date');
+    const detailsSpeciesIconGroup = document.getElementById('details-species-icons');
+    const detailsSexIconGroup = document.getElementById('details-sex-icons');
     const patientFieldset = document.getElementById('patient-fieldset');
     const editToggleBtn = document.getElementById('edit-toggle-btn');
     const dischargeBtn = document.getElementById('discharge-btn');
@@ -203,6 +252,85 @@ export const initPatientAdminLogic = () => {
         console.error('Patient Admin DOM elements not found.');
         return;
     }
+
+    // --- Icon button groups (visual layer on top of the hidden <select>) ---
+
+    const syncIconGroup = (groupEl, selectEl) => {
+        if (!groupEl) return;
+        groupEl.querySelectorAll('.mlvh-icon-btn').forEach((btn) => {
+            btn.classList.toggle('active', btn.dataset.value === selectEl.value);
+        });
+    };
+
+    const wireIconGroup = (groupEl, selectEl) => {
+        if (!groupEl) return;
+        groupEl.addEventListener('click', (event) => {
+            const btn = event.target.closest('.mlvh-icon-btn');
+            if (!btn) return;
+            selectEl.value = btn.dataset.value;
+            selectEl.dispatchEvent(new Event('change'));
+        });
+    };
+
+    const refreshAvatarPreview = (imgEl, speciesEl, sexEl) => {
+        const src = `${AVATAR_BASE_PATH}/${speciesEl.value}_${sexEl.value}.png`;
+        setAvatarWithFallback(imgEl, src, DEFAULT_AVATAR);
+    };
+
+    // -- "unknown" as starting character with neutral pronouns (needs fix later im hungry) --
+  
+    const setUnknownDefaults = (speciesEl, sexEl, locationEl, pronounsEl, speciesGroupEl, sexGroupEl, avatarEl) => {
+        speciesEl.value = 'unknown';
+        sexEl.value = 'unknown';
+        locationEl.value = 'XX';
+        pronounsEl.value = 'they/them';
+        syncIconGroup(speciesGroupEl, speciesEl);
+        syncIconGroup(sexGroupEl, sexEl);
+        refreshAvatarPreview(avatarEl, speciesEl, sexEl);
+    };
+
+    const handleIdentityChange = (changedField, speciesEl, sexEl, locationEl, pronounsEl, speciesGroupEl, sexGroupEl, avatarEl) => {
+        if (changedField === 'sex' && sexEl.value === 'unknown') {
+            setUnknownDefaults(speciesEl, sexEl, locationEl, pronounsEl, speciesGroupEl, sexGroupEl, avatarEl);
+            return;
+        }
+
+        if (changedField !== 'sex' && sexEl.value === 'unknown') sexEl.value = 'male';
+        if (changedField !== 'species' && speciesEl.value === 'unknown') speciesEl.value = 'human';
+        if (changedField !== 'location' && locationEl.value === 'XX') locationEl.value = 'EA';
+
+        syncIconGroup(speciesGroupEl, speciesEl);
+        syncIconGroup(sexGroupEl, sexEl);
+        refreshAvatarPreview(avatarEl, speciesEl, sexEl);
+    };
+
+    wireIconGroup(speciesIconGroup, speciesSelect);
+    wireIconGroup(sexIconGroup, sexSelect);
+    wireIconGroup(detailsSpeciesIconGroup, detailsSpecies);
+    wireIconGroup(detailsSexIconGroup, detailsSex);
+
+    admissionDateInput.value = new Date().toISOString().slice(0, 10);
+    setUnknownDefaults(speciesSelect, sexSelect, locationSelect, pronounsSelect, speciesIconGroup, sexIconGroup, avatarPreview);
+
+    speciesSelect.addEventListener('change', () =>
+        handleIdentityChange('species', speciesSelect, sexSelect, locationSelect, pronounsSelect, speciesIconGroup, sexIconGroup, avatarPreview)
+    );
+    sexSelect.addEventListener('change', () =>
+        handleIdentityChange('sex', speciesSelect, sexSelect, locationSelect, pronounsSelect, speciesIconGroup, sexIconGroup, avatarPreview)
+    );
+    locationSelect.addEventListener('change', () =>
+        handleIdentityChange('location', speciesSelect, sexSelect, locationSelect, pronounsSelect, speciesIconGroup, sexIconGroup, avatarPreview)
+    );
+
+    detailsSpecies.addEventListener('change', () =>
+        handleIdentityChange('species', detailsSpecies, detailsSex, detailsLocation, detailsPronouns, detailsSpeciesIconGroup, detailsSexIconGroup, detailsAvatar)
+    );
+    detailsSex.addEventListener('change', () =>
+        handleIdentityChange('sex', detailsSpecies, detailsSex, detailsLocation, detailsPronouns, detailsSpeciesIconGroup, detailsSexIconGroup, detailsAvatar)
+    );
+    detailsLocation.addEventListener('change', () =>
+        handleIdentityChange('location', detailsSpecies, detailsSex, detailsLocation, detailsPronouns, detailsSpeciesIconGroup, detailsSexIconGroup, detailsAvatar)
+    );
 
     const loadPatients = async () => {
         try {
@@ -263,11 +391,16 @@ export const initPatientAdminLogic = () => {
         setAvatarWithFallback(detailsAvatar, `${AVATAR_BASE_PATH}/${patient.avatar_style}.png`, DEFAULT_AVATAR);
         detailsPatientId.textContent = `[${patient.location}-${patient.id_number}]`;
         detailsName.value = patient.name;
+        detailsPronouns.value = patient.sex === 'unknown' ? 'they/them' : (detailsPronouns.value || 'they/them');
         detailsAge.value = patient.age;
         detailsSpecies.value = patient.species;
         detailsSex.value = patient.sex;
         detailsLocation.value = patient.location;
         detailsIdNumber.value = patient.id_number;
+        detailsAdmissionDate.value = patient.created_at ? patient.created_at.slice(0, 10) : '';
+
+        syncIconGroup(detailsSpeciesIconGroup, detailsSpecies);
+        syncIconGroup(detailsSexIconGroup, detailsSex);
 
         patientFieldset.setAttribute('disabled', 'true');
         editToggleBtn.textContent = 'Edit Profile';
@@ -357,7 +490,7 @@ export const initPatientAdminLogic = () => {
         submitBtn.textContent = 'Admitting...';
 
         const newPatient = {
-            name: document.getElementById('name').value,
+            name: nameInput.value,
             age: parseInt(document.getElementById('age').value, 10),
             species: speciesSelect.value,
             sex: sexSelect.value,
@@ -370,7 +503,8 @@ export const initPatientAdminLogic = () => {
             await loadPatients();
 
             patientForm.reset();
-            updateAvatarPreview();
+            admissionDateInput.value = new Date().toISOString().slice(0, 10);
+            setUnknownDefaults(speciesSelect, sexSelect, locationSelect, pronounsSelect, speciesIconGroup, sexIconGroup, avatarPreview);
 
             bootstrap.Modal.getInstance(document.getElementById('createPatientModal'))?.hide();
             showToast('Patient admitted successfully.');
