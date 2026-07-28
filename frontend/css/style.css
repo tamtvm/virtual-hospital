@@ -84,6 +84,16 @@ textarea,
     background-color: var(--mlvh-cream);
 }
 
+.mlvh-rounded-textarea {
+    border: 1px solid var(--mlvh-blue-dark);
+    border-radius: 0.75rem;
+    text-align: left;
+    font-size: 0.8rem;
+    color: var(--mlvh-text);
+    background-color: var(--mlvh-cream);
+    resize: none;
+}
+
 .mlvh-icon-group {
     display: flex;
     gap: 0.5rem;

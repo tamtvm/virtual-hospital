@@ -1,9 +1,19 @@
 import re
 
+from django.db import transaction
 from rest_framework import serializers
-from .models import Patient
+from .models import Patient, PatientRecord
 
 ID_NUMBER_PATTERN = re.compile(r'^[A-Za-z0-9]{1,5}$')
+
+
+class PatientRecordSerializer(serializers.ModelSerializer):
+    """
+    History entry for a patient (admission, edit, discharge, etc).
+    """
+    class Meta:
+        model = PatientRecord
+        fields = '__all__'
 
 
 class PatientSerializer(serializers.ModelSerializer):
@@ -12,6 +22,13 @@ class PatientSerializer(serializers.ModelSerializer):
     converts python model instances into JSON for the frontend API.
     """
     avatar_style = serializers.CharField(read_only=True)
+
+    consultation_type = serializers.ChoiceField(
+        choices=PatientRecord.CONSULTATION_TYPE_CHOICES,
+        write_only=True,
+    )
+
+    description = serializers.CharField(write_only=True)
 
     class Meta:
         model = Patient
@@ -41,3 +58,22 @@ class PatientSerializer(serializers.ModelSerializer):
                 'ID number must be 1-5 alphanumeric characters.'
             )
         return value.upper()
+
+    def create(self, validated_data):
+        """
+        Admitting a patient always produces its first PatientRecord
+        so both are created together in one transaction.
+        """
+        consultation_type = validated_data.pop('consultation_type')
+        description = validated_data.pop('description')
+
+        with transaction.atomic():
+            patient = super().create(validated_data)
+            PatientRecord.objects.create(
+                patient=patient,
+                record_type='admission',
+                consultation_type=consultation_type,
+                description=description,
+            )
+
+        return patient

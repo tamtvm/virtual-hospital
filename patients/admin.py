@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Patient
+from .models import Patient, PatientRecord
 
 @admin.register(Patient)
 class PatientAdmin(admin.ModelAdmin):
@@ -14,3 +14,10 @@ class PatientAdmin(admin.ModelAdmin):
 
     # Auto-generated fields read-only in admin panel
     readonly_fields = ('avatar_style',)
+
+
+@admin.register(PatientRecord)
+class PatientRecordAdmin(admin.ModelAdmin):
+    list_display = ('patient', 'record_type', 'consultation_type', 'created_at')
+    list_filter = ('record_type', 'consultation_type')
+    readonly_fields = ('created_at',)

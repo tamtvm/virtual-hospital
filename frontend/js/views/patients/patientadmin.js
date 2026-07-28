@@ -7,6 +7,7 @@ import {
     SPECIES,
     SEXES,
     PRONOUNS,
+    CONSULTATION_TYPES,
     SPECIES_ICONS,
     SEX_ICONS,
     CALENDAR_ICON,
@@ -114,6 +115,16 @@ export const getPatientModal = () => {
                                         <img src="${CALENDAR_ICON}" alt="">
                                         <input type="date" class="form-control form-control-sm border-0 bg-transparent p-0" id="admission_date" readonly>
                                     </div>
+                                </div>
+                                <div class="mb-2">
+                                    <label class="form-label small text-muted mb-0 d-block">Consultation Type</label>
+                                    <select class="form-select form-select-sm mlvh-rounded-input" id="consultation_type" required>
+                                        ${renderOptions(CONSULTATION_TYPES)}
+                                    </select>
+                                </div>
+                                <div class="mb-2">
+                                    <label class="form-label small text-muted mb-0 d-block">Description</label>
+                                    <textarea class="form-control form-control-sm mlvh-rounded-textarea" id="record_description" rows="2" placeholder="Describe why the patient is checking into the hospital today..." required></textarea>
                                 </div>
                                 <div class="text-end mt-3">
                                     <button type="submit" class="btn btn-primary w-100">Admit to Hospital</button>
@@ -229,6 +240,8 @@ export const initPatientAdminLogic = () => {
     const locationSelect = document.getElementById('location');
     const idNumberInput = document.getElementById('id_number');
     const admissionDateInput = document.getElementById('admission_date');
+    const consultationTypeSelect = document.getElementById('consultation_type');
+    const descriptionInput = document.getElementById('record_description');
     const speciesIconGroup = document.getElementById('species-icons');
     const sexIconGroup = document.getElementById('sex-icons');
     const patientGallery = document.getElementById('patient-gallery');
@@ -510,6 +523,8 @@ export const initPatientAdminLogic = () => {
             location: locationSelect.value,
             pronouns: pronounsSelect.value,
             id_number: idNumberInput.value.toUpperCase(),
+            consultation_type: consultationTypeSelect.value,
+            description: descriptionInput.value,
         };
 
         try {

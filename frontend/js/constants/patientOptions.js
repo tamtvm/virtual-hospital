@@ -35,6 +35,12 @@ export const PRONOUNS = [
     { value: 'they/them', label: 'they/them' },
 ];
 
+export const CONSULTATION_TYPES = [
+    { value: 'scheduled', label: 'Scheduled' },
+    { value: 'preventive', label: 'Preventive' },
+    { value: 'urgent', label: 'Urgent' },
+];
+
 // ----- Icon sets -----
 export const SPECIES_ICONS = {
     human: 'assets/icons/species/human.svg',

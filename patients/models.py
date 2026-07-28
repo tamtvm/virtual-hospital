@@ -81,3 +81,34 @@ class Patient(models.Model):
 
         self.avatar_style = f"{self.species}_{self.sex}"
         super().save(*args, **kwargs)
+
+
+class PatientRecord(models.Model):
+    """
+    A single entry in a patients timeline, something that happened to them 
+    (admission, profile edit, discharge etc). basically, lastest record. 
+    """
+    RECORD_TYPE_CHOICES = [
+        ('admission', 'Admission'),
+    ]
+
+    CONSULTATION_TYPE_CHOICES = [
+        ('scheduled', 'Scheduled'),
+        ('preventive', 'Preventive'),
+        ('urgent', 'Urgent'),
+    ]
+
+    patient = models.ForeignKey(Patient, on_delete=models.CASCADE, related_name='records')
+    record_type = models.CharField(max_length=20, choices=RECORD_TYPE_CHOICES)
+    consultation_type = models.CharField(max_length=20, choices=CONSULTATION_TYPE_CHOICES, blank=True)
+
+    # Future records tab reads and displays
+    description = models.TextField()
+
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return f"{self.get_record_type_display()} — {self.patient}"
