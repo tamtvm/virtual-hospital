@@ -30,6 +30,12 @@ class PatientSerializer(serializers.ModelSerializer):
 
     description = serializers.CharField(write_only=True)
 
+    latest_record = serializers.SerializerMethodField()
+
+    def get_latest_record(self, obj):
+        records = list(obj.records.all())
+        return PatientRecordSerializer(records[0]).data if records else None
+
     class Meta:
         model = Patient
         fields = '__all__'

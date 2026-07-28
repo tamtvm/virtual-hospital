@@ -94,6 +94,12 @@ textarea,
     resize: none;
 }
 
+.mlvh-rounded-textarea:read-only {
+    background-color: #e9ecef;
+    border-color: #ced4da;
+    color: #6c757d;
+}
+
 .mlvh-icon-group {
     display: flex;
     gap: 0.5rem;

@@ -17,6 +17,7 @@ import {
     renderOptions,
     renderIconButtons,
 } from '../../constants/patientOptions.js';
+import { formatRecordSummary } from '../../constants/recordOptions.js';
 import { escapeHtml, setAvatarWithFallback } from '../../utils/dom.js';
 import { showToast, confirmAction } from '../../utils/toast.js';
 
@@ -211,6 +212,10 @@ export const getPatientModal = () => {
                                             <input type="date" class="form-control form-control-sm border-0 bg-transparent p-0" id="details-admission_date" readonly>
                                         </div>
                                     </div>
+                                    <div class="mb-2">
+                                        <label class="form-label small text-muted mb-0 d-block">Latest Record</label>
+                                        <textarea class="form-control form-control-sm mlvh-rounded-textarea" id="details-latest-record" rows="2" readonly></textarea>
+                                    </div>
                                 </div>
                             </div>
                         </fieldset>
@@ -259,6 +264,7 @@ export const initPatientAdminLogic = () => {
     const detailsLocation = document.getElementById('details-location');
     const detailsIdNumber = document.getElementById('details-id_number');
     const detailsAdmissionDate = document.getElementById('details-admission_date');
+    const detailsLatestRecord = document.getElementById('details-latest-record');
     const detailsSpeciesIconGroup = document.getElementById('details-species-icons');
     const detailsSexIconGroup = document.getElementById('details-sex-icons');
     const patientFieldset = document.getElementById('patient-fieldset');
@@ -423,6 +429,7 @@ export const initPatientAdminLogic = () => {
         detailsLocation.value = patient.location;
         detailsIdNumber.value = patient.id_number;
         detailsAdmissionDate.value = patient.created_at ? patient.created_at.slice(0, 10) : '';
+        detailsLatestRecord.value = formatRecordSummary(patient.latest_record);
 
         syncIconGroup(detailsSpeciesIconGroup, detailsSpecies);
         syncIconGroup(detailsSexIconGroup, detailsSex);
