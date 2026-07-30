@@ -13,27 +13,33 @@
 </head>
 <body class="bg-light text-dark">
 
-    <!-- Navbar -->
-    <nav class="navbar navbar-dark bg-primary mb-4 shadow-sm">
-        <div class="container">
-            <a class="navbar-brand fw-bold" href="#" id="nav-home">MLVH</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link active" href="#" id="nav-patients">Patient Admin</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#" id="nav-consultations">Consultations</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
+    <div class="mlvh-app-shell">
+        <button class="mlvh-sidebar-toggle" id="sidebar-toggle" aria-label="Toggle navigation">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
 
-    <div id="app-root">
+        <div class="mlvh-sidebar-backdrop" id="sidebar-backdrop"></div>
+
+        <!-- Sidebar -->
+        <aside class="mlvh-sidebar">
+            <a class="mlvh-sidebar-brand" href="#" id="nav-home">MLVH</a>
+
+            <nav class="mlvh-sidebar-nav">
+                <a class="mlvh-sidebar-link active" href="#" id="nav-patients">
+                    <img src="assets/icons/nav/patients.svg" alt="">
+                    <span>Patient Admin</span>
+                </a>
+                <a class="mlvh-sidebar-link" href="#" id="nav-consultations">
+                    <img src="assets/icons/nav/consultations.svg" alt="">
+                    <span>Consultations</span>
+                </a>
+            </nav>
+        </aside>
+
+        <main id="app-root" class="mlvh-main">
+        </main>
     </div>
 
     <!-- Modal Container Global -->

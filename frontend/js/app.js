@@ -57,8 +57,31 @@ const initRouter = () => {
     });
 };
 
+const initSidebarToggle = () => {
+    const sidebar = document.querySelector('.mlvh-sidebar');
+    const toggleBtn = document.getElementById('sidebar-toggle');
+    const backdrop = document.getElementById('sidebar-backdrop');
+
+    const closeSidebar = () => {
+        sidebar.classList.remove('open');
+        backdrop.classList.remove('show');
+    };
+
+    toggleBtn.addEventListener('click', () => {
+        sidebar.classList.toggle('open');
+        backdrop.classList.toggle('show');
+    });
+
+    backdrop.addEventListener('click', closeSidebar);
+
+    document.querySelectorAll('.mlvh-sidebar-link').forEach((link) => {
+        link.addEventListener('click', closeSidebar);
+    });
+};
+
 // Application bootstrap
 document.addEventListener('DOMContentLoaded', () => {
     initRouter();
+    initSidebarToggle();
     navigateTo(ROUTE_PATIENTS);
 });
