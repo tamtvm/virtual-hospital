@@ -25,9 +25,9 @@ const routes = {
     },
     [ROUTE_CONSULTATIONS]: () => {
         appRoot.innerHTML = `
-            <div class="container text-center py-5">
-                <h2 class="fw-bold text-muted">Consultations</h2>
-                <p class="text-muted">I havent built this section yet!! pls wait ok</p>
+            <div class="mlvh-card text-center py-5">
+                <h2 class="fw-bold mlvh-card-subtitle">Consultations</h2>
+                <p class="mlvh-card-subtitle">I havent built this section yet!! pls wait ok</p>
             </div>
         `;
 

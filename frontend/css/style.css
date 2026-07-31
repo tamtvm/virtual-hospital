@@ -12,11 +12,16 @@ textarea,
 
 /* --- Color theme --- */
 :root {
+    --mlvh-bg: #eef6fa;
     --mlvh-blue: #cfe8f3;
     --mlvh-blue-dark: #a8d8e8;
     --mlvh-blue-deep: #6fa8c0;
     --mlvh-cream: #fdf9f3;
     --mlvh-text: #4a6572;
+}
+
+body {
+    background-color: var(--mlvh-bg);
 }
 
 .btn-primary {
@@ -35,10 +40,6 @@ textarea,
     color: var(--mlvh-blue-deep) !important;
 }
 /* --- Layout n navigation --- */
-.mlvh-app-shell {
-    display: flex;
-    min-height: 100vh;
-}
 .mlvh-app-shell {
     display: flex;
     min-height: 100vh;
@@ -71,12 +72,19 @@ textarea,
     gap: 0.5rem;
 }
 
+/* shared shape for nav, card tag, some buttons */
+.mlvh-sidebar-link,
+.mlvh-card-tag,
+.btn.mlvh-pill-btn {
+    padding: 0.6rem 0.9rem;
+    border-radius: 14px;
+    border: 1px solid transparent;
+}
+
 .mlvh-sidebar-link {
     display: flex;
     align-items: center;
     gap: 0.65rem;
-    padding: 0.6rem 0.9rem;
-    border-radius: 14px;
     color: var(--mlvh-text);
     text-decoration: none;
     font-weight: 600;
@@ -103,6 +111,52 @@ textarea,
     min-width: 0;
     padding: 1.5rem 1.5rem 2.5rem;
     overflow-x: hidden;
+}
+
+.mlvh-page-title {
+    color: var(--mlvh-blue-deep);
+    font-weight: 700;
+    font-size: 2.25rem;
+    letter-spacing: 0.03em;
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.mlvh-card {
+    position: relative;
+    background: var(--mlvh-cream);
+    border: 2px solid var(--mlvh-blue);
+    border-radius: 24px;
+    padding: 1.5rem 1.75rem;
+    box-shadow: 6px 6px 0 var(--mlvh-blue);
+    margin-bottom: 2.5rem;
+}
+
+.mlvh-card-tag {
+    position: absolute;
+    top: -20px;
+    left: 24px;
+    background: var(--mlvh-blue);
+    color: var(--mlvh-blue-deep);
+    font-weight: 700;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+}
+
+.mlvh-card-subtitle {
+    color: var(--mlvh-text);
+    opacity: 0.75;
+}
+
+.mlvh-patient-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 1rem;
+}
+
+#patient-gallery .card.patient-card {
+    background-color: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 3px 10px rgba(111, 168, 192, 0.3);
 }
 
 .mlvh-sidebar-toggle {
@@ -168,11 +222,6 @@ textarea,
     }
 }
 /* ----- Patient forms ----- */
-.mlvh-avatar-stage {
-    background: var(--mlvh-blue);
-    border-radius: 20px;
-    padding: 1.25rem 1rem;
-}
 .mlvh-avatar-stage {
     background: var(--mlvh-blue);
     border-radius: 20px;

@@ -23,22 +23,17 @@ import { showToast, confirmAction } from '../../utils/toast.js';
 
 export const getPatientAdminView = () => {
     return `
-    <div class="container">
-        <header class="text-center mb-5">
-            <h1 class="display-5 fw-bold text-primary">Patient Administration</h1>
-            <p class="text-muted">My Little Virtual Hospital - Patient Management System</p>
-        </header>
+    <div class="mlvh-card">
+        <span class="mlvh-card-tag">Patient Administration</span>
 
-        <div class="d-flex justify-content-between align-items-center mb-4 border-bottom pb-3">
-            <span class="text-muted" id="patient-count">Loading roster...</span>
-            <button class="btn btn-primary px-4 shadow-sm" data-bs-toggle="modal" data-bs-target="#createPatientModal">
+        <div class="d-flex justify-content-end mb-4">
+            <button class="btn btn-primary mlvh-pill-btn shadow-sm" data-bs-toggle="modal" data-bs-target="#createPatientModal">
                 + Admit Patient
             </button>
         </div>
 
-        <main>
-            <div id="patient-gallery" class="row row-cols-2 row-cols-md-4 row-cols-lg-5 g-4"></div>
-        </main>
+        <span class="d-block mb-3 mlvh-card-subtitle" id="patient-count">Loading roster...</span>
+        <div id="patient-gallery" class="mlvh-patient-grid"></div>
     </div>
     `;
 };
@@ -384,16 +379,14 @@ export const initPatientAdminLogic = () => {
         patientGallery.innerHTML = patients.map((patient) => {
             const displayId = `${patient.location}-${patient.id_number}`;
             return `
-            <div class="col">
-                <div class="card h-100 shadow-sm border-0 text-center patient-card" data-id="${patient.id}" style="cursor: pointer; transition: transform 0.2s;">
-                    <img data-avatar-src="${AVATAR_BASE_PATH}/${patient.avatar_style}.png"
-                         class="card-img-top p-3 mx-auto patient-avatar"
-                         alt="${escapeHtml(patient.name)}"
-                         style="image-rendering: pixelated; max-height: 120px; width: auto;">
-                    <div class="card-body pt-0">
-                        <h6 class="card-title fw-bold mb-1">${escapeHtml(patient.name)}</h6>
-                        <p class="card-text small text-muted mb-0">${escapeHtml(displayId)}</p>
-                    </div>
+            <div class="card h-100 border-0 text-center patient-card" data-id="${patient.id}" style="cursor: pointer; transition: transform 0.2s;">
+                <img data-avatar-src="${AVATAR_BASE_PATH}/${patient.avatar_style}.png"
+                     class="card-img-top p-3 mx-auto patient-avatar"
+                     alt="${escapeHtml(patient.name)}"
+                     style="image-rendering: pixelated; max-height: 120px; width: auto;">
+                <div class="card-body pt-0">
+                    <h6 class="card-title fw-bold mb-1">${escapeHtml(patient.name)}</h6>
+                    <p class="card-text small text-muted mb-0">${escapeHtml(displayId)}</p>
                 </div>
             </div>
             `;
