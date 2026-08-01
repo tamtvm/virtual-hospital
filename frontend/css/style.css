@@ -26,7 +26,8 @@ body {
 
 /* --- Core button --- */
 .btn-primary,
-.btn-mlvh-danger {
+.btn-mlvh-danger,
+.btn-mlvh-neutral {
     border: none;
     font-weight: 600;
     display: inline-flex;
@@ -60,8 +61,36 @@ body {
     color: var(--mlvh-text);
 }
 
+/* Neutral action buttons */
+.btn-mlvh-neutral {
+    background-color: var(--mlvh-blue);
+    color: var(--mlvh-text);
+}
+
+.btn-mlvh-neutral:hover,
+.btn-mlvh-neutral:focus {
+    background-color: var(--mlvh-blue-dark);
+}
+
 .text-primary {
     color: var(--mlvh-blue-deep) !important;
+}
+
+/* --- Alerts SA2--- */
+.mlvh-swal-popup {
+    border-radius: 24px;
+    border: 2px solid var(--mlvh-blue);
+    background: var(--mlvh-cream);
+    font-family: inherit;
+}
+
+.mlvh-swal-popup .swal2-title,
+.mlvh-swal-popup .swal2-html-container {
+    color: var(--mlvh-text);
+}
+
+.mlvh-swal-actions {
+    gap: 0.75rem;
 }
 /* --- Layout n navigation --- */
 .mlvh-app-shell {
@@ -101,7 +130,8 @@ body {
 .mlvh-card-tag,
 .mlvh-search-field,
 .btn-primary,
-.btn-mlvh-danger {
+.btn-mlvh-danger,
+.btn-mlvh-neutral {
     height: 45px;
     border-radius: 14px;
 }

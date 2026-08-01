@@ -219,8 +219,8 @@ export const getPatientModal = () => {
                             </div>
                         </fieldset>
                         <div class="d-flex gap-2 mt-3">
-                            <button type="button" class="btn btn-mlvh-danger" id="discharge-btn">Discharge</button>
                             <button type="button" class="btn btn-primary flex-grow-1" id="edit-toggle-btn">Edit Profile</button>
+                            <button type="button" class="btn btn-mlvh-danger" id="discharge-btn">Discharge</button>
                         </div>
                     </form>
                 </div>

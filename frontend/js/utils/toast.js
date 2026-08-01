@@ -6,7 +6,9 @@ const Toast = Swal.mixin({
     showConfirmButton: false,
     timer: 3000,
     timerProgressBar: true,
-    // Pauses on hover
+    customClass: {
+        popup: 'mlvh-swal-popup',
+    },
     didOpen: (toastEl) => {
         toastEl.addEventListener('mouseenter', Swal.stopTimer);
         toastEl.addEventListener('mouseleave', Swal.resumeTimer);
@@ -34,12 +36,19 @@ export const showToast = (message, variant = 'success') => {
 export const confirmAction = async (message, confirmButtonText = 'Yes, continue') => {
     const result = await Swal.fire({
         icon: 'warning',
+        iconColor: 'var(--mlvh-blue-deep)',
         text: message,
         showCancelButton: true,
         confirmButtonText,
         cancelButtonText: 'Cancel',
-        confirmButtonColor: '#d33',
         reverseButtons: true,
+        buttonsStyling: false,
+        customClass: {
+            popup: 'mlvh-swal-popup',
+            actions: 'mlvh-swal-actions',
+            confirmButton: 'btn btn-mlvh-danger',
+            cancelButton: 'btn btn-primary',
+        },
     });
     return result.isConfirmed;
 };
