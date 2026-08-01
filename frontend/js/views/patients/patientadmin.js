@@ -27,8 +27,8 @@ export const getPatientAdminView = () => {
         <span class="mlvh-card-tag">Patient Administration</span>
 
         <div class="d-flex justify-content-end mb-4">
-            <button class="btn btn-primary mlvh-pill-btn shadow-sm" data-bs-toggle="modal" data-bs-target="#createPatientModal">
-                + Admit Patient
+            <button class="btn mlvh-admit-btn shadow-sm" data-bs-toggle="modal" data-bs-target="#createPatientModal" aria-label="Admit Patient">
+                <img src="assets/icons/misc/plus.svg" alt="" class="mlvh-btn-icon">
             </button>
         </div>
 
