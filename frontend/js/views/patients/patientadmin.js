@@ -219,8 +219,8 @@ export const getPatientModal = () => {
                             </div>
                         </fieldset>
                         <div class="d-flex gap-2 mt-3">
-                            <button type="button" class="btn btn-outline-danger" id="discharge-btn">Discharge</button>
-                            <button type="button" class="btn btn-outline-primary flex-grow-1" id="edit-toggle-btn">Edit Profile</button>
+                            <button type="button" class="btn btn-mlvh-danger" id="discharge-btn">Discharge</button>
+                            <button type="button" class="btn btn-primary flex-grow-1" id="edit-toggle-btn">Edit Profile</button>
                         </div>
                     </form>
                 </div>
@@ -452,7 +452,6 @@ export const initPatientAdminLogic = () => {
 
         patientFieldset.setAttribute('disabled', 'true');
         editToggleBtn.textContent = 'Edit Profile';
-        editToggleBtn.classList.replace('btn-success', 'btn-outline-primary');
 
         bootstrap.Modal.getOrCreateInstance(detailsModalElement).show();
     };
@@ -463,7 +462,6 @@ export const initPatientAdminLogic = () => {
         if (isDisabled) {
             patientFieldset.removeAttribute('disabled');
             editToggleBtn.textContent = 'Save Changes';
-            editToggleBtn.classList.replace('btn-outline-primary', 'btn-success');
             return;
         }
 
@@ -486,7 +484,6 @@ export const initPatientAdminLogic = () => {
 
             patientFieldset.setAttribute('disabled', 'true');
             editToggleBtn.textContent = 'Edit Profile';
-            editToggleBtn.classList.replace('btn-success', 'btn-outline-primary');
 
             // Refresh
             openPatientDetails(currentEditingPatientId);

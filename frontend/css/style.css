@@ -24,15 +24,39 @@ body {
     background-color: var(--mlvh-bg);
 }
 
+/* --- Core button --- */
+.btn-primary,
+.btn-mlvh-danger {
+    border: none;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 1.25rem;
+    transition: background-color 0.15s, transform 0.1s;
+}
+
+/* Main action buttons */
 .btn-primary {
     background-color: var(--mlvh-blue-deep);
-    border-color: var(--mlvh-blue-deep);
+    color: #ffffff;
 }
 
 .btn-primary:hover,
 .btn-primary:focus {
     background-color: var(--mlvh-blue-dark);
-    border-color: var(--mlvh-blue-dark);
+    color: var(--mlvh-text);
+}
+
+/* Destructive action buttons */
+.btn-mlvh-danger {
+    background-color: var(--mlvh-blue);
+    color: var(--mlvh-blue-deep);
+}
+
+.btn-mlvh-danger:hover,
+.btn-mlvh-danger:focus {
+    background-color: var(--mlvh-blue-dark);
     color: var(--mlvh-text);
 }
 
@@ -75,10 +99,17 @@ body {
 /* Shared shape for nav links, the card tag n search bar*/
 .mlvh-sidebar-link,
 .mlvh-card-tag,
-.mlvh-search-field {
+.mlvh-search-field,
+.btn-primary,
+.btn-mlvh-danger {
     height: 45px;
-    padding: 0 0.9rem;
     border-radius: 14px;
+}
+
+.mlvh-sidebar-link,
+.mlvh-card-tag,
+.mlvh-search-field {
+    padding: 0 0.9rem;
     border: 1px solid transparent;
     display: flex;
     align-items: center;
@@ -217,8 +248,8 @@ body {
     top: 1rem;
     right: 1rem;
     z-index: 1046;
-    width: 42px;
-    height: 42px;
+    width: 45px;
+    height: 45px;
     border: none;
     border-radius: 14px;
     background: var(--mlvh-cream);
@@ -310,12 +341,13 @@ body {
 }
 
 .mlvh-name-input {
+    height: 36px;
     background-color: var(--mlvh-cream);
     border: 1px solid var(--mlvh-blue-dark);
     border-radius: 999px;
     font-weight: 700;
     text-align: center;
-    padding-right: 1.75rem;
+    padding: 0 1.75rem 0 1rem;
 }
 
 .mlvh-name-input:focus {
@@ -336,6 +368,7 @@ body {
 }
 
 .mlvh-rounded-input {
+    height: 36px;
     border: 1px solid var(--mlvh-blue-dark);
     border-radius: 999px;
     text-align: center;
@@ -370,8 +403,8 @@ body {
     border: 2px solid transparent;
     background: var(--mlvh-cream);
     border-radius: 14px;
-    width: 42px;
-    height: 42px;
+    width: 45px;
+    height: 45px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -394,10 +427,11 @@ body {
 }
 
 .mlvh-date-badge {
+    height: 36px;
     background: var(--mlvh-cream);
     border: 1px solid var(--mlvh-blue-dark);
     border-radius: 14px;
-    padding: 0.35rem 0.6rem;
+    padding: 0 0.75rem;
     display: flex;
     align-items: center;
     gap: 0.5rem;
