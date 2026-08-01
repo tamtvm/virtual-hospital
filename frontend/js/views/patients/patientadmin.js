@@ -26,8 +26,12 @@ export const getPatientAdminView = () => {
     <div class="mlvh-card">
         <span class="mlvh-card-tag">Patient Administration</span>
 
-        <div class="d-flex justify-content-end mb-4">
-            <button class="btn mlvh-admit-btn shadow-sm" data-bs-toggle="modal" data-bs-target="#createPatientModal" aria-label="Admit Patient">
+        <div class="d-flex align-items-center gap-2 mb-4">
+            <div class="mlvh-search-field flex-grow-1">
+                <img src="assets/icons/misc/search.svg" alt="">
+                <input type="text" id="patient-search" class="form-control form-control-sm border-0 bg-transparent p-0" placeholder="Search by name or ID...">
+            </div>
+            <button class="btn mlvh-admit-btn shadow-sm flex-shrink-0" data-bs-toggle="modal" data-bs-target="#createPatientModal" aria-label="Admit Patient">
                 <img src="assets/icons/misc/plus.svg" alt="" class="mlvh-btn-icon">
             </button>
         </div>
@@ -246,6 +250,7 @@ export const initPatientAdminLogic = () => {
     const sexIconGroup = document.getElementById('sex-icons');
     const patientGallery = document.getElementById('patient-gallery');
     const patientCount = document.getElementById('patient-count');
+    const patientSearchInput = document.getElementById('patient-search');
 
     // Details modal elements
     const detailsModalElement = document.getElementById('patientDetailsModal');
@@ -369,10 +374,22 @@ export const initPatientAdminLogic = () => {
         }
     };
 
-    const renderPatients = (patients) => {
+    const filterPatients = (patients, query) => {
+        const normalizedQuery = query.trim().toLowerCase();
+        if (!normalizedQuery) return patients;
+
+        return patients.filter((patient) => {
+            const displayId = `${patient.location}-${patient.id_number}`.toLowerCase();
+            return patient.name.toLowerCase().includes(normalizedQuery) || displayId.includes(normalizedQuery);
+        });
+    };
+
+    const renderPatients = (patients, query = '') => {
         if (patients.length === 0) {
-            patientGallery.innerHTML = '<div class="col-12 text-center text-muted">no patients admitted yet.</div>';
-            patientCount.textContent = '0 patients';
+            patientGallery.innerHTML = query
+                ? '<p class="mlvh-card-subtitle text-center mb-0">No patients match your search.</p>'
+                : '<p class="mlvh-card-subtitle text-center mb-0">No patients admitted yet.</p>';
+            patientCount.textContent = query ? '0 patients found' : '0 patients';
             return;
         }
 
@@ -392,12 +409,18 @@ export const initPatientAdminLogic = () => {
             `;
         }).join('');
 
-        patientCount.textContent = `${patients.length} active patients`;
+        patientCount.textContent = query
+            ? `${patients.length} of ${localPatients.length} patients`
+            : `${patients.length} active patients`;
 
         patientGallery.querySelectorAll('.patient-avatar').forEach((img) => {
             setAvatarWithFallback(img, img.dataset.avatarSrc, DEFAULT_AVATAR);
         });
     };
+
+    patientSearchInput.addEventListener('input', () => {
+        renderPatients(filterPatients(localPatients, patientSearchInput.value), patientSearchInput.value);
+    });
 
     // Listener for all cards
     patientGallery.addEventListener('click', (event) => {
