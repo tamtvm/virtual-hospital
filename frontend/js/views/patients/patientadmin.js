@@ -139,27 +139,41 @@ export const getPatientModal = () => {
 
     <!-- Patient Details / Edit Modal -->
     <div class="modal fade" id="patientDetailsModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
             <div class="modal-content">
-                <div class="modal-header border-0 pb-0 justify-content-end">
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <!-- Folder header -->
+                <div class="modal-header border-0 pb-0 d-flex justify-content-between align-items-center mlvh-folder-header">
+                    <h5 class="fw-bold mb-0 mlvh-folder-tab-title" id="details-modal-title">patient profile</h5>
+                    <button type="button" class="btn-close me-3" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body pt-0">
+                <div class="modal-body p-0">
                     <form id="patient-details-form">
-                        <fieldset id="patient-fieldset" disabled>
-                            <div class="row">
-                                <div class="col-md-5 text-center d-flex flex-column">
-                                    <h5 class="fw-bold mb-3 mt-2" id="details-modal-title">Patient Profile</h5>
+                        <div class="row g-0">
+                            <div class="col-md-5 text-center d-flex flex-column mlvh-profile-left-col">
+                                <fieldset id="patient-name-fieldset" disabled>
                                     <div class="mlvh-avatar-stage">
-                                        <img id="details-avatar" src="${DEFAULT_AVATAR}" alt="Patient Avatar" class="img-fluid mb-2" style="max-height: 180px; image-rendering: pixelated;">
+                                        <img id="details-avatar" src="${DEFAULT_AVATAR}" alt="Patient Avatar" class="img-fluid mb-2 mlvh-detail-avatar-img" style="image-rendering: pixelated;">
                                         <div class="mlvh-name-field">
                                             <input type="text" class="form-control form-control-sm text-center mlvh-name-input" id="details-name">
                                             <img src="${PENCIL_ICON}" alt="">
                                         </div>
                                         <p class="text-muted small mb-0 mt-2" id="details-patient-id"></p>
                                     </div>
+                                </fieldset>
+                                <div class="d-flex justify-content-center gap-2 mt-3">
+                                    <button type="button" class="btn mlvh-admit-btn shadow-sm" id="edit-toggle-btn" aria-label="Edit Profile">
+                                        <img src="assets/icons/misc/pencil.svg" alt="" id="edit-toggle-icon" class="mlvh-btn-icon">
+                                    </button>
+                                    <button type="button" class="btn mlvh-admit-btn shadow-sm" id="history-btn" aria-label="Medical History">
+                                        <img src="assets/icons/misc/history.svg" alt="" class="mlvh-btn-icon">
+                                    </button>
+                                    <button type="button" class="btn mlvh-admit-btn shadow-sm" id="discharge-btn" aria-label="Discharge">
+                                        <img src="assets/icons/misc/exit.svg" alt="" class="mlvh-btn-icon">
+                                    </button>
                                 </div>
-                                <div class="col-md-7">
+                            </div>
+                            <div class="col-md-7 mlvh-profile-right-col">
+                                <fieldset id="patient-fieldset" disabled>
                                     <div class="row">
                                         <div class="col-7 mb-2">
                                             <label class="form-label small text-muted mb-0 d-block">Sex</label>
@@ -213,14 +227,10 @@ export const getPatientModal = () => {
                                     </div>
                                     <div class="mb-2">
                                         <label class="form-label small text-muted mb-0 d-block">Latest Record</label>
-                                        <textarea class="form-control form-control-sm mlvh-rounded-textarea" id="details-latest-record" rows="2" readonly></textarea>
+                                        <textarea class="form-control form-control-sm mlvh-rounded-textarea" id="details-latest-record" rows="3" readonly></textarea>
                                     </div>
-                                </div>
+                                </fieldset>
                             </div>
-                        </fieldset>
-                        <div class="d-flex gap-2 mt-3">
-                            <button type="button" class="btn btn-primary flex-grow-1" id="edit-toggle-btn">Edit Profile</button>
-                            <button type="button" class="btn btn-mlvh-danger" id="discharge-btn">Discharge</button>
                         </div>
                     </form>
                 </div>
@@ -268,8 +278,11 @@ export const initPatientAdminLogic = () => {
     const detailsSpeciesIconGroup = document.getElementById('details-species-icons');
     const detailsSexIconGroup = document.getElementById('details-sex-icons');
     const patientFieldset = document.getElementById('patient-fieldset');
+    const patientNameFieldset = document.getElementById('patient-name-fieldset');
     const editToggleBtn = document.getElementById('edit-toggle-btn');
+    const editToggleIcon = document.getElementById('edit-toggle-icon');
     const dischargeBtn = document.getElementById('discharge-btn');
+    const historyBtn = document.getElementById('history-btn');
 
     let localPatients = [];
     let currentEditingPatientId = null;
@@ -278,6 +291,11 @@ export const initPatientAdminLogic = () => {
         console.error('Patient Admin DOM elements not found.');
         return;
     }
+
+    const setProfileEditable = (isEditable) => {
+        patientFieldset.disabled = !isEditable;
+        patientNameFieldset.disabled = !isEditable;
+    };
 
     // --- Icon button groups (visual layer on top of the hidden <select>) ---
 
@@ -450,8 +468,8 @@ export const initPatientAdminLogic = () => {
         syncIconGroup(detailsSpeciesIconGroup, detailsSpecies);
         syncIconGroup(detailsSexIconGroup, detailsSex);
 
-        patientFieldset.setAttribute('disabled', 'true');
-        editToggleBtn.textContent = 'Edit Profile';
+        setProfileEditable(false);
+        editToggleIcon.src = 'assets/icons/misc/pencil.svg';
 
         bootstrap.Modal.getOrCreateInstance(detailsModalElement).show();
     };
@@ -460,13 +478,12 @@ export const initPatientAdminLogic = () => {
         const isDisabled = patientFieldset.hasAttribute('disabled');
 
         if (isDisabled) {
-            patientFieldset.removeAttribute('disabled');
-            editToggleBtn.textContent = 'Save Changes';
+            setProfileEditable(true);
+            editToggleIcon.src = 'assets/icons/misc/check.svg';
             return;
         }
 
         editToggleBtn.disabled = true;
-        editToggleBtn.textContent = 'Saving...';
 
         const updatedPatient = {
             name: detailsName.value,
@@ -482,8 +499,8 @@ export const initPatientAdminLogic = () => {
             await updatePatient(currentEditingPatientId, updatedPatient);
             await loadPatients();
 
-            patientFieldset.setAttribute('disabled', 'true');
-            editToggleBtn.textContent = 'Edit Profile';
+            setProfileEditable(false);
+            editToggleIcon.src = 'assets/icons/misc/pencil.svg';
 
             // Refresh
             openPatientDetails(currentEditingPatientId);
@@ -491,10 +508,13 @@ export const initPatientAdminLogic = () => {
         } catch (error) {
             console.error(error);
             showToast(error instanceof ApiError ? error.message : 'Error saving changes.', 'error');
-            editToggleBtn.textContent = 'Save Changes';
         } finally {
             editToggleBtn.disabled = false;
         }
+    });
+
+    historyBtn.addEventListener('click', () => {
+        showToast('Medical history is not built yet, waitpls', 'error');
     });
 
     dischargeBtn.addEventListener('click', async () => {
