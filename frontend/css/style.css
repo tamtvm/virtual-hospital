@@ -73,13 +73,6 @@ body {
 }
 
 /* --- Alerts SA2--- */
-.mlvh-swal-popup {
-    border-radius: 24px;
-    border: 2px solid var(--mlvh-blue);
-    background: var(--mlvh-cream);
-    font-family: inherit;
-}
-
 .mlvh-swal-popup .swal2-title,
 .mlvh-swal-popup .swal2-html-container {
     color: var(--mlvh-text);
@@ -88,6 +81,7 @@ body {
 .mlvh-swal-actions {
     gap: 0.75rem;
 }
+
 /* --- Layout n navigation --- */
 .mlvh-app-shell {
     display: flex;
@@ -399,17 +393,26 @@ body {
     background: var(--mlvh-blue);
 }
 
-/* --- Patient card layout --- */
-#patientDetailsModal .modal-content {
-    background-color: #ffffff;
+/* --- Shared border frame for SA2 n others i think --- */
+#patientDetailsModal .modal-content,
+.mlvh-swal-popup {
     background-clip: border-box;
     border: 14px solid #ffffff;
     outline: 3px dashed var(--mlvh-blue);
     outline-offset: -10px;
     border-radius: 32px;
     box-shadow: 0 12px 32px rgba(111, 168, 192, 0.25);
+}
+
+/* --- Patient card layout --- */
+#patientDetailsModal .modal-content {
+    background-color: #ffffff;
     overflow: hidden;
     padding: 0.5rem;
+}
+
+.mlvh-swal-popup {
+    font-family: inherit;
 }
 
 #patientDetailsModal .mlvh-folder-header {
@@ -446,6 +449,9 @@ body {
     border-top: none;
     border-radius: 0 0 0 16px;
     padding: 1.5rem 1.5rem 2rem 1.5rem;
+    margin-top: -2px;
+    position: relative;
+    z-index: 20;
 }
 
 #patientDetailsModal .mlvh-profile-right-col {
