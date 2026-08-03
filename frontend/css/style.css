@@ -199,22 +199,33 @@ body {
 
 .mlvh-card {
     position: relative;
-    background: var(--mlvh-cream);
-    border: 2px solid var(--mlvh-blue);
-    border-radius: 24px;
-    padding: 2.25rem 1.75rem 1.5rem;
-    box-shadow: 6px 6px 0 var(--mlvh-blue);
     margin-bottom: 2.5rem;
 }
 
+.mlvh-card-header {
+    position: relative;
+    z-index: 10;
+    background-color: #ffffff;
+}
+
+.mlvh-card-body {
+    position: relative;
+    z-index: 5;
+    background: var(--mlvh-cream);
+    padding: 1.25rem 1.75rem 1.5rem;
+    border-radius: 0 0 18px 18px;
+}
+
 .mlvh-card-tag {
-    position: absolute;
-    top: -20px;
-    left: 24px;
-    background: var(--mlvh-blue);
+    background: var(--mlvh-cream);
     color: var(--mlvh-blue-deep);
     font-weight: 700;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+    border: none;
+    padding: 0.6rem 3.8rem 0.6rem 1.5rem;
+    border-radius: 16px 0 0 0;
+    clip-path: polygon(0 0, 85% 0, 100% 110%, 0% 110%);
+    display: inline-flex;
+    align-items: center;
 }
 
 .mlvh-card-subtitle {
@@ -396,7 +407,8 @@ body {
 /* --- Shared border frame for SA2 n others i think --- */
 #patientDetailsModal .modal-content,
 #createPatientModal .modal-content,
-.mlvh-swal-popup {
+.mlvh-swal-popup,
+.mlvh-card {
     background-clip: border-box;
     border: 14px solid #ffffff;
     outline: 3px dashed var(--mlvh-blue);
@@ -407,7 +419,8 @@ body {
 
 /* --- Patient card layout --- */
 #patientDetailsModal .modal-content,
-#createPatientModal .modal-content {
+#createPatientModal .modal-content,
+.mlvh-card {
     background-color: #ffffff;
     overflow: hidden;
     padding: 0.5rem;
@@ -571,22 +584,18 @@ fieldset[disabled] .mlvh-icon-btn.active img {
     }
 
     .mlvh-card {
-        padding: 3rem 0.75rem 1.25rem;
         overflow-wrap: break-word;
         word-wrap: break-word;
     }
 
+    .mlvh-card-body {
+        padding: 1rem 0.75rem 1.25rem;
+        border-radius: 0 0 12px 12px;
+    }
+
     .mlvh-card-tag {
-        left: 50%;
-        transform: translateX(-50%);
-        text-align: center;
         font-size: 0.8rem;
-        padding: 0.4rem 0.75rem;
-        height: auto;
-        max-width: 85%;
-        width: fit-content;
-        white-space: normal;
-        line-height: 1.2;
+        padding: 0.5rem 1.75rem 0.5rem 1rem;
     }
 
     .mlvh-card-subtitle {
@@ -596,7 +605,8 @@ fieldset[disabled] .mlvh-icon-btn.active img {
     }
 
     #patientDetailsModal .modal-content,
-    #createPatientModal .modal-content {
+    #createPatientModal .modal-content,
+    .mlvh-card {
         border-width: 4px;
         outline-offset: -4px;
         border-radius: 20px;

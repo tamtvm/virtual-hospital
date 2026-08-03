@@ -24,8 +24,10 @@ import { showToast, confirmAction } from '../../utils/toast.js';
 export const getPatientAdminView = () => {
     return `
     <div class="mlvh-card">
-        <span class="mlvh-card-tag">Patient Administration</span>
-
+        <div class="mlvh-card-header">
+            <span class="mlvh-card-tag">Patient Administration</span>
+        </div>
+        <div class="mlvh-card-body">
         <div class="d-flex align-items-center gap-2 mb-4">
             <div class="mlvh-search-field flex-grow-1">
                 <img src="assets/icons/misc/search.svg" alt="">
@@ -38,6 +40,7 @@ export const getPatientAdminView = () => {
 
         <span class="d-block mb-3 mlvh-card-subtitle" id="patient-count">Loading roster...</span>
         <div id="patient-gallery" class="mlvh-patient-grid"></div>
+        </div>
     </div>
     `;
 };
