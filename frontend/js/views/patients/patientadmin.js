@@ -48,13 +48,14 @@ export const getPatientModal = () => {
     <div class="modal fade" id="createPatientModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content">
-                <div class="modal-header border-0 pb-0 justify-content-end">
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <!-- Folder header -->
+                <div class="modal-header border-0 pb-0 d-flex justify-content-between align-items-center mlvh-folder-header">
+                    <h5 class="fw-bold mb-0 mlvh-folder-tab-title">Admit New Patient</h5>
+                    <button type="button" class="btn-close me-3" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body pt-0">
-                    <div class="row">
-                        <div class="col-md-5 text-center d-flex flex-column">
-                            <h5 class="fw-bold mb-3 mt-2">Admit New Patient</h5>
+                <div class="modal-body p-0">
+                    <div class="row g-0">
+                        <div class="col-md-5 text-center d-flex flex-column mlvh-profile-left-col">
                             <div class="mlvh-avatar-stage">
                                 <img id="avatar-preview" src="${DEFAULT_AVATAR}" alt="Avatar Preview" class="img-fluid mb-2" style="max-height: 180px; image-rendering: pixelated;">
                                 <div class="mlvh-name-field">
@@ -63,7 +64,7 @@ export const getPatientModal = () => {
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-7">
+                        <div class="col-md-7 mlvh-profile-right-col">
                             <form id="patient-form">
                                 <div class="row">
                                     <div class="col-7 mb-2">

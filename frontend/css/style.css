@@ -395,6 +395,7 @@ body {
 
 /* --- Shared border frame for SA2 n others i think --- */
 #patientDetailsModal .modal-content,
+#createPatientModal .modal-content,
 .mlvh-swal-popup {
     background-clip: border-box;
     border: 14px solid #ffffff;
@@ -405,7 +406,8 @@ body {
 }
 
 /* --- Patient card layout --- */
-#patientDetailsModal .modal-content {
+#patientDetailsModal .modal-content,
+#createPatientModal .modal-content {
     background-color: #ffffff;
     overflow: hidden;
     padding: 0.5rem;
@@ -415,7 +417,8 @@ body {
     font-family: inherit;
 }
 
-#patientDetailsModal .mlvh-folder-header {
+#patientDetailsModal .mlvh-folder-header,
+#createPatientModal .mlvh-folder-header {
     background-color: #ffffff;
     padding: 0;
     border-bottom: none;
@@ -426,7 +429,8 @@ body {
     gap: 0.5rem;
 }
 
-#patientDetailsModal .mlvh-folder-tab-title {
+#patientDetailsModal .mlvh-folder-tab-title,
+#createPatientModal .mlvh-folder-tab-title {
     background-color: var(--mlvh-cream);
     color: var(--mlvh-blue-deep);
     font-size: 16px;
@@ -443,7 +447,8 @@ body {
     max-width: 100%;
 }
 
-#patientDetailsModal .mlvh-profile-left-col {
+#patientDetailsModal .mlvh-profile-left-col,
+#createPatientModal .mlvh-profile-left-col {
     background-color: var(--mlvh-cream);
     border-right: 2px solid var(--mlvh-blue);
     border-top: none;
@@ -454,7 +459,8 @@ body {
     z-index: 20;
 }
 
-#patientDetailsModal .mlvh-profile-right-col {
+#patientDetailsModal .mlvh-profile-right-col,
+#createPatientModal .mlvh-profile-right-col {
     background-color: #ffffff;
     border-top: none;
     padding: 0.60rem 2rem 2rem 1.5rem;
@@ -589,19 +595,22 @@ fieldset[disabled] .mlvh-icon-btn.active img {
         word-wrap: break-word;
     }
 
-    #patientDetailsModal .modal-content {
+    #patientDetailsModal .modal-content,
+    #createPatientModal .modal-content {
         border-width: 4px;
         outline-offset: -4px;
         border-radius: 20px;
         padding: 0.5rem;
     }
 
-    #patientDetailsModal .mlvh-folder-tab-title {
+    #patientDetailsModal .mlvh-folder-tab-title,
+    #createPatientModal .mlvh-folder-tab-title {
         font-size: 14px;
         padding: 0.5rem 1.75rem 0.5rem 1rem;
     }
 
-    #patientDetailsModal .mlvh-profile-left-col {
+    #patientDetailsModal .mlvh-profile-left-col,
+    #createPatientModal .mlvh-profile-left-col {
         border-right: none;
         border-bottom: 2px solid var(--mlvh-blue);
         border-radius: 0;
@@ -612,7 +621,8 @@ fieldset[disabled] .mlvh-icon-btn.active img {
         max-height: 110px;
     }
 
-    #patientDetailsModal .mlvh-profile-right-col {
+    #patientDetailsModal .mlvh-profile-right-col,
+    #createPatientModal .mlvh-profile-right-col {
         padding: 1rem;
     }
 }
