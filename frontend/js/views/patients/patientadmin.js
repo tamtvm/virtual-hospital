@@ -147,7 +147,7 @@ export const getPatientModal = () => {
             <div class="modal-content">
                 <!-- Folder header -->
                 <div class="modal-header border-0 pb-0 d-flex justify-content-between align-items-center mlvh-folder-header">
-                    <h5 class="fw-bold mb-0 mlvh-folder-tab-title" id="details-modal-title">patient profile</h5>
+                    <h5 class="fw-bold mb-0 mlvh-folder-tab-title" id="details-modal-title">Patient Profile</h5>
                     <button type="button" class="btn-close me-3" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body p-0">

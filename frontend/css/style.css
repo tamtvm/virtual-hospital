@@ -269,7 +269,7 @@ body {
     overflow: hidden;
 }
 
-/* card images scale down proportionally */
+/* Card images scale down proportionally */
 #patient-gallery .card.patient-card img {
     max-width: 100%;
     height: auto;
@@ -406,7 +406,7 @@ body {
     background: var(--mlvh-blue);
 }
 
-/* --- Shared border frame for SA2 n others i think --- */
+/* --- Shared border frame for SA2 --- */
 #patientDetailsModal .modal-content,
 #createPatientModal .modal-content,
 .mlvh-swal-popup,
