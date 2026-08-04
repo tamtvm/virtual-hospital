@@ -60,7 +60,7 @@ export const getPatientModal = () => {
                     <div class="row g-0">
                         <div class="col-md-5 text-center d-flex flex-column mlvh-profile-left-col">
                             <div class="mlvh-avatar-stage">
-                                <img id="avatar-preview" src="${DEFAULT_AVATAR}" alt="Avatar Preview" class="img-fluid mb-2" style="max-height: 180px; image-rendering: pixelated;">
+                                <img id="avatar-preview" src="${DEFAULT_AVATAR}" alt="Avatar Preview" class="img-fluid mb-2" style="max-height: 220px;">
                                 <div class="mlvh-name-field">
                                     <input type="text" class="form-control form-control-sm text-center mlvh-name-input" id="name" placeholder="name" required>
                                     <img src="${PENCIL_ICON}" alt="">
@@ -156,7 +156,7 @@ export const getPatientModal = () => {
                             <div class="col-md-5 text-center d-flex flex-column mlvh-profile-left-col">
                                 <fieldset id="patient-name-fieldset" disabled>
                                     <div class="mlvh-avatar-stage">
-                                        <img id="details-avatar" src="${DEFAULT_AVATAR}" alt="Patient Avatar" class="img-fluid mb-2 mlvh-detail-avatar-img" style="image-rendering: pixelated;">
+                                        <img id="details-avatar" src="${DEFAULT_AVATAR}" alt="Patient Avatar" class="img-fluid mb-2 mlvh-detail-avatar-img">
                                         <div class="mlvh-name-field">
                                             <input type="text" class="form-control form-control-sm text-center mlvh-name-input" id="details-name">
                                             <img src="${PENCIL_ICON}" alt="">
@@ -420,9 +420,9 @@ export const initPatientAdminLogic = () => {
             return `
             <div class="card h-100 border-0 text-center patient-card" data-id="${patient.id}" style="cursor: pointer; transition: transform 0.2s;">
                 <img data-avatar-src="${AVATAR_BASE_PATH}/${patient.avatar_style}.png"
-                     class="card-img-top p-3 mx-auto patient-avatar"
+                     class="card-img-top p-2 mx-auto patient-avatar"
                      alt="${escapeHtml(patient.name)}"
-                     style="image-rendering: pixelated; max-height: 120px; width: auto;">
+                     style="max-height: 150px; width: auto;">
                 <div class="card-body pt-0">
                     <h6 class="card-title fw-bold mb-1">${escapeHtml(patient.name)}</h6>
                     <p class="card-text small text-muted mb-0">${escapeHtml(displayId)}</p>

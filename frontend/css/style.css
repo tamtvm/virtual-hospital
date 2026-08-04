@@ -307,11 +307,11 @@ body {
 .mlvh-avatar-stage {
     background: var(--mlvh-blue);
     border-radius: 20px;
-    padding: 1.25rem 1rem;
+    padding: 0.75rem;
 }
 
 .mlvh-detail-avatar-img {
-    max-height: 180px;
+    max-height: 220px;
 }
 
 .mlvh-name-field {
@@ -628,7 +628,7 @@ fieldset[disabled] .mlvh-icon-btn.active img {
     }
 
     .mlvh-detail-avatar-img {
-        max-height: 110px;
+        max-height: 140px;
     }
 
     #patientDetailsModal .mlvh-profile-right-col,
