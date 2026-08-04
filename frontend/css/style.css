@@ -199,6 +199,8 @@ body {
 
 .mlvh-card {
     position: relative;
+    max-width: 1500px;
+    margin-inline: auto;
     margin-bottom: 2.5rem;
 }
 

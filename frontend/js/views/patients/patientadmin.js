@@ -49,7 +49,7 @@ export const getPatientModal = () => {
     return `
     <!-- Create Patient Modal -->
     <div class="modal fade" id="createPatientModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
             <div class="modal-content">
                 <!-- Folder header -->
                 <div class="modal-header border-0 pb-0 d-flex justify-content-between align-items-center mlvh-folder-header">
