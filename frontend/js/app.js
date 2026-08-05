@@ -1,21 +1,22 @@
 // --- Main router ---
 
 import { getPatientAdminView, getPatientModal, initPatientAdminLogic } from './views/patients/patientadmin.js';
+import { getMedicalRecordsView, initMedicalRecordsLogic } from './views/records/medicalrecords.js';
 
 const appRoot = document.getElementById('app-root');
 const modalRoot = document.getElementById('modal-root');
 
 const ROUTE_PATIENTS = 'patients';
-const ROUTE_CONSULTATIONS = 'consultations';
+const ROUTE_MEDICAL_RECORDS = 'medical-records';
 
 // Maps each nav to its route
 const NAV_ROUTES = {
     'nav-home': ROUTE_PATIENTS,
     'nav-patients': ROUTE_PATIENTS,
-    'nav-consultations': ROUTE_CONSULTATIONS,
+    'nav-medical-records': ROUTE_MEDICAL_RECORDS,
 };
 
-const NAV_LINK_IDS = ['nav-patients', 'nav-consultations'];
+const NAV_LINK_IDS = ['nav-patients', 'nav-medical-records'];
 
 const routes = {
     [ROUTE_PATIENTS]: () => {
@@ -23,15 +24,10 @@ const routes = {
         modalRoot.innerHTML = getPatientModal();
         initPatientAdminLogic();
     },
-    [ROUTE_CONSULTATIONS]: () => {
-        appRoot.innerHTML = `
-            <div class="mlvh-card text-center py-5">
-                <h2 class="fw-bold mlvh-card-subtitle">Consultations</h2>
-                <p class="mlvh-card-subtitle">I havent built this section yet!! pls wait ok</p>
-            </div>
-        `;
-
+    [ROUTE_MEDICAL_RECORDS]: () => {
+        appRoot.innerHTML = getMedicalRecordsView();
         modalRoot.innerHTML = '';
+        initMedicalRecordsLogic();
     },
 };
 
