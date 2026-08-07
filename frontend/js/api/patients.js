@@ -46,6 +46,14 @@ export const fetchPatients = async () => {
     return response.json();
 };
 
+export const fetchPatientRecords = async (id) => {
+    const response = await fetch(`${PATIENTS_URL}${id}/records/`);
+    if (!response.ok) {
+        throw new ApiError("Could not load this patient's record history.");
+    }
+    return response.json();
+};
+
 export const createPatient = async (patientData) => {
     const response = await fetch(PATIENTS_URL, {
         method: 'POST',

@@ -432,8 +432,7 @@ body {
     font-family: inherit;
 }
 
-#patientDetailsModal .mlvh-folder-header,
-#createPatientModal .mlvh-folder-header {
+.mlvh-folder-header {
     background-color: #ffffff;
     padding: 0;
     border-bottom: none;
@@ -444,8 +443,7 @@ body {
     gap: 0.5rem;
 }
 
-#patientDetailsModal .mlvh-folder-tab-title,
-#createPatientModal .mlvh-folder-tab-title {
+.mlvh-folder-tab-title {
     background-color: var(--mlvh-cream);
     color: var(--mlvh-blue-deep);
     font-size: 16px;
@@ -462,8 +460,7 @@ body {
     max-width: 100%;
 }
 
-#patientDetailsModal .mlvh-profile-left-col,
-#createPatientModal .mlvh-profile-left-col {
+.mlvh-profile-left-col {
     background-color: var(--mlvh-cream);
     border-right: 2px solid var(--mlvh-blue);
     border-top: none;
@@ -474,8 +471,7 @@ body {
     z-index: 20;
 }
 
-#patientDetailsModal .mlvh-profile-right-col,
-#createPatientModal .mlvh-profile-right-col {
+.mlvh-profile-right-col {
     background-color: #ffffff;
     border-top: none;
     padding: 0.60rem 2rem 2rem 1.5rem;
@@ -602,6 +598,141 @@ fieldset[disabled] .mlvh-icon-btn.active img {
     opacity: 0.7;
 }
 
+/* ----- Medical records history card ----- */
+.mlvh-history-card .mlvh-card-body {
+    background-color: #ffffff;
+    padding: 0;
+}
+
+.mlvh-history-summary-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 0.5rem;
+    padding: 0.35rem 0;
+    border-bottom: 1px solid var(--mlvh-blue);
+    font-size: 0.8rem;
+}
+
+.mlvh-history-summary-row:last-child {
+    border-bottom: none;
+}
+
+.mlvh-history-summary-row dt {
+    color: var(--mlvh-text);
+    opacity: 0.7;
+    font-weight: 600;
+}
+
+.mlvh-history-summary-row dd {
+    color: var(--mlvh-text);
+    margin: 0;
+    text-align: right;
+}
+
+.mlvh-history-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    max-height: 420px;
+    overflow-y: auto;
+}
+
+.mlvh-history-entry {
+    border: 1px solid var(--mlvh-blue-dark);
+    border-radius: 0.75rem;
+    background-color: var(--mlvh-cream);
+    padding: 0.6rem 0.9rem;
+}
+
+.mlvh-history-entry-date {
+    font-size: 0.75rem;
+    color: var(--mlvh-text);
+    opacity: 0.7;
+    font-weight: 600;
+    margin-bottom: 0.15rem;
+}
+
+.mlvh-history-entry-text {
+    font-size: 0.85rem;
+    color: var(--mlvh-text);
+}
+
+.mlvh-history-add-btn {
+    position: absolute;
+    top: 0.75rem;
+    right: 0.75rem;
+    z-index: 40;
+}
+
+.mlvh-history-columns {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.mlvh-history-profile-col {
+    flex: 0 0 25%;
+    max-width: 25%;
+}
+
+.mlvh-history-timeline-col {
+    flex: 0 0 75%;
+    max-width: 75%;
+}
+
+.mlvh-history-add-mobile-row {
+    display: none;
+}
+
+.mlvh-history-card .mlvh-folder-header {
+    max-width: 25%;
+    justify-content: center;
+}
+
+.mlvh-history-card .mlvh-folder-tab-title {
+    flex-shrink: 0;
+    font-size: 13px;
+    padding: 0.5rem 2.2rem 0.5rem 1rem;
+}
+
+@media (max-width: 900px) {
+    .mlvh-history-profile-col,
+    .mlvh-history-timeline-col {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+
+    .mlvh-history-profile-col {
+        border-right: none;
+        border-bottom: 2px solid var(--mlvh-blue);
+        border-radius: 0;
+        padding: 0.75rem 0.75rem 1.25rem;
+    }
+
+    .mlvh-history-timeline-col {
+        padding: 1rem;
+    }
+
+    .mlvh-history-card .mlvh-folder-tab-title {
+        font-size: 14px;
+        padding: 0.5rem 1.75rem 0.5rem 1rem;
+    }
+
+    .mlvh-history-add-btn {
+        display: none;
+    }
+
+    .mlvh-history-add-mobile-row {
+        display: block;
+        text-align: right;
+        padding: 0.75rem 0.75rem 0;
+    }
+    
+    .mlvh-history-card .mlvh-folder-header {
+        max-width: 100%;
+        justify-content: flex-start;
+    }
+}
+
 @media (max-width: 768px) {
     .mlvh-sidebar-toggle {
         display: flex;
@@ -664,14 +795,12 @@ fieldset[disabled] .mlvh-icon-btn.active img {
         padding: 0.5rem;
     }
 
-    #patientDetailsModal .mlvh-folder-tab-title,
-    #createPatientModal .mlvh-folder-tab-title {
+    .mlvh-folder-tab-title {
         font-size: 14px;
         padding: 0.5rem 1.75rem 0.5rem 1rem;
     }
 
-    #patientDetailsModal .mlvh-profile-left-col,
-    #createPatientModal .mlvh-profile-left-col {
+    .mlvh-profile-left-col {
         border-right: none;
         border-bottom: 2px solid var(--mlvh-blue);
         border-radius: 0;
@@ -682,8 +811,7 @@ fieldset[disabled] .mlvh-icon-btn.active img {
         max-height: 140px;
     }
 
-    #patientDetailsModal .mlvh-profile-right-col,
-    #createPatientModal .mlvh-profile-right-col {
+    .mlvh-profile-right-col {
         padding: 1rem;
     }
 }
