@@ -18,6 +18,7 @@ textarea,
     --mlvh-blue-deep: #6fa8c0;
     --mlvh-cream: #fdf9f3;
     --mlvh-text: #4a6572;
+    --mlvh-placeholder-text: #A9A9AC; 
 }
 
 body {
@@ -267,6 +268,14 @@ body {
     border-radius: 16px;
     box-shadow: 0 3px 10px rgba(111, 168, 192, 0.3);
     overflow: hidden;
+}
+
+/* --- Placeholder --- */
+.mlvh-rounded-input::placeholder,
+.mlvh-rounded-textarea::placeholder,
+.mlvh-name-input::placeholder {
+    color: var(--mlvh-placeholder-text);
+    font-weight: 400;
 }
 
 /* Card images scale down proportionally */

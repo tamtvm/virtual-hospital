@@ -98,7 +98,7 @@ export const getPatientModal = () => {
                                     </div>
                                     <div class="col-5 mb-2">
                                         <label class="form-label small text-muted mb-0">Age</label>
-                                        <input type="number" class="form-control form-control-sm mlvh-rounded-input" id="age" min="0" required>
+                                        <input type="number" class="form-control form-control-sm mlvh-rounded-input" id="age" min="0" placeholder="e.g. 25" required>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -110,7 +110,7 @@ export const getPatientModal = () => {
                                     </div>
                                     <div class="col-5 mb-2">
                                         <label class="form-label small text-muted mb-0">ID Number</label>
-                                        <input type="text" class="form-control form-control-sm mlvh-rounded-input" id="id_number" maxlength="${ID_NUMBER_MAXLENGTH}" pattern="${ID_NUMBER_PATTERN}" title="Up to 5 alphanumeric characters" required>
+                                        <input type="text" class="form-control form-control-sm mlvh-rounded-input" id="id_number" maxlength="${ID_NUMBER_MAXLENGTH}" pattern="${ID_NUMBER_PATTERN}" title="Up to 5 alphanumeric characters" placeholder="e.g. 1234" required>
                                     </div>
                                 </div>
                                 <div class="mb-2">
@@ -207,7 +207,7 @@ export const getPatientModal = () => {
                                         </div>
                                         <div class="col-5 mb-2">
                                             <label class="form-label small text-muted mb-0">Age</label>
-                                            <input type="number" class="form-control form-control-sm mlvh-rounded-input" id="details-age" min="0">
+                                            <input type="number" class="form-control form-control-sm mlvh-rounded-input" id="details-age" min="0" placeholder="e.g. 25">
                                         </div>
                                     </div>
                                     <div class="row">
@@ -219,7 +219,7 @@ export const getPatientModal = () => {
                                         </div>
                                         <div class="col-5 mb-2">
                                             <label class="form-label small text-muted mb-0">ID Number</label>
-                                            <input type="text" class="form-control form-control-sm mlvh-rounded-input" id="details-id_number" maxlength="${ID_NUMBER_MAXLENGTH}" pattern="${ID_NUMBER_PATTERN}" title="Up to 5 alphanumeric characters">
+                                            <input type="text" class="form-control form-control-sm mlvh-rounded-input" id="details-id_number" maxlength="${ID_NUMBER_MAXLENGTH}" pattern="${ID_NUMBER_PATTERN}" title="Up to 5 alphanumeric characters" placeholder="e.g. 1234">
                                         </div>
                                     </div>
                                     <div class="mb-2">
