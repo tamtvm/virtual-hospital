@@ -1,10 +1,10 @@
 // --- MODULE: medical records view ---
 
-import { fetchPatients, fetchPatientRecords } from '../../api/patients.js';
+import { fetchPatients, fetchPatientRecords, addPatientRecord, ApiError } from '../../api/patients.js';
 import { AVATAR_BASE_PATH, DEFAULT_AVATAR } from '../../config.js';
 import { escapeHtml, setAvatarWithFallback } from '../../utils/dom.js';
-import { LOCATIONS, SPECIES, SEXES } from '../../constants/patientOptions.js';
-import { formatRecordSummary } from '../../constants/recordOptions.js';
+import { LOCATIONS, SPECIES, SEXES, CONSULTATION_TYPES, PROFESSIONALS, CALENDAR_ICON, renderOptions } from '../../constants/patientOptions.js';
+import { formatRecordSummary, PROFESSIONAL_LABELS } from '../../constants/recordOptions.js';
 import { showToast } from '../../utils/toast.js';
 
 const LOCATION_LABELS = Object.fromEntries(LOCATIONS.map(({ value, label }) => [value, label]));
@@ -53,13 +53,71 @@ const buildHistoryEntries = (records) => {
         return '<p class="mlvh-card-subtitle text-center mb-0">No records yet.</p>';
     }
 
-    return records.map((record) => `
+    return records.map((record) => {
+        const dateLabel = record.record_date ?? (record.created_at ? record.created_at.slice(0, 10) : '');
+        const professionalLabel = PROFESSIONAL_LABELS[record.assigned_professional];
+
+        return `
         <div class="mlvh-history-entry">
-            <div class="mlvh-history-entry-date">${record.created_at ? record.created_at.slice(0, 10) : ''}</div>
+            <div class="mlvh-history-entry-header">
+                <span class="mlvh-history-entry-date">${escapeHtml(dateLabel)}</span>
+                ${professionalLabel ? `<span class="mlvh-history-entry-professional">${escapeHtml(professionalLabel)}</span>` : ''}
+            </div>
             <div class="mlvh-history-entry-text">${escapeHtml(formatRecordSummary(record))}</div>
+            ${record.diagnosis ? `<div class="mlvh-history-entry-diagnosis">Diagnosis: ${escapeHtml(record.diagnosis)}</div>` : ''}
         </div>
-    `).join('');
+        `;
+    }).join('');
 };
+
+// --- Add-record form ---
+const getRecordFormHTML = () => `
+    <form id="record-form">
+        <div class="row">
+            <div class="col-6 mb-2">
+                <label class="form-label small text-muted mb-0 d-block">Consultation Type</label>
+                <select class="form-select form-select-sm mlvh-rounded-input" id="record-consultation-type" required>
+                    ${renderOptions(CONSULTATION_TYPES)}
+                </select>
+            </div>
+            <div class="col-6 mb-2">
+                <label class="form-label small text-muted mb-0 d-block">Professional</label>
+                <select class="form-select form-select-sm mlvh-rounded-input" id="record-professional" required>
+                    ${renderOptions(PROFESSIONALS)}
+                </select>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-7 mb-2">
+                <label class="form-label small text-muted mb-0 d-block">Diagnosis</label>
+                <input type="text" class="form-control form-control-sm mlvh-rounded-input" id="record-diagnosis" placeholder="Optional">
+            </div>
+            <div class="col-5 mb-2">
+                <label class="form-label small text-muted mb-0 d-block">Date</label>
+                <div class="mlvh-date-badge">
+                    <img src="${CALENDAR_ICON}" alt="">
+                    <input type="date" class="form-control form-control-sm border-0 bg-transparent p-0" id="record-date" required>
+                </div>
+            </div>
+        </div>
+        <div class="mb-2">
+            <label class="form-label small text-muted mb-0 d-block">Description</label>
+            <textarea class="form-control form-control-sm mlvh-rounded-textarea" id="record-description" rows="2" placeholder="What happened during this visit..." required></textarea>
+        </div>
+        <div class="mb-2">
+            <label class="form-label small text-muted mb-0 d-block">Procedures Performed</label>
+            <textarea class="form-control form-control-sm mlvh-rounded-textarea" id="record-procedures" rows="2" placeholder="Optional"></textarea>
+        </div>
+        <div class="mb-2">
+            <label class="form-label small text-muted mb-0 d-block">Indications</label>
+            <textarea class="form-control form-control-sm mlvh-rounded-textarea" id="record-indications" rows="2" placeholder="Optional"></textarea>
+        </div>
+        <div class="d-flex justify-content-end align-items-center gap-3 mt-3">
+            <button type="button" class="btn-close" id="record-form-cancel" aria-label="Cancel"></button>
+            <button type="submit" class="btn btn-primary">Save Record</button>
+        </div>
+    </form>
+`;
 
 // --- LOGIC: event listeners and dom manipulation ---
 
@@ -164,8 +222,50 @@ export const initMedicalRecordsLogic = () => {
 
         historyPlaceholder.querySelectorAll('.js-add-record').forEach((btn) => {
             btn.addEventListener('click', () => {
-                showToast('Adding new records is not built yet, next step!', 'error');
+                renderRecordForm(patient);
             });
+        });
+    };
+
+    const renderRecordForm = (patient) => {
+        const timelineCol = historyPlaceholder.querySelector('.mlvh-history-timeline-col');
+        if (!timelineCol) return;
+
+        timelineCol.innerHTML = getRecordFormHTML();
+        document.getElementById('record-date').value = new Date().toISOString().slice(0, 10);
+
+        const backToHistory = async () => {
+            try {
+                const records = await fetchPatientRecords(patient.id);
+                renderHistoryCard(patient, records);
+            } catch (error) {
+                console.error('API Error:', error);
+            }
+        };
+
+        document.getElementById('record-form-cancel').addEventListener('click', backToHistory);
+
+        document.getElementById('record-form').addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            const payload = {
+                consultation_type: document.getElementById('record-consultation-type').value,
+                assigned_professional: document.getElementById('record-professional').value,
+                diagnosis: document.getElementById('record-diagnosis').value,
+                record_date: document.getElementById('record-date').value,
+                description: document.getElementById('record-description').value,
+                procedures: document.getElementById('record-procedures').value,
+                indications: document.getElementById('record-indications').value,
+            };
+
+            try {
+                await addPatientRecord(patient.id, payload);
+                showToast('Record saved successfully.');
+                await backToHistory();
+            } catch (error) {
+                console.error('API Error:', error);
+                showToast(error instanceof ApiError ? error.message : 'Error saving record.', 'error');
+            }
         });
     };
 

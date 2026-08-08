@@ -54,6 +54,18 @@ export const fetchPatientRecords = async (id) => {
     return response.json();
 };
 
+export const addPatientRecord = async (id, payload) => {
+    const response = await fetch(`${PATIENTS_URL}${id}/add_record/`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+    });
+    if (!response.ok) {
+        throw await buildErrorFromResponse(response, 'Could not save this record.');
+    }
+    return response.json();
+};
+
 export const createPatient = async (patientData) => {
     const response = await fetch(PATIENTS_URL, {
         method: 'POST',

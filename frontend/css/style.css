@@ -657,6 +657,27 @@ fieldset[disabled] .mlvh-icon-btn.active img {
     color: var(--mlvh-text);
 }
 
+.mlvh-history-entry-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 0.5rem;
+    margin-bottom: 0.15rem;
+}
+
+.mlvh-history-entry-professional {
+    font-size: 0.75rem;
+    color: var(--mlvh-blue-deep);
+    font-weight: 600;
+}
+
+.mlvh-history-entry-diagnosis {
+    font-size: 0.8rem;
+    color: var(--mlvh-text);
+    font-style: italic;
+    margin-top: 0.25rem;
+}
+
 .mlvh-history-add-btn {
     position: absolute;
     top: 0.75rem;
@@ -677,6 +698,7 @@ fieldset[disabled] .mlvh-icon-btn.active img {
 .mlvh-history-timeline-col {
     flex: 0 0 75%;
     max-width: 75%;
+    padding-top: 1.8rem;
 }
 
 .mlvh-history-add-mobile-row {
