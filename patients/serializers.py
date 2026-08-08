@@ -16,6 +16,23 @@ class PatientRecordSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class PatientRecordCreateSerializer(serializers.ModelSerializer):
+    consultation_type = serializers.ChoiceField(choices=PatientRecord.CONSULTATION_TYPE_CHOICES)
+    assigned_professional = serializers.ChoiceField(choices=PatientRecord.PROFESSIONAL_CHOICES)
+
+    class Meta:
+        model = PatientRecord
+        fields = [
+            'consultation_type',
+            'assigned_professional',
+            'record_date',
+            'diagnosis',
+            'description',
+            'procedures',
+            'indications',
+        ]
+
+
 class PatientSerializer(serializers.ModelSerializer):
     """
     Serializer for the patient model,

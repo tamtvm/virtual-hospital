@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 
 class Patient(models.Model):
     """
@@ -90,6 +91,7 @@ class PatientRecord(models.Model):
     """
     RECORD_TYPE_CHOICES = [
         ('admission', 'Admission'),
+        ('consultation', 'Consultation'),
     ]
 
     CONSULTATION_TYPE_CHOICES = [
@@ -98,9 +100,23 @@ class PatientRecord(models.Model):
         ('urgent', 'Urgent'),
     ]
 
+    # im not creating staff accounts yet, so professionals will only be these now
+    PROFESSIONAL_CHOICES = [
+        ('dr_milo', 'Dr. Milo'),
+        ('rn_tam', 'RN Tam'),
+    ]
+
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE, related_name='records')
     record_type = models.CharField(max_length=20, choices=RECORD_TYPE_CHOICES)
     consultation_type = models.CharField(max_length=20, choices=CONSULTATION_TYPE_CHOICES, blank=True)
+    assigned_professional = models.CharField(max_length=20, choices=PROFESSIONAL_CHOICES, blank=True)
+
+    # Date the consultation actually took place, editable by whoever logs it
+    record_date = models.DateField(default=timezone.localdate)
+
+    diagnosis = models.CharField(max_length=200, blank=True)
+    procedures = models.TextField(blank=True)
+    indications = models.TextField(blank=True)
 
     # Future records tab reads and displays
     description = models.TextField()
