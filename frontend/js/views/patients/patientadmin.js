@@ -518,7 +518,10 @@ export const initPatientAdminLogic = () => {
     });
 
     historyBtn.addEventListener('click', () => {
-        showToast('Medical history is not built yet, waitpls', 'error');
+        bootstrap.Modal.getInstance(detailsModalElement)?.hide();
+        document.dispatchEvent(new CustomEvent('mlvh:navigate', {
+            detail: { route: 'medical-records', options: { patientId: currentEditingPatientId } },
+        }));
     });
 
     dischargeBtn.addEventListener('click', async () => {

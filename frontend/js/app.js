@@ -24,10 +24,10 @@ const routes = {
         modalRoot.innerHTML = getPatientModal();
         initPatientAdminLogic();
     },
-    [ROUTE_MEDICAL_RECORDS]: () => {
+    [ROUTE_MEDICAL_RECORDS]: (options = {}) => {
         appRoot.innerHTML = getMedicalRecordsView();
         modalRoot.innerHTML = '';
-        initMedicalRecordsLogic();
+        initMedicalRecordsLogic(options.patientId);
     },
 };
 
@@ -37,10 +37,10 @@ const highlightActiveNav = (routeName) => {
     });
 };
 
-const navigateTo = (routeName) => {
+const navigateTo = (routeName, options = {}) => {
     const render = routes[routeName];
     if (!render) return;
-    render();
+    render(options);
     highlightActiveNav(routeName);
 };
 
@@ -50,6 +50,10 @@ const initRouter = () => {
             event.preventDefault();
             navigateTo(routeName);
         });
+    });
+
+    document.addEventListener('mlvh:navigate', (event) => {
+        navigateTo(event.detail.route, event.detail.options);
     });
 };
 

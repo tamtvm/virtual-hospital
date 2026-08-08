@@ -121,7 +121,7 @@ const getRecordFormHTML = () => `
 
 // --- LOGIC: event listeners and dom manipulation ---
 
-export const initMedicalRecordsLogic = () => {
+export const initMedicalRecordsLogic = (initialPatientId = null) => {
 
     const searchInput = document.getElementById('record-patient-search');
     const resultsList = document.getElementById('record-search-results');
@@ -137,6 +137,10 @@ export const initMedicalRecordsLogic = () => {
     const loadPatients = async () => {
         try {
             localPatients = await fetchPatients();
+
+            if (initialPatientId != null) {
+                selectPatient(initialPatientId);
+            }
         } catch (error) {
             console.error('API Error:', error);
         }
