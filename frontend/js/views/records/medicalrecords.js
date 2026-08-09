@@ -58,7 +58,7 @@ const buildHistoryEntries = (records) => {
         const professionalLabel = PROFESSIONAL_LABELS[record.assigned_professional];
 
         return `
-        <div class="mlvh-history-entry">
+        <div class="mlvh-history-entry" data-record-id="${record.id}" role="button" tabindex="0">
             <div class="mlvh-history-entry-header">
                 <span class="mlvh-history-entry-date">${escapeHtml(dateLabel)}</span>
                 ${professionalLabel ? `<span class="mlvh-history-entry-professional">${escapeHtml(professionalLabel)}</span>` : ''}
@@ -73,49 +73,47 @@ const buildHistoryEntries = (records) => {
 // --- Add-record form ---
 const getRecordFormHTML = () => `
     <form id="record-form">
-        <div class="row">
-            <div class="col-6 mb-2">
-                <label class="form-label small text-muted mb-0 d-block">Consultation Type</label>
-                <select class="form-select form-select-sm mlvh-rounded-input" id="record-consultation-type" required>
-                    ${renderOptions(CONSULTATION_TYPES)}
-                </select>
-            </div>
-            <div class="col-6 mb-2">
-                <label class="form-label small text-muted mb-0 d-block">Professional</label>
-                <select class="form-select form-select-sm mlvh-rounded-input" id="record-professional" required>
-                    ${renderOptions(PROFESSIONALS)}
-                </select>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-7 mb-2">
-                <label class="form-label small text-muted mb-0 d-block">Diagnosis</label>
-                <input type="text" class="form-control form-control-sm mlvh-rounded-input" id="record-diagnosis" placeholder="Optional">
-            </div>
-            <div class="col-5 mb-2">
-                <label class="form-label small text-muted mb-0 d-block">Date</label>
-                <div class="mlvh-date-badge">
-                    <img src="${CALENDAR_ICON}" alt="">
-                    <input type="date" class="form-control form-control-sm border-0 bg-transparent p-0" id="record-date" required>
+        <fieldset id="record-fieldset">
+            <div class="row">
+                <div class="col-6 mb-2">
+                    <label class="form-label small text-muted mb-0 d-block">Consultation Type</label>
+                    <select class="form-select form-select-sm mlvh-rounded-input" id="record-consultation-type" required>
+                        ${renderOptions(CONSULTATION_TYPES)}
+                    </select>
+                </div>
+                <div class="col-6 mb-2">
+                    <label class="form-label small text-muted mb-0 d-block">Professional</label>
+                    <select class="form-select form-select-sm mlvh-rounded-input" id="record-professional" required>
+                        ${renderOptions(PROFESSIONALS)}
+                    </select>
                 </div>
             </div>
-        </div>
-        <div class="mb-2">
-            <label class="form-label small text-muted mb-0 d-block">Description</label>
-            <textarea class="form-control form-control-sm mlvh-rounded-textarea" id="record-description" rows="2" placeholder="What happened during this visit..." required></textarea>
-        </div>
-        <div class="mb-2">
-            <label class="form-label small text-muted mb-0 d-block">Procedures Performed</label>
-            <textarea class="form-control form-control-sm mlvh-rounded-textarea" id="record-procedures" rows="2" placeholder="Optional"></textarea>
-        </div>
-        <div class="mb-2">
-            <label class="form-label small text-muted mb-0 d-block">Indications</label>
-            <textarea class="form-control form-control-sm mlvh-rounded-textarea" id="record-indications" rows="2" placeholder="Optional"></textarea>
-        </div>
-        <div class="d-flex justify-content-end align-items-center gap-3 mt-3">
-            <button type="button" class="btn-close" id="record-form-cancel" aria-label="Cancel"></button>
-            <button type="submit" class="btn btn-primary">Save Record</button>
-        </div>
+            <div class="row">
+                <div class="col-7 mb-2">
+                    <label class="form-label small text-muted mb-0 d-block">Diagnosis</label>
+                    <input type="text" class="form-control form-control-sm mlvh-rounded-input" id="record-diagnosis" placeholder="Optional">
+                </div>
+                <div class="col-5 mb-2">
+                    <label class="form-label small text-muted mb-0 d-block">Date</label>
+                    <div class="mlvh-date-badge">
+                        <img src="${CALENDAR_ICON}" alt="">
+                        <input type="date" class="form-control form-control-sm border-0 bg-transparent p-0" id="record-date" required>
+                    </div>
+                </div>
+            </div>
+            <div class="mb-2">
+                <label class="form-label small text-muted mb-0 d-block">Description</label>
+                <textarea class="form-control form-control-sm mlvh-rounded-textarea" id="record-description" rows="2" placeholder="What happened during this visit..." required></textarea>
+            </div>
+            <div class="mb-2">
+                <label class="form-label small text-muted mb-0 d-block">Procedures Performed</label>
+                <textarea class="form-control form-control-sm mlvh-rounded-textarea" id="record-procedures" rows="2" placeholder="Optional"></textarea>
+            </div>
+            <div class="mb-2">
+                <label class="form-label small text-muted mb-0 d-block">Indications</label>
+                <textarea class="form-control form-control-sm mlvh-rounded-textarea" id="record-indications" rows="2" placeholder="Optional"></textarea>
+            </div>
+        </fieldset>
     </form>
 `;
 
@@ -128,6 +126,7 @@ export const initMedicalRecordsLogic = (initialPatientId = null) => {
     const historyPlaceholder = document.getElementById('record-history-placeholder');
 
     let localPatients = [];
+    let currentRecords = [];
 
     if (!searchInput || !resultsList) {
         console.error('Medical Records DOM elements not found.');
@@ -181,15 +180,18 @@ export const initMedicalRecordsLogic = (initialPatientId = null) => {
     };
 
     const renderHistoryCard = (patient, records) => {
+        currentRecords = records;
         const displayId = `${patient.location}-${patient.id_number}`;
 
         historyPlaceholder.innerHTML = `
         <div class="mlvh-card mlvh-history-card">
-            <button type="button" class="btn mlvh-admit-btn shadow-sm mlvh-history-add-btn js-add-record" aria-label="Add Record">
-                <img src="assets/icons/misc/plus.svg" alt="" class="mlvh-btn-icon">
-            </button>
+            <div class="mlvh-history-card-actions js-history-actions">
+                <button type="button" class="btn mlvh-admit-btn shadow-sm js-add-record" aria-label="Add Record">
+                    <img src="assets/icons/misc/plus.svg" alt="" class="mlvh-btn-icon">
+                </button>
+            </div>
             <div class="mlvh-folder-header d-flex justify-content-between align-items-center">
-                <h5 class="fw-bold mb-0 mlvh-folder-tab-title">Medical History</h5>
+                <h5 class="fw-bold mb-0 mlvh-folder-tab-title">medical history</h5>
             </div>
             <div class="mlvh-card-body">
                 <div class="mlvh-history-columns">
@@ -203,7 +205,7 @@ export const initMedicalRecordsLogic = (initialPatientId = null) => {
                             ${buildSummaryRows(patient)}
                         </dl>
                     </div>
-                    <div class="mlvh-history-add-mobile-row">
+                    <div class="mlvh-history-add-mobile-row js-history-actions">
                         <button type="button" class="btn mlvh-admit-btn shadow-sm js-add-record" aria-label="Add Record">
                             <img src="assets/icons/misc/plus.svg" alt="" class="mlvh-btn-icon">
                         </button>
@@ -229,6 +231,32 @@ export const initMedicalRecordsLogic = (initialPatientId = null) => {
                 renderRecordForm(patient);
             });
         });
+
+        const recordList = document.getElementById('history-record-list');
+        recordList?.addEventListener('click', (event) => {
+            const entry = event.target.closest('.mlvh-history-entry');
+            if (!entry) return;
+            const record = currentRecords.find((r) => r.id == entry.dataset.recordId);
+            if (record) renderRecordDetail(patient, record);
+        });
+    };
+
+    const setCardActions = (extraButtons) => {
+        historyPlaceholder.querySelectorAll('.js-history-actions').forEach((container) => {
+            container.querySelectorAll('.js-dynamic-action').forEach((btn) => btn.remove());
+            const plusBtn = container.querySelector('.js-add-record');
+
+            extraButtons.forEach((config) => {
+                const btn = document.createElement('button');
+                btn.type = config.type ?? 'button';
+                if (config.form) btn.setAttribute('form', config.form);
+                btn.className = 'btn mlvh-admit-btn shadow-sm js-dynamic-action';
+                btn.setAttribute('aria-label', config.label);
+                btn.innerHTML = `<img src="${config.icon}" alt="" class="mlvh-btn-icon">`;
+                if (config.onClick) btn.addEventListener('click', config.onClick);
+                container.insertBefore(btn, plusBtn);
+            });
+        });
     };
 
     const renderRecordForm = (patient) => {
@@ -247,7 +275,10 @@ export const initMedicalRecordsLogic = (initialPatientId = null) => {
             }
         };
 
-        document.getElementById('record-form-cancel').addEventListener('click', backToHistory);
+        setCardActions([
+            { icon: 'assets/icons/misc/back.svg', label: 'Cancel', onClick: backToHistory },
+            { icon: 'assets/icons/misc/save.svg', label: 'Save Record', type: 'submit', form: 'record-form' },
+        ]);
 
         document.getElementById('record-form').addEventListener('submit', async (event) => {
             event.preventDefault();
@@ -271,6 +302,27 @@ export const initMedicalRecordsLogic = (initialPatientId = null) => {
                 showToast(error instanceof ApiError ? error.message : 'Error saving record.', 'error');
             }
         });
+    };
+
+    const renderRecordDetail = (patient, record) => {
+        const timelineCol = historyPlaceholder.querySelector('.mlvh-history-timeline-col');
+        if (!timelineCol) return;
+
+        timelineCol.innerHTML = getRecordFormHTML();
+
+        document.getElementById('record-consultation-type').value = record.consultation_type;
+        document.getElementById('record-professional').value = record.assigned_professional;
+        document.getElementById('record-diagnosis').value = record.diagnosis;
+        document.getElementById('record-date').value = record.record_date ?? '';
+        document.getElementById('record-description').value = record.description;
+        document.getElementById('record-procedures').value = record.procedures;
+        document.getElementById('record-indications').value = record.indications;
+
+        document.getElementById('record-fieldset').disabled = true;
+
+        setCardActions([
+            { icon: 'assets/icons/misc/back.svg', label: 'Back to history', onClick: () => renderHistoryCard(patient, currentRecords) },
+        ]);
     };
 
     const selectPatient = async (id) => {

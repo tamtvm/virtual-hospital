@@ -498,6 +498,7 @@ body {
     border-radius: 14px;
     padding: 0 0.75rem;
     display: flex;
+    position: relative;
     align-items: center;
     gap: 0.5rem;
 }
@@ -505,6 +506,17 @@ body {
 .mlvh-date-badge img {
     width: 20px;
     height: 20px;
+}
+
+.mlvh-date-badge input[type="date"]::-webkit-calendar-picker-indicator { /* purposely invisible btw */
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    opacity: 0;
+    cursor: pointer;
 }
 
 /* --- Global readonly & disabled style coz i didnt like default lol --- */
@@ -687,11 +699,22 @@ fieldset[disabled] .mlvh-icon-btn.active img {
     margin-top: 0.25rem;
 }
 
-.mlvh-history-add-btn {
+.mlvh-history-entry {
+    cursor: pointer;
+    transition: border-color 0.15s;
+}
+
+.mlvh-history-entry:hover {
+    border-color: var(--mlvh-blue-deep);
+}
+
+.mlvh-history-card-actions {
     position: absolute;
     top: 0.75rem;
     right: 0.75rem;
     z-index: 40;
+    display: flex;
+    gap: 0.5rem;
 }
 
 .mlvh-history-columns {
@@ -748,13 +771,14 @@ fieldset[disabled] .mlvh-icon-btn.active img {
         padding: 0.5rem 1.75rem 0.5rem 1rem;
     }
 
-    .mlvh-history-add-btn {
+    .mlvh-history-card-actions {
         display: none;
     }
 
     .mlvh-history-add-mobile-row {
-        display: block;
-        text-align: right;
+        display: flex;
+        justify-content: center;
+        gap: 0.5rem;
         padding: 0.75rem 0.75rem 0;
     }
     
