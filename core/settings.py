@@ -147,6 +147,7 @@ CORS_ALLOWED_ORIGINS = [
     "http://127.0.0.1:8000",
     "http://127.0.0.1:5500",
     "http://localhost:5500",
+    "https://virtual-hospital.pages.dev",
 ]
 
 # Shared secret for the sandbox reset endpoint!
