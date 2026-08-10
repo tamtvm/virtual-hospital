@@ -1,5 +1,7 @@
+from django.conf import settings
+from django.core.management import call_command
 from rest_framework import viewsets, status
-from rest_framework.decorators import action
+from rest_framework.decorators import action, api_view
 from rest_framework.response import Response
 from .models import Patient
 from .serializers import PatientSerializer, PatientRecordSerializer, PatientRecordCreateSerializer
@@ -39,3 +41,24 @@ class PatientViewSet(viewsets.ModelViewSet):
         serializer.is_valid(raise_exception=True)
         record = serializer.save(patient=patient, record_type='consultation')
         return Response(PatientRecordSerializer(record).data, status=status.HTTP_201_CREATED)
+
+
+@api_view(['GET'])
+def ping(request):
+    """
+    No-op health check for the uptime monitor's keep-alive pings.
+    """
+    return Response({'status': 'ok'})
+
+
+@api_view(['POST'])
+def reset_sandbox(request):
+    """
+    Resets demo data. Requires the shared secret in X-Sandbox-Token.
+    """
+    token = request.headers.get('X-Sandbox-Token')
+    if not settings.SANDBOX_RESET_TOKEN or token != settings.SANDBOX_RESET_TOKEN:
+        return Response({'detail': 'Invalid token'}, status=status.HTTP_403_FORBIDDEN)
+
+    call_command('reset_sandbox')
+    return Response({'status': 'reset complete'})

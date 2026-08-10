@@ -1,0 +1,117 @@
+[
+{
+  "model": "patients.patient",
+  "pk": 14,
+  "fields": {
+    "name": "monki",
+    "age": 2,
+    "species": "monkey",
+    "sex": "male",
+    "pronouns": "he/him",
+    "location": "EA",
+    "id_number": "1234",
+    "avatar_style": "monkey_male",
+    "main_symptom": "",
+    "created_at": "2026-07-28T01:23:24.379Z",
+    "is_active": true
+  }
+},
+{
+  "model": "patients.patient",
+  "pk": 15,
+  "fields": {
+    "name": "lol",
+    "age": 1,
+    "species": "human",
+    "sex": "female",
+    "pronouns": "she/her",
+    "location": "EA",
+    "id_number": "1111",
+    "avatar_style": "human_female",
+    "main_symptom": "",
+    "created_at": "2026-07-28T01:30:49.125Z",
+    "is_active": true
+  }
+},
+{
+  "model": "patients.patient",
+  "pk": 19,
+  "fields": {
+    "name": "unkown",
+    "age": 5,
+    "species": "unknown",
+    "sex": "unknown",
+    "pronouns": "they/them",
+    "location": "XX",
+    "id_number": "456",
+    "avatar_style": "unknown_unknown",
+    "main_symptom": "",
+    "created_at": "2026-08-04T21:26:30.034Z",
+    "is_active": true
+  }
+},
+{
+  "model": "patients.patientrecord",
+  "pk": 2,
+  "fields": {
+    "patient": 14,
+    "record_type": "admission",
+    "consultation_type": "scheduled",
+    "assigned_professional": "",
+    "record_date": "2026-08-07",
+    "diagnosis": "",
+    "procedures": "",
+    "indications": "",
+    "description": "lol idk",
+    "created_at": "2026-07-28T01:23:24.380Z"
+  }
+},
+{
+  "model": "patients.patientrecord",
+  "pk": 3,
+  "fields": {
+    "patient": 15,
+    "record_type": "admission",
+    "consultation_type": "scheduled",
+    "assigned_professional": "",
+    "record_date": "2026-08-07",
+    "diagnosis": "",
+    "procedures": "",
+    "indications": "",
+    "description": "fsdfsdfsdfsdfd\nfds\nf\nsdf\nsd\nf\nsd\nf\nsdrthrthrthtglggr",
+    "created_at": "2026-07-28T01:30:49.128Z"
+  }
+},
+{
+  "model": "patients.patientrecord",
+  "pk": 7,
+  "fields": {
+    "patient": 19,
+    "record_type": "admission",
+    "consultation_type": "scheduled",
+    "assigned_professional": "",
+    "record_date": "2026-08-07",
+    "diagnosis": "",
+    "procedures": "",
+    "indications": "",
+    "description": "thtfh",
+    "created_at": "2026-08-04T21:26:30.036Z"
+  }
+},
+{
+  "model": "patients.patientrecord",
+  "pk": 19,
+  "fields": {
+    "patient": 14,
+    "record_type": "consultation",
+    "consultation_type": "scheduled",
+    "assigned_professional": "rn_tam",
+    "record_date": "2026-08-10",
+    "diagnosis": "monki illness",
+    "procedures": "killed him",
+    "indications": "R.I.P",
+    "description": "ill monki",
+    "created_at": "2026-08-10T04:47:31.971Z"
+  }
+}
+]
