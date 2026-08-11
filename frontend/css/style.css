@@ -276,6 +276,125 @@ body {
     opacity: 0.75;
 }
 
+/* --- About / entry screen --- */
+.mlvh-about-wrap {
+    position: relative;
+    max-width: 1000px;
+    margin-inline: auto;
+    margin-bottom: 5rem;
+}
+
+.mlvh-about-wrap .mlvh-card {
+    margin-inline: 0;
+    margin-bottom: 0;
+}
+
+.mlvh-about-columns {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.mlvh-about-nav-col {
+    flex: 0 0 220px;
+    max-width: 220px;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    background-color: var(--mlvh-cream);
+    border-right: 2px solid var(--mlvh-blue);
+    border-radius: 0 0 0 16px;
+    padding: 1.25rem;
+}
+
+.mlvh-about-nav-btn {
+    width: 100%;
+    text-align: left;
+    background: transparent;
+    appearance: none;
+    font: inherit;
+    cursor: pointer;
+}
+
+.mlvh-about-content-col {
+    flex: 1;
+    min-width: 260px;
+    min-height: 520px;
+    background-color: #ffffff;
+    padding: 2rem 1.75rem;
+}
+
+.mlvh-about-content-col a {
+    color: var(--mlvh-blue-deep);
+    font-weight: 700;
+    text-decoration: underline;
+}
+
+.mlvh-about-content-col a:hover {
+    color: var(--mlvh-text);
+}
+
+.mlvh-about-title {
+    color: var(--mlvh-blue-deep);
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+}
+
+.mlvh-about-changelog {
+    padding-left: 1.1rem;
+    margin-bottom: 0;
+}
+
+.mlvh-about-changelog li {
+    margin-bottom: 0.4rem;
+}
+
+.mlvh-about-enter-btn {
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    transform: translate(-50%, 50%);
+    min-width: 220px;
+    height: 56px;
+    border-radius: 999px;
+    font-size: 1.05rem;
+    font-weight: 700;
+    box-shadow: 0 8px 20px rgba(111, 168, 192, 0.35);
+    z-index: 30;
+}
+
+.mlvh-about-features {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.mlvh-about-feature {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1rem;
+    background: var(--mlvh-cream);
+    border-radius: 16px;
+}
+
+.mlvh-about-feature img {
+    width: 32px;
+    height: 32px;
+    flex-shrink: 0;
+}
+
+.mlvh-about-feature h6 {
+    color: var(--mlvh-blue-deep);
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+}
+
+.mlvh-about-feature p {
+    color: var(--mlvh-text);
+    margin: 0;
+    font-size: 0.9rem;
+}
+
 .mlvh-patient-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(min(150px, 100%), 1fr));
@@ -367,6 +486,18 @@ body:has(.mlvh-sidebar-backdrop.show) .mlvh-sidebar-toggle {
 
 .mlvh-sidebar-backdrop {
     display: none;
+}
+
+/* --- Entry screen --- */
+body.mlvh-entry-screen .mlvh-sidebar,
+body.mlvh-entry-screen .mlvh-sidebar-backdrop,
+body.mlvh-entry-screen .mlvh-sidebar-toggle-open,
+body.mlvh-entry-screen .mlvh-sidebar-toggle-close {
+    display: none !important;
+}
+
+body.mlvh-entry-screen .mlvh-main {
+    margin-left: 0;
 }
 
 /* ----- Patient forms ----- */
@@ -920,5 +1051,35 @@ fieldset[disabled] .mlvh-icon-btn.active img {
 
     .mlvh-profile-right-col {
         padding: 1rem;
+    }
+
+    body.mlvh-entry-screen .mlvh-main {
+        padding-top: 1.5rem;
+    }
+
+    .mlvh-about-nav-col {
+        flex: 0 0 100%;
+        max-width: 100%;
+        flex-direction: row;
+        flex-wrap: wrap;
+        border-right: none;
+        border-bottom: 2px solid var(--mlvh-blue);
+        border-radius: 0;
+    }
+
+    .mlvh-about-nav-btn {
+        width: auto;
+        flex: 1 1 auto;
+        justify-content: center;
+    }
+
+    .mlvh-about-content-col {
+        padding: 1.25rem 1rem;
+    }
+
+    .mlvh-about-enter-btn {
+        min-width: 180px;
+        height: 50px;
+        font-size: 0.95rem;
     }
 }

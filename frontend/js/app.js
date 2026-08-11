@@ -2,10 +2,12 @@
 
 import { getPatientAdminView, getPatientModal, initPatientAdminLogic } from './views/patients/patientadmin.js';
 import { getMedicalRecordsView, initMedicalRecordsLogic } from './views/records/medicalrecords.js';
+import { getAboutView, initAboutLogic } from './views/about/about.js';
 
 const appRoot = document.getElementById('app-root');
 const modalRoot = document.getElementById('modal-root');
 
+const ROUTE_ABOUT = 'about';
 const ROUTE_PATIENTS = 'patients';
 const ROUTE_MEDICAL_RECORDS = 'medical-records';
 
@@ -19,6 +21,11 @@ const NAV_ROUTES = {
 const NAV_LINK_IDS = ['nav-patients', 'nav-medical-records'];
 
 const routes = {
+    [ROUTE_ABOUT]: () => {
+        appRoot.innerHTML = getAboutView();
+        modalRoot.innerHTML = '';
+        initAboutLogic();
+    },
     [ROUTE_PATIENTS]: () => {
         appRoot.innerHTML = getPatientAdminView();
         modalRoot.innerHTML = getPatientModal();
@@ -42,6 +49,7 @@ const navigateTo = (routeName, options = {}) => {
     if (!render) return;
     render(options);
     highlightActiveNav(routeName);
+    document.body.classList.toggle('mlvh-entry-screen', routeName === ROUTE_ABOUT);
 };
 
 const initRouter = () => {
@@ -60,6 +68,7 @@ const initRouter = () => {
 const initSidebarToggle = () => {
     const sidebar = document.querySelector('.mlvh-sidebar');
     const toggleBtn = document.getElementById('sidebar-toggle');
+    const closeBtn = document.getElementById('sidebar-close');
     const backdrop = document.getElementById('sidebar-backdrop');
 
     const closeSidebar = () => {
@@ -70,6 +79,11 @@ const initSidebarToggle = () => {
     toggleBtn.addEventListener('click', () => {
         sidebar.classList.toggle('open');
         backdrop.classList.toggle('show');
+    });
+
+    closeBtn.addEventListener('click', () => {
+        closeSidebar();
+        navigateTo(ROUTE_ABOUT);
     });
 
     backdrop.addEventListener('click', closeSidebar);
@@ -83,5 +97,5 @@ const initSidebarToggle = () => {
 document.addEventListener('DOMContentLoaded', () => {
     initRouter();
     initSidebarToggle();
-    navigateTo(ROUTE_PATIENTS);
+    navigateTo(ROUTE_ABOUT);
 });
