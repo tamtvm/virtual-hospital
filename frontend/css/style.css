@@ -694,6 +694,22 @@ body.mlvh-entry-screen .mlvh-main {
     height: 20px;
 }
 
+.mlvh-date-badge input[type="date"] {
+    flex: 1;
+    min-width: 0;
+    width: 100%;
+    border: none;
+    background: transparent;
+    padding: 0;
+    margin: 0;
+    font-size: 0.8rem;
+    text-align: left;
+    color: var(--mlvh-text);
+    outline: none;
+    -webkit-appearance: none;
+    appearance: none;
+}
+
 .mlvh-date-badge input[type="date"]::-webkit-calendar-picker-indicator { /* purposely invisible btw */
     position: absolute;
     inset: 0;
