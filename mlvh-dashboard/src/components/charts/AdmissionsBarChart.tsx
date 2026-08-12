@@ -18,7 +18,7 @@ export default function AdmissionsBarChart({ data }: AdmissionsBarChartProps) {
   }));
 
   return (
-    <ChartCard title="Admissions per week">
+    <ChartCard title="Admissions per week" isEmpty={data.length === 0}>
       <ResponsiveContainer width="100%" height={280}>
         <BarChart data={chartData}>
           <CartesianGrid strokeDasharray="3 3" stroke="var(--mlvh-blue)" />

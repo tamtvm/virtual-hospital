@@ -10,7 +10,7 @@ interface ConsultationsByReasonChartProps {
 
 export default function ConsultationsByReasonChart({ data }: ConsultationsByReasonChartProps) {
   return (
-    <ChartCard title="Consultations by type">
+    <ChartCard title="Consultations by type" isEmpty={data.length === 0}>
       <ResponsiveContainer width="100%" height={280}>
         <BarChart data={data}>
           <CartesianGrid strokeDasharray="3 3" stroke="var(--mlvh-blue)" />

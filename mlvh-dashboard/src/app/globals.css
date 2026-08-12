@@ -41,3 +41,31 @@ body {
   gap: 1.5rem;
   padding: 2rem;
 }
+
+.mlvh-skeleton {
+  height: 344px;
+  background: linear-gradient(90deg, var(--mlvh-cream) 25%, var(--mlvh-blue) 50%, var(--mlvh-cream) 75%);
+  background-size: 200% 100%;
+  animation: mlvh-shimmer 1.4s ease-in-out infinite;
+}
+
+@keyframes mlvh-shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+.mlvh-error-card {
+  border: 1px solid var(--mlvh-blue-dark);
+  color: var(--mlvh-text);
+  gap: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.mlvh-empty-state {
+  color: var(--mlvh-placeholder-text);
+  font-size: 0.9rem;
+  padding: 2rem 0;
+  text-align: center;
+}

@@ -12,7 +12,7 @@ const COLORS = ["#6fa8c0", "#a8d8e8", "#cfe8f3", "#f3d9c4", "#d9c4e8", "#c4e8d0"
 
 export default function PatientsBySpeciesChart({ data }: PatientsBySpeciesChartProps) {
   return (
-    <ChartCard title="Patients by species">
+    <ChartCard title="Patients by species" isEmpty={data.length === 0}>
       <ResponsiveContainer width="100%" height={280}>
         <PieChart>
           <Pie
