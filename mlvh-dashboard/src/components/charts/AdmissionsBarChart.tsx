@@ -18,7 +18,7 @@ export default function AdmissionsBarChart({ data }: AdmissionsBarChartProps) {
 
   return (
     <div className="mlvh-card">
-      <p className="mlvh-card-title">Weekly admissions</p>
+      <p className="mlvh-card-title">Admissions per week</p>
       <ResponsiveContainer width="100%" height={280}>
         <BarChart data={chartData}>
           <CartesianGrid strokeDasharray="3 3" stroke="var(--mlvh-blue)" />

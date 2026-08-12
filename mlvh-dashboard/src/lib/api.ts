@@ -21,3 +21,25 @@ export async function getAdmissionsWeekly(weeks = 8): Promise<AdmissionsWeeklyRe
 
   return res.json();
 }
+
+export interface PatientsBySpeciesRow {
+  species: string;
+  label: string;
+  count: number;
+}
+
+export interface PatientsBySpeciesResponse {
+  data: PatientsBySpeciesRow[];
+}
+
+export async function getPatientsBySpecies(): Promise<PatientsBySpeciesResponse> {
+  const res = await fetch(`${API_BASE}/analytics/patients-by-species/`, {
+    next: { revalidate: 60 },
+  });
+
+  if (!res.ok) {
+    throw new Error(`Failed to fetch species data: ${res.status}`);
+  }
+
+  return res.json();
+}

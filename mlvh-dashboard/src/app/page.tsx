@@ -1,12 +1,17 @@
 import AdmissionsBarChart from "@/components/charts/AdmissionsBarChart";
-import { getAdmissionsWeekly } from "@/lib/api";
+import PatientsBySpeciesChart from "@/components/charts/PatientsBySpeciesChart";
+import { getAdmissionsWeekly, getPatientsBySpecies } from "@/lib/api";
 
 export default async function DashboardPage() {
-  const { data } = await getAdmissionsWeekly(8);
+  const [admissions, species] = await Promise.all([
+    getAdmissionsWeekly(8),
+    getPatientsBySpecies(),
+  ]);
 
   return (
-    <main style={{ padding: "2rem" }}>
-      <AdmissionsBarChart data={data} />
+    <main className="dashboard-grid">
+      <AdmissionsBarChart data={admissions.data} />
+      <PatientsBySpeciesChart data={species.data} />
     </main>
   );
 }

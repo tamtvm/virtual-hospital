@@ -27,3 +27,17 @@ body {
   color: var(--mlvh-text);
   margin-bottom: 1rem;
 }
+
+.mlvh-chart-1 { fill: #6fa8c0; }
+.mlvh-chart-2 { fill: #a8d8e8; }
+.mlvh-chart-3 { fill: #cfe8f3; }
+.mlvh-chart-4 { fill: #f3d9c4; }
+.mlvh-chart-5 { fill: #d9c4e8; }
+.mlvh-chart-6 { fill: #c4e8d0; }
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 1.5rem;
+  padding: 2rem;
+}
