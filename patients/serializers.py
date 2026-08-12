@@ -45,6 +45,11 @@ class PatientSerializer(serializers.ModelSerializer):
         write_only=True,
     )
 
+    assigned_professional = serializers.ChoiceField(
+        choices=PatientRecord.PROFESSIONAL_CHOICES,
+        write_only=True,
+    )
+
     description = serializers.CharField(write_only=True)
 
     latest_record = serializers.SerializerMethodField()
@@ -88,6 +93,7 @@ class PatientSerializer(serializers.ModelSerializer):
         so both are created together in one transaction.
         """
         consultation_type = validated_data.pop('consultation_type')
+        assigned_professional = validated_data.pop('assigned_professional')
         description = validated_data.pop('description')
 
         with transaction.atomic():
@@ -96,6 +102,7 @@ class PatientSerializer(serializers.ModelSerializer):
                 patient=patient,
                 record_type='admission',
                 consultation_type=consultation_type,
+                assigned_professional=assigned_professional,
                 description=description,
             )
 

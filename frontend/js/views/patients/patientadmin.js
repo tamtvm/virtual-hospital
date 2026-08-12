@@ -8,6 +8,7 @@ import {
     SEXES,
     PRONOUNS,
     CONSULTATION_TYPES,
+    PROFESSIONALS,
     SPECIES_ICONS,
     SEX_ICONS,
     CALENDAR_ICON,
@@ -124,6 +125,12 @@ export const getPatientModal = () => {
                                     <label class="form-label small text-muted mb-0 d-block">Consultation Type</label>
                                     <select class="form-select form-select-sm mlvh-rounded-input" id="consultation_type" required>
                                         ${renderOptions(CONSULTATION_TYPES)}
+                                    </select>
+                                </div>
+                                <div class="mb-2">
+                                    <label class="form-label small text-muted mb-0 d-block">Professional</label>
+                                    <select class="form-select form-select-sm mlvh-rounded-input" id="assigned_professional" required>
+                                        ${renderOptions(PROFESSIONALS)}
                                     </select>
                                 </div>
                                 <div class="mb-2">
@@ -259,6 +266,7 @@ export const initPatientAdminLogic = () => {
     const idNumberInput = document.getElementById('id_number');
     const admissionDateInput = document.getElementById('admission_date');
     const consultationTypeSelect = document.getElementById('consultation_type');
+    const assignedProfessionalSelect = document.getElementById('assigned_professional');
     const descriptionInput = document.getElementById('record_description');
     const speciesIconGroup = document.getElementById('species-icons');
     const sexIconGroup = document.getElementById('sex-icons');
@@ -571,6 +579,7 @@ export const initPatientAdminLogic = () => {
             pronouns: pronounsSelect.value,
             id_number: idNumberInput.value.toUpperCase(),
             consultation_type: consultationTypeSelect.value,
+            assigned_professional: assignedProfessionalSelect.value,
             description: descriptionInput.value,
         };
 
