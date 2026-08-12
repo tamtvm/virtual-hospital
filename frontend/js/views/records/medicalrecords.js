@@ -2,7 +2,7 @@
 
 import { fetchPatients, fetchPatientRecords, addPatientRecord, ApiError } from '../../api/patients.js';
 import { AVATAR_BASE_PATH, DEFAULT_AVATAR } from '../../config.js';
-import { escapeHtml, setAvatarWithFallback } from '../../utils/dom.js';
+import { escapeHtml, setAvatarWithFallback, formatDisplayDate } from '../../utils/dom.js';
 import { LOCATIONS, SPECIES, SEXES, CONSULTATION_TYPES, PROFESSIONALS, CALENDAR_ICON, renderOptions } from '../../constants/patientOptions.js';
 import { formatRecordSummary, PROFESSIONAL_LABELS } from '../../constants/recordOptions.js';
 import { showToast } from '../../utils/toast.js';
@@ -10,6 +10,18 @@ import { showToast } from '../../utils/toast.js';
 const LOCATION_LABELS = Object.fromEntries(LOCATIONS.map(({ value, label }) => [value, label]));
 const SPECIES_LABELS = Object.fromEntries(SPECIES.map(({ value, label }) => [value, label]));
 const SEX_LABELS = Object.fromEntries(SEXES.map(({ value, label }) => [value, label]));
+
+// --- Keeps the styled date text in sync with the (visually hidden) native date input ---
+const wireDateBadge = (inputId, textId) => {
+    const input = document.getElementById(inputId);
+    const text = document.getElementById(textId);
+    if (!input || !text) return;
+
+    text.textContent = formatDisplayDate(input.value);
+    input.addEventListener('change', () => {
+        text.textContent = formatDisplayDate(input.value);
+    });
+};
 
 export const getMedicalRecordsView = () => {
     return `
@@ -97,7 +109,8 @@ const getRecordFormHTML = () => `
                     <label class="form-label small text-muted mb-0 d-block">Date</label>
                     <div class="mlvh-date-badge">
                         <img src="${CALENDAR_ICON}" alt="">
-                        <input type="date" class="form-control form-control-sm border-0 bg-transparent p-0" id="record-date" required>
+                        <span class="mlvh-date-badge-text" id="record-date-text"></span>
+                        <input type="date" class="mlvh-date-badge-input" id="record-date" required>
                     </div>
                 </div>
             </div>
@@ -265,6 +278,7 @@ export const initMedicalRecordsLogic = (initialPatientId = null) => {
 
         timelineCol.innerHTML = getRecordFormHTML();
         document.getElementById('record-date').value = new Date().toISOString().slice(0, 10);
+        wireDateBadge('record-date', 'record-date-text');
 
         const backToHistory = async () => {
             try {
@@ -314,6 +328,7 @@ export const initMedicalRecordsLogic = (initialPatientId = null) => {
         document.getElementById('record-professional').value = record.assigned_professional;
         document.getElementById('record-diagnosis').value = record.diagnosis;
         document.getElementById('record-date').value = record.record_date ?? '';
+        wireDateBadge('record-date', 'record-date-text');
         document.getElementById('record-description').value = record.description;
         document.getElementById('record-procedures').value = record.procedures;
         document.getElementById('record-indications').value = record.indications;

@@ -18,7 +18,7 @@ import {
     renderIconButtons,
 } from '../../constants/patientOptions.js';
 import { formatRecordSummary } from '../../constants/recordOptions.js';
-import { escapeHtml, setAvatarWithFallback } from '../../utils/dom.js';
+import { escapeHtml, setAvatarWithFallback, formatDisplayDate } from '../../utils/dom.js';
 import { showToast, confirmAction } from '../../utils/toast.js';
 
 export const getPatientAdminView = () => {
@@ -115,9 +115,9 @@ export const getPatientModal = () => {
                                 </div>
                                 <div class="mb-2">
                                     <label class="form-label small text-muted mb-0 d-block">Admission Date</label>
-                                    <div class="mlvh-date-badge">
+                                    <div class="mlvh-date-badge mlvh-date-badge-readonly">
                                         <img src="${CALENDAR_ICON}" alt="">
-                                        <input type="date" class="form-control form-control-sm border-0 bg-transparent p-0" id="admission_date" readonly>
+                                        <span class="mlvh-date-badge-text" id="admission_date"></span>
                                     </div>
                                 </div>
                                 <div class="mb-2">
@@ -224,9 +224,9 @@ export const getPatientModal = () => {
                                     </div>
                                     <div class="mb-2">
                                         <label class="form-label small text-muted mb-0 d-block">Admission Date</label>
-                                        <div class="mlvh-date-badge">
+                                        <div class="mlvh-date-badge mlvh-date-badge-readonly">
                                             <img src="${CALENDAR_ICON}" alt="">
-                                            <input type="date" class="form-control form-control-sm border-0 bg-transparent p-0" id="details-admission_date" readonly>
+                                            <span class="mlvh-date-badge-text" id="details-admission_date"></span>
                                         </div>
                                     </div>
                                     <div class="mb-2">
@@ -362,7 +362,7 @@ export const initPatientAdminLogic = () => {
     wireIconGroup(detailsSpeciesIconGroup, detailsSpecies);
     wireIconGroup(detailsSexIconGroup, detailsSex);
 
-    admissionDateInput.value = new Date().toISOString().slice(0, 10);
+    admissionDateInput.textContent = formatDisplayDate(new Date().toISOString().slice(0, 10));
     setUnknownDefaults(speciesSelect, sexSelect, locationSelect, pronounsSelect, speciesIconGroup, sexIconGroup, avatarPreview);
 
     speciesSelect.addEventListener('change', () =>
@@ -466,7 +466,7 @@ export const initPatientAdminLogic = () => {
         detailsSex.value = patient.sex;
         detailsLocation.value = patient.location;
         detailsIdNumber.value = patient.id_number;
-        detailsAdmissionDate.value = patient.created_at ? patient.created_at.slice(0, 10) : '';
+        detailsAdmissionDate.textContent = patient.created_at ? formatDisplayDate(patient.created_at.slice(0, 10)) : '';
         detailsLatestRecord.value = formatRecordSummary(patient.latest_record);
 
         syncIconGroup(detailsSpeciesIconGroup, detailsSpecies);
@@ -579,7 +579,7 @@ export const initPatientAdminLogic = () => {
             await loadPatients();
 
             patientForm.reset();
-            admissionDateInput.value = new Date().toISOString().slice(0, 10);
+            admissionDateInput.textContent = formatDisplayDate(new Date().toISOString().slice(0, 10));
             setUnknownDefaults(speciesSelect, sexSelect, locationSelect, pronounsSelect, speciesIconGroup, sexIconGroup, avatarPreview);
 
             bootstrap.Modal.getInstance(document.getElementById('createPatientModal'))?.hide();

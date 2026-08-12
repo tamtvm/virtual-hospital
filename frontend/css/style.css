@@ -18,7 +18,11 @@ textarea,
     --mlvh-blue-deep: #6fa8c0;
     --mlvh-cream: #fdf9f3;
     --mlvh-text: #4a6572;
-    --mlvh-placeholder-text: #A9A9AC; 
+    --mlvh-placeholder-text: #A9A9AC;
+    --mlvh-disabled-bg: #e9ecef;
+    --mlvh-disabled-border: #ced4da;
+    --mlvh-disabled-text: #6c757d;
+    --mlvh-disabled-active-bg: #dee2e6;
 }
 
 body {
@@ -562,12 +566,6 @@ body.mlvh-entry-screen .mlvh-main {
     resize: none;
 }
 
-.mlvh-rounded-textarea:read-only {
-    background-color: #e9ecef;
-    border-color: #ced4da;
-    color: #6c757d;
-}
-
 .mlvh-icon-group {
     display: flex;
     gap: 0.5rem;
@@ -694,23 +692,24 @@ body.mlvh-entry-screen .mlvh-main {
     height: 20px;
 }
 
-.mlvh-date-badge input[type="date"] {
-    flex: 1;
-    min-width: 0;
-    width: 100%;
-    border: none;
-    background: transparent;
-    padding: 0;
-    margin: 0;
+.mlvh-date-badge-text {
     font-size: 0.8rem;
-    text-align: left;
     color: var(--mlvh-text);
-    outline: none;
-    -webkit-appearance: none;
-    appearance: none;
 }
 
-.mlvh-date-badge input[type="date"]::-webkit-calendar-picker-indicator { /* purposely invisible btw */
+.mlvh-date-badge-input {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    border: none;
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+}
+
+.mlvh-date-badge-input::-webkit-calendar-picker-indicator {
     position: absolute;
     inset: 0;
     width: 100%;
@@ -727,30 +726,41 @@ input[readonly],
 input:disabled,
 select:disabled,
 fieldset[disabled] .mlvh-rounded-input {
-    background-color: #e9ecef;
-    border-color: #ced4da;
-    color: #6c757d;
+    background-color: var(--mlvh-disabled-bg);
+    border-color: var(--mlvh-disabled-border);
+    color: var(--mlvh-disabled-text);
     opacity: 1;
 }
 
-.mlvh-date-badge:has(input[readonly]),
-fieldset[disabled] .mlvh-date-badge {
-    background-color: #e9ecef;
-    border-color: #ced4da;
+.mlvh-rounded-textarea:read-only {
+    background-color: var(--mlvh-disabled-bg);
+    border-color: var(--mlvh-disabled-border);
+    color: var(--mlvh-disabled-text);
 }
 
-.mlvh-date-badge:has(input[readonly]) *,
-fieldset[disabled] .mlvh-date-badge * {
-    color: #6c757d;
+.mlvh-date-badge-readonly,
+fieldset[disabled] .mlvh-date-badge {
+    background-color: var(--mlvh-disabled-bg);
+    border-color: var(--mlvh-disabled-border);
 }
+
+.mlvh-date-badge-readonly .mlvh-date-badge-text,
+fieldset[disabled] .mlvh-date-badge * {
+    color: var(--mlvh-disabled-text);
+}
+
+.mlvh-date-badge-input:disabled {
+    opacity: 0;
+}
+
 /* for icon buttons */
 fieldset[disabled] .mlvh-name-field img {
     display: none;
 }
 
 fieldset[disabled] .mlvh-icon-btn {
-    background-color: #e9ecef;
-    border-color: #e9ecef;
+    background-color: var(--mlvh-disabled-bg);
+    border-color: var(--mlvh-disabled-bg);
     opacity: 1;
     pointer-events: none;
 }
@@ -764,8 +774,8 @@ fieldset[disabled] .mlvh-icon-btn:hover {
 }
 
 fieldset[disabled] .mlvh-icon-btn.active {
-    border-color: #ced4da;
-    background-color: #dee2e6;
+    border-color: var(--mlvh-disabled-border);
+    background-color: var(--mlvh-disabled-active-bg);
 }
 
 fieldset[disabled] .mlvh-icon-btn.active img {
