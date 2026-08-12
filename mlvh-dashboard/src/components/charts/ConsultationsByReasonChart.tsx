@@ -1,28 +1,20 @@
 "use client";
 
 import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
-import { AdmissionsWeeklyPoint } from "@/lib/types";
+import { ConsultationsByReasonRow } from "@/lib/types";
 import ChartCard from "@/components/ui/ChartCard";
 
-interface AdmissionsBarChartProps {
-  data: AdmissionsWeeklyPoint[];
+interface ConsultationsByReasonChartProps {
+  data: ConsultationsByReasonRow[];
 }
 
-export default function AdmissionsBarChart({ data }: AdmissionsBarChartProps) {
-  const chartData = data.map((point) => ({
-    week: new Date(point.week_start).toLocaleDateString("en-US", {
-      month: "short",
-      day: "numeric",
-    }),
-    admissions: point.admissions,
-  }));
-
+export default function ConsultationsByReasonChart({ data }: ConsultationsByReasonChartProps) {
   return (
-    <ChartCard title="Admissions per week">
+    <ChartCard title="Consultations by type">
       <ResponsiveContainer width="100%" height={280}>
-        <BarChart data={chartData}>
+        <BarChart data={data}>
           <CartesianGrid strokeDasharray="3 3" stroke="var(--mlvh-blue)" />
-          <XAxis dataKey="week" stroke="var(--mlvh-text)" fontSize={12} tickLine={false} />
+          <XAxis dataKey="label" stroke="var(--mlvh-text)" fontSize={12} tickLine={false} />
           <YAxis stroke="var(--mlvh-text)" fontSize={12} tickLine={false} allowDecimals={false} />
           <Tooltip
             contentStyle={{
@@ -32,7 +24,7 @@ export default function AdmissionsBarChart({ data }: AdmissionsBarChartProps) {
               color: "var(--mlvh-text)",
             }}
           />
-          <Bar dataKey="admissions" fill="var(--mlvh-blue-deep)" radius={[10, 10, 0, 0]} />
+          <Bar dataKey="count" fill="var(--mlvh-blue-dark)" radius={[10, 10, 0, 0]} />
         </BarChart>
       </ResponsiveContainer>
     </ChartCard>

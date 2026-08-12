@@ -1,45 +1,29 @@
+import {
+  AdmissionsWeeklyResponse,
+  PatientsBySpeciesResponse,
+  ConsultationsByReasonResponse,
+} from "./types";
+
 const API_BASE = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000/api";
 
-export interface AdmissionsWeeklyPoint {
-  week_start: string;
-  admissions: number;
-}
-
-export interface AdmissionsWeeklyResponse {
-  period: string;
-  data: AdmissionsWeeklyPoint[];
-}
-
-export async function getAdmissionsWeekly(weeks = 8): Promise<AdmissionsWeeklyResponse> {
-  const res = await fetch(`${API_BASE}/analytics/admissions-weekly/?weeks=${weeks}`, {
-    next: { revalidate: 60 },
-  });
+async function fetchJson<T>(path: string): Promise<T> {
+  const res = await fetch(`${API_BASE}${path}`, { next: { revalidate: 60 } });
 
   if (!res.ok) {
-    throw new Error(`Failed to fetch admissions data: ${res.status}`);
+    throw new Error(`Failed to fetch ${path}: ${res.status}`);
   }
 
   return res.json();
 }
 
-export interface PatientsBySpeciesRow {
-  species: string;
-  label: string;
-  count: number;
+export function getAdmissionsWeekly(weeks = 8): Promise<AdmissionsWeeklyResponse> {
+  return fetchJson(`/analytics/admissions-weekly/?weeks=${weeks}`);
 }
 
-export interface PatientsBySpeciesResponse {
-  data: PatientsBySpeciesRow[];
+export function getPatientsBySpecies(): Promise<PatientsBySpeciesResponse> {
+  return fetchJson("/analytics/patients-by-species/");
 }
 
-export async function getPatientsBySpecies(): Promise<PatientsBySpeciesResponse> {
-  const res = await fetch(`${API_BASE}/analytics/patients-by-species/`, {
-    next: { revalidate: 60 },
-  });
-
-  if (!res.ok) {
-    throw new Error(`Failed to fetch species data: ${res.status}`);
-  }
-
-  return res.json();
+export function getConsultationsByReason(): Promise<ConsultationsByReasonResponse> {
+  return fetchJson("/analytics/consultations-by-reason/");
 }
