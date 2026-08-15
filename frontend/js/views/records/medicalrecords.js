@@ -28,7 +28,7 @@ export const getMedicalRecordsView = () => {
     <div class="mlvh-card mlvh-record-search-card">
         <div class="mlvh-card-body">
             <div class="mlvh-search-field">
-                <img src="assets/icons/misc/search.svg" alt="">
+                <img src="/assets/icons/misc/search.svg" alt="">
                 <input type="text" id="record-patient-search" class="form-control form-control-sm border-0 bg-transparent p-0" placeholder="Search patient by name or ID...">
             </div>
             <div id="record-search-results" class="mlvh-record-results"></div>
@@ -200,7 +200,7 @@ export const initMedicalRecordsLogic = (initialPatientId = null) => {
         <div class="mlvh-card mlvh-history-card">
             <div class="mlvh-history-card-actions js-history-actions">
                 <button type="button" class="btn mlvh-admit-btn shadow-sm js-add-record" aria-label="Add Record">
-                    <img src="assets/icons/misc/plus.svg" alt="" class="mlvh-btn-icon">
+                    <img src="/assets/icons/misc/plus.svg" alt="" class="mlvh-btn-icon">
                 </button>
             </div>
             <div class="mlvh-folder-header d-flex justify-content-between align-items-center">
@@ -220,7 +220,7 @@ export const initMedicalRecordsLogic = (initialPatientId = null) => {
                     </div>
                     <div class="mlvh-history-add-mobile-row js-history-actions">
                         <button type="button" class="btn mlvh-admit-btn shadow-sm js-add-record" aria-label="Add Record">
-                            <img src="assets/icons/misc/plus.svg" alt="" class="mlvh-btn-icon">
+                            <img src="/assets/icons/misc/plus.svg" alt="" class="mlvh-btn-icon">
                         </button>
                     </div>
                     <div class="mlvh-profile-right-col mlvh-history-timeline-col">
@@ -290,8 +290,8 @@ export const initMedicalRecordsLogic = (initialPatientId = null) => {
         };
 
         setCardActions([
-            { icon: 'assets/icons/misc/back.svg', label: 'Cancel', onClick: backToHistory },
-            { icon: 'assets/icons/misc/save.svg', label: 'Save Record', type: 'submit', form: 'record-form' },
+            { icon: '/assets/icons/misc/back.svg', label: 'Cancel', onClick: backToHistory },
+            { icon: '/assets/icons/misc/save.svg', label: 'Save Record', type: 'submit', form: 'record-form' },
         ]);
 
         document.getElementById('record-form').addEventListener('submit', async (event) => {
@@ -336,7 +336,7 @@ export const initMedicalRecordsLogic = (initialPatientId = null) => {
         document.getElementById('record-fieldset').disabled = true;
 
         setCardActions([
-            { icon: 'assets/icons/misc/back.svg', label: 'Back to history', onClick: () => renderHistoryCard(patient, currentRecords) },
+            { icon: '/assets/icons/misc/back.svg', label: 'Back to history', onClick: () => renderHistoryCard(patient, currentRecords) },
         ]);
     };
 

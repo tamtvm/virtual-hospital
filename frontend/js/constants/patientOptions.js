@@ -49,22 +49,22 @@ export const PROFESSIONALS = [
 
 // ----- Icon sets -----
 export const SPECIES_ICONS = {
-    human: 'assets/icons/species/human.svg',
-    cat: 'assets/icons/species/cat.svg',
-    bunny: 'assets/icons/species/bunny.svg',
-    rat: 'assets/icons/species/rat.svg',
-    monkey: 'assets/icons/species/monkey.svg',
-    unknown: 'assets/icons/species/unknown.svg',
+    human: '/assets/icons/species/human.svg',
+    cat: '/assets/icons/species/cat.svg',
+    bunny: '/assets/icons/species/bunny.svg',
+    rat: '/assets/icons/species/rat.svg',
+    monkey: '/assets/icons/species/monkey.svg',
+    unknown: '/assets/icons/species/unknown.svg',
 };
 
 export const SEX_ICONS = {
-    male: 'assets/icons/sex/male.svg',
-    female: 'assets/icons/sex/female.svg',
-    unknown: 'assets/icons/sex/unknown.svg',
+    male: '/assets/icons/sex/male.svg',
+    female: '/assets/icons/sex/female.svg',
+    unknown: '/assets/icons/sex/unknown.svg',
 };
 
-export const CALENDAR_ICON = 'assets/icons/misc/calendar.svg';
-export const PENCIL_ICON = 'assets/icons/misc/pencil.svg';
+export const CALENDAR_ICON = '/assets/icons/misc/calendar.svg';
+export const PENCIL_ICON = '/assets/icons/misc/pencil.svg';
 
 export const renderIconButtons = (options, iconsMap, groupName) =>
     options.map(({ value, label }) => `

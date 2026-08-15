@@ -31,11 +31,11 @@ export const getPatientAdminView = () => {
         <div class="mlvh-card-body">
         <div class="d-flex align-items-center gap-2 mb-4">
             <div class="mlvh-search-field flex-grow-1">
-                <img src="assets/icons/misc/search.svg" alt="">
+                <img src="/assets/icons/misc/search.svg" alt="">
                 <input type="text" id="patient-search" class="form-control form-control-sm border-0 bg-transparent p-0" placeholder="Search by name or ID...">
             </div>
             <button class="btn mlvh-admit-btn shadow-sm flex-shrink-0" data-bs-toggle="modal" data-bs-target="#createPatientModal" aria-label="Admit Patient">
-                <img src="assets/icons/misc/plus.svg" alt="" class="mlvh-btn-icon">
+                <img src="/assets/icons/misc/plus.svg" alt="" class="mlvh-btn-icon">
             </button>
         </div>
 
@@ -173,13 +173,13 @@ export const getPatientModal = () => {
                                 </fieldset>
                                 <div class="d-flex justify-content-center gap-2 mt-3">
                                     <button type="button" class="btn mlvh-admit-btn shadow-sm" id="edit-toggle-btn" aria-label="Edit Profile">
-                                        <img src="assets/icons/misc/pencil.svg" alt="" id="edit-toggle-icon" class="mlvh-btn-icon">
+                                        <img src="/assets/icons/misc/pencil.svg" alt="" id="edit-toggle-icon" class="mlvh-btn-icon">
                                     </button>
                                     <button type="button" class="btn mlvh-admit-btn shadow-sm" id="history-btn" aria-label="Medical History">
-                                        <img src="assets/icons/misc/history.svg" alt="" class="mlvh-btn-icon">
+                                        <img src="/assets/icons/misc/history.svg" alt="" class="mlvh-btn-icon">
                                     </button>
                                     <button type="button" class="btn mlvh-admit-btn shadow-sm" id="discharge-btn" aria-label="Discharge">
-                                        <img src="assets/icons/misc/exit.svg" alt="" class="mlvh-btn-icon">
+                                        <img src="/assets/icons/misc/exit.svg" alt="" class="mlvh-btn-icon">
                                     </button>
                                 </div>
                             </div>
@@ -481,7 +481,7 @@ export const initPatientAdminLogic = () => {
         syncIconGroup(detailsSexIconGroup, detailsSex);
 
         setProfileEditable(false);
-        editToggleIcon.src = 'assets/icons/misc/pencil.svg';
+        editToggleIcon.src = '/assets/icons/misc/pencil.svg';
 
         bootstrap.Modal.getOrCreateInstance(detailsModalElement).show();
     };
@@ -491,7 +491,7 @@ export const initPatientAdminLogic = () => {
 
         if (isDisabled) {
             setProfileEditable(true);
-            editToggleIcon.src = 'assets/icons/misc/check.svg';
+            editToggleIcon.src = '/assets/icons/misc/check.svg';
             return;
         }
 
@@ -512,7 +512,7 @@ export const initPatientAdminLogic = () => {
             await loadPatients();
 
             setProfileEditable(false);
-            editToggleIcon.src = 'assets/icons/misc/pencil.svg';
+            editToggleIcon.src = '/assets/icons/misc/pencil.svg';
 
             // Refresh
             openPatientDetails(currentEditingPatientId);

@@ -1,4 +1,4 @@
-// --- Main router ---
+﻿// --- Main router ---
 
 import { getPatientAdminView, getPatientModal, initPatientAdminLogic } from './views/patients/patientadmin.js';
 import { getMedicalRecordsView, initMedicalRecordsLogic } from './views/records/medicalrecords.js';
@@ -19,6 +19,34 @@ const NAV_ROUTES = {
 };
 
 const NAV_LINK_IDS = ['nav-patients', 'nav-medical-records'];
+
+const ROUTE_PATHS = {
+    [ROUTE_ABOUT]: '/about/',
+    [ROUTE_PATIENTS]: '/patients/',
+    [ROUTE_MEDICAL_RECORDS]: '/medical-records/',
+};
+
+const buildPath = (routeName, options = {}) => {
+    const base = ROUTE_PATHS[routeName] ?? ROUTE_PATHS[ROUTE_ABOUT];
+    if (routeName === ROUTE_MEDICAL_RECORDS && options.patientId) {
+        return `${base}?patientId=${encodeURIComponent(options.patientId)}`;
+    }
+    return base;
+};
+
+const resolveRouteFromLocation = () => {
+    const path = window.location.pathname;
+    const params = new URLSearchParams(window.location.search);
+
+    if (path.startsWith('/patients')) {
+        return { routeName: ROUTE_PATIENTS, options: {} };
+    }
+    if (path.startsWith('/medical-records')) {
+        const patientId = params.get('patientId');
+        return { routeName: ROUTE_MEDICAL_RECORDS, options: patientId ? { patientId } : {} };
+    }
+    return { routeName: ROUTE_ABOUT, options: {} };
+};
 
 const routes = {
     [ROUTE_ABOUT]: () => {
@@ -44,12 +72,20 @@ const highlightActiveNav = (routeName) => {
     });
 };
 
-const navigateTo = (routeName, options = {}) => {
+const navigateTo = (routeName, options = {}, { push = true } = {}) => {
     const render = routes[routeName];
     if (!render) return;
+
     render(options);
     highlightActiveNav(routeName);
     document.body.classList.toggle('mlvh-entry-screen', routeName === ROUTE_ABOUT);
+
+    if (push) {
+        const path = buildPath(routeName, options);
+        if (window.location.pathname + window.location.search !== path) {
+            window.history.pushState({ routeName, options }, '', path);
+        }
+    }
 };
 
 const initRouter = () => {
@@ -94,8 +130,14 @@ const initSidebarToggle = () => {
 };
 
 // Application bootstrap
+window.addEventListener('popstate', () => {
+    const { routeName, options } = resolveRouteFromLocation();
+    navigateTo(routeName, options, { push: false });
+});
+
 document.addEventListener('DOMContentLoaded', () => {
     initRouter();
     initSidebarToggle();
-    navigateTo(ROUTE_ABOUT);
+    const { routeName, options } = resolveRouteFromLocation();
+    navigateTo(routeName, options, { push: false });
 });
