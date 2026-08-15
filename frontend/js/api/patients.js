@@ -1,4 +1,4 @@
-// --- API layer ---
+﻿// --- API layer ---
 import { API_BASE_URL } from '../config.js';
 
 const PATIENTS_URL = `${API_BASE_URL}/patients/`;
@@ -43,7 +43,8 @@ export const fetchPatients = async () => {
     if (!response.ok) {
         throw new ApiError('Could not load the patient roster.');
     }
-    return response.json();
+    const data = await response.json();
+    return Array.isArray(data) ? data : data.results;
 };
 
 export const fetchPatientRecords = async (id) => {
