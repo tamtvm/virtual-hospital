@@ -12,7 +12,12 @@ from patients.models import Patient, PatientRecord
 @api_view(['GET'])
 def admissions_weekly(request):
     # Admissions grouped by week, optional ?weeks=N query param, default 8.
-    weeks = int(request.query_params.get('weeks', 8))
+    try:
+        weeks = int(request.query_params.get('weeks', 8))
+    except (TypeError, ValueError):
+        weeks = 8
+    weeks = max(1, min(weeks, 52))
+
     since = timezone.localdate() - timedelta(weeks=weeks)
 
     queryset = (
