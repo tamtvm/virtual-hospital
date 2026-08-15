@@ -208,7 +208,8 @@ body {
     text-overflow: ellipsis;
 }
 
-.mlvh-sidebar-link img {
+.mlvh-sidebar-link img,
+.mlvh-sidebar-toggle img {
     width: 22px;
     height: 22px;
 }

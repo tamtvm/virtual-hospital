@@ -1,73 +1,24 @@
 @import "tailwindcss";
-
-/* Global typography */
-body,
-button,
-input,
-select,
-textarea,
-.btn-primary {
-  text-transform: lowercase;
-}
-
-:root {
-  --mlvh-bg: #eef6fa;
-  --mlvh-blue: #cfe8f3;
-  --mlvh-blue-dark: #a8d8e8;
-  --mlvh-blue-deep: #6fa8c0;
-  --mlvh-cream: #fdf9f3;
-  --mlvh-text: #4a6572;
-  --mlvh-placeholder-text: #a9a9ac;
-  --mlvh-disabled-bg: #e9ecef;
-  --mlvh-disabled-border: #ced4da;
-  --mlvh-disabled-text: #6c757d;
-  --mlvh-disabled-active-bg: #dee2e6;
-}
+@import "./style.css";
 
 body {
-  background-color: var(--mlvh-bg);
   color: var(--mlvh-text);
   font-family: system-ui, -apple-system, sans-serif;
 }
 
-.btn-primary {
-  border: none;
-  font-weight: 600;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0 1.25rem;
-  height: 2.5rem;
-  border-radius: 999px;
-  background-color: var(--mlvh-blue-deep);
-  color: #ffffff;
-  cursor: pointer;
-  transition: background-color 0.15s, transform 0.1s;
+/* --- Dashboard --- */
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 1.5rem;
+  padding: 2rem;
 }
 
-.btn-primary:hover,
-.btn-primary:focus {
-  background-color: var(--mlvh-blue-dark);
-  color: var(--mlvh-text);
-}
-
-/* Card frame */
-.mlvh-card {
-  background-color: #ffffff;
-  background-clip: border-box;
-  border: 14px solid #ffffff;
-  outline: 3px dashed var(--mlvh-blue);
-  outline-offset: -10px;
-  border-radius: 32px;
-  box-shadow: 0 12px 32px rgba(111, 168, 192, 0.25);
-  overflow: hidden;
+.dashboard-grid .mlvh-card {
   padding: 1.5rem;
-}
-
-.mlvh-card-title {
-  font-weight: 600;
-  color: var(--mlvh-text);
-  margin: 0;
+  margin-bottom: 0;
+  margin-inline: 0;
 }
 
 .mlvh-card-header-row {
@@ -76,6 +27,12 @@ body {
   justify-content: space-between;
   gap: 1rem;
   margin-bottom: 1rem;
+}
+
+.mlvh-card-title {
+  font-weight: 600;
+  color: var(--mlvh-text);
+  margin: 0;
 }
 
 .mlvh-range-select {
@@ -91,13 +48,6 @@ body {
 
 .mlvh-range-select:focus {
   outline: 2px solid var(--mlvh-blue-deep);
-}
-
-.dashboard-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: 1.5rem;
-  padding: 2rem;
 }
 
 .mlvh-skeleton {

@@ -19,8 +19,8 @@ export default function PatientsBySpeciesChart({ data }: PatientsBySpeciesChartP
             data={data}
             dataKey="count"
             nameKey="label"
-            innerRadius={60}
-            outerRadius={100}
+            innerRadius="55%"
+            outerRadius="85%"
             paddingAngle={3}
             cornerRadius={8}
           >

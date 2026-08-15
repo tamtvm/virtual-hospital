@@ -33,30 +33,30 @@ export default function DashboardPage() {
 
   if (isLoading) {
     return (
-      <main className="dashboard-grid">
+      <div className="dashboard-grid">
         {[1, 2, 3].map((key) => (
           <div key={key} className="mlvh-card mlvh-skeleton" />
         ))}
-      </main>
+      </div>
     );
   }
 
   if (error) {
     return (
-      <main className="dashboard-grid">
+      <div className="dashboard-grid">
         <div className="mlvh-card mlvh-error-card">
           <p className="mlvh-card-title">Couldn&apos;t load the dashboard</p>
           <p>{error}</p>
         </div>
-      </main>
+      </div>
     );
   }
 
   return (
-    <main className="dashboard-grid">
+    <div className="dashboard-grid">
       <AdmissionsPanel initialWeeks={INITIAL_WEEKS} initialData={admissions} />
       <PatientsBySpeciesChart data={species} />
       <ConsultationsByReasonChart data={consultations} />
-    </main>
+    </div>
   );
 }
