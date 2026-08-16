@@ -4,7 +4,7 @@ import {
   ConsultationsByReasonResponse,
 } from "./types";
 
-const API_BASE = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000/api";
+const API_BASE = process.env.NEXT_PUBLIC_API_URL ?? "https://virtual-hospital-b471.onrender.com/api";
 
 async function fetchJson<T>(path: string): Promise<T> {
   const res = await fetch(`${API_BASE}${path}`, { next: { revalidate: 60 } });
