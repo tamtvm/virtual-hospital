@@ -163,6 +163,5 @@ if DEBUG:
         "http://localhost:8788",
         "http://127.0.0.1:8788",
     ]
-
 # Shared secret for the sandbox reset endpoint!
 SANDBOX_RESET_TOKEN = os.environ.get('SANDBOX_RESET_TOKEN')
