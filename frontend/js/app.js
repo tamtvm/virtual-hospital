@@ -21,9 +21,9 @@ const NAV_ROUTES = {
 const NAV_LINK_IDS = ['nav-patients', 'nav-medical-records'];
 
 const ROUTE_PATHS = {
-    [ROUTE_ABOUT]: '/about/',
-    [ROUTE_PATIENTS]: '/patients/',
-    [ROUTE_MEDICAL_RECORDS]: '/medical-records/',
+    [ROUTE_ABOUT]: '/about',
+    [ROUTE_PATIENTS]: '/patients',
+    [ROUTE_MEDICAL_RECORDS]: '/medical-records',
 };
 
 const buildPath = (routeName, options = {}) => {
@@ -135,9 +135,15 @@ window.addEventListener('popstate', () => {
     navigateTo(routeName, options, { push: false });
 });
 
-document.addEventListener('DOMContentLoaded', () => {
+function bootstrap() {
     initRouter();
     initSidebarToggle();
     const { routeName, options } = resolveRouteFromLocation();
     navigateTo(routeName, options, { push: false });
-});
+}
+
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', bootstrap);
+} else {
+    bootstrap();
+}
