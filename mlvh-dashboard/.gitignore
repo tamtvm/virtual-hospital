@@ -17,6 +17,7 @@
 /.next/
 /src/app/style.css
 /public/icons/
+/public/brand/
 /out/
 
 # production

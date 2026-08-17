@@ -32,7 +32,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
 
         <aside className={`mlvh-sidebar ${sidebarOpen ? "open" : ""}`}>
           <a className="mlvh-sidebar-brand" href="/patients/">
-            MLVH
+            <img src={`${BASE_PATH}/brand/mlvh.svg`} alt="MLVH" />
           </a>
 
           <nav className="mlvh-sidebar-nav">
@@ -52,7 +52,9 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
         </aside>
 
         <main className="mlvh-main">
-          <h1 className="mlvh-page-title">My Little Virtual Hospital</h1>
+          <h1 className="mlvh-page-title">
+            <img src={`${BASE_PATH}/brand/title.svg`} alt="My Little Virtual Hospital" />
+          </h1>
           {children}
         </main>
       </div>

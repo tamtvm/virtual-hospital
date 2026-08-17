@@ -137,12 +137,22 @@ body {
 .mlvh-sidebar-brand {
     display: block;
     text-align: center;
-    background: #ffffff;
-    color: var(--mlvh-blue-deep);
-    font-weight: 700;
-    border-radius: 999px;
-    padding: 0.6rem 1rem;
     text-decoration: none;
+}
+
+.mlvh-sidebar-brand img {
+    display: block;
+    height: 60px;
+    width: auto;
+    margin: 0 auto;
+}
+
+.mlvh-page-title img {
+    display: block;
+    max-width: 320px;
+    width: 100%;
+    height: auto;
+    margin: 0 auto;
 }
 
 .mlvh-sidebar-nav {

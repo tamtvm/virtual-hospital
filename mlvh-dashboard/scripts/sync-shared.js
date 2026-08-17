@@ -14,3 +14,9 @@ fs.cpSync(
   path.join(projectRoot, 'public', 'icons'),
   { recursive: true }
 );
+
+fs.cpSync(
+  path.join(frontendRoot, 'assets', 'brand'),
+  path.join(projectRoot, 'public', 'brand'),
+  { recursive: true }
+);
