@@ -1,11 +1,15 @@
 // --- Application configuration (environment dependent values) ---
 async function loadConfig() {
-    try {
-        const localResponse = await fetch('/config.local.json');
-        if (localResponse.ok) return localResponse.json();
-    } catch {
-        
+    const isLocalHost = ['localhost', '127.0.0.1'].includes(window.location.hostname);
+
+    if (isLocalHost) {
+        try {
+            const localResponse = await fetch('/config.local.json');
+            if (localResponse.ok) return localResponse.json();
+        } catch {
+        }
     }
+
     const response = await fetch('/config.json');
     return response.json();
 }
