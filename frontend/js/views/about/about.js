@@ -15,7 +15,12 @@ const ABOUT_TABS = {
         content: `
             <h5 class="mlvh-about-title">how to play mlvh?</h5>
             <p>You can enter the hospital management dashboard by pressing "Enter" below! From there, youll find different sections to interact with.</p>
-            <p>Currently, I only have these two active, but Im working on adding more:</p>
+            <p>Currently, I only have these three active, but Im working on adding more:</p>
+
+            <p class="mb-1"><strong>Dashboard</strong></p>
+            <ul>
+                <li>See admissions per week, patients by species, consultations by type, etc! all pulled live from the same data.</li>
+            </ul>
 
             <p class="mb-1"><strong>Patient Admin</strong></p>
             <ul>
@@ -32,7 +37,7 @@ const ABOUT_TABS = {
             </ul>
 
             <span class="d-block mt-3 mlvh-card-subtitle">
-                coming soon: Im planning to add roles, explanation pop-ups, a dashboard graph and stuff! pls stay tuned :+]
+                coming soon: Im planning to add roles, explanation pop-ups and stuff! pls stay tuned :+]
             </span>
         `,
     },
@@ -40,7 +45,7 @@ const ABOUT_TABS = {
         label: 'Tech Stack',
         content: `
             <h5 class="mlvh-about-title">Tech Stack</h5>
-            <p><strong>Frontend:</strong> I decided to work with vanilla JavaScript (ES modules), Bootstrap 5, and a custom lightweight router, no heavy frontend frameworks! Everything is hosted on Cloudflare Pages.</p>
+            <p><strong>Frontend:</strong> I decided to work with vanilla JavaScript (ES modules), Bootstrap 5, and a custom lightweight router for most of the site. To experiment with a different stack, I built the "Dashboard" section with Next.js and Recharts instead. Its a separate app, but it pulls from the same Django API and lives on the same domain, so it still feels like one site! Everything is hosted on Cloudflare Pages.</p>
             <p><strong>Backend:</strong> Django + Django REST Framework, with a PostgreSQL database on Neon.tech, deployed on Render.</p>
             <p><strong>The Sandbox:</strong> The website is a centralized, live online sandbox. Everything works together in this single link!! also everyone can see what youre currently updating, so feel free to break things :+] To keep it clean, the database resets automatically every 30 minutes using a scheduled external reset (via cron-job.org), along with an uptime ping (UptimeRobot) to keep the free-tier backend awake!</p>
             <p class="mb-0">Curious about the code? You can check out the <a href="https://github.com/tamtvm/virtual-hospital" target="_blank" rel="noopener">GitHub repo</a> here!</p>
