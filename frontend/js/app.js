@@ -3,6 +3,7 @@
 import { getPatientAdminView, getPatientModal, initPatientAdminLogic } from './views/patients/patientadmin.js';
 import { getMedicalRecordsView, initMedicalRecordsLogic } from './views/records/medicalrecords.js';
 import { getAboutView, initAboutLogic } from './views/about/about.js';
+import { getNotFoundView, initNotFoundLogic } from './views/notfound/notfound.js';
 
 const appRoot = document.getElementById('app-root');
 const modalRoot = document.getElementById('modal-root');
@@ -10,6 +11,7 @@ const modalRoot = document.getElementById('modal-root');
 const ROUTE_ABOUT = 'about';
 const ROUTE_PATIENTS = 'patients';
 const ROUTE_MEDICAL_RECORDS = 'medical-records';
+const ROUTE_NOT_FOUND = 'not-found';
 
 // Maps each nav to its route
 const NAV_ROUTES = {
@@ -26,6 +28,10 @@ const ROUTE_PATHS = {
     [ROUTE_MEDICAL_RECORDS]: '/medical-records',
 };
 
+const PATH_TO_ROUTE = Object.fromEntries(
+    Object.entries(ROUTE_PATHS).map(([routeName, path]) => [path, routeName])
+);
+
 const buildPath = (routeName, options = {}) => {
     const base = ROUTE_PATHS[routeName] ?? ROUTE_PATHS[ROUTE_ABOUT];
     if (routeName === ROUTE_MEDICAL_RECORDS && options.patientId) {
@@ -34,18 +40,29 @@ const buildPath = (routeName, options = {}) => {
     return base;
 };
 
+const normalizePath = (pathname) => {
+    return pathname.length > 1 && pathname.endsWith('/') ? pathname.slice(0, -1) : pathname;
+};
+
 const resolveRouteFromLocation = () => {
-    const path = window.location.pathname;
+    const path = normalizePath(window.location.pathname);
     const params = new URLSearchParams(window.location.search);
 
-    if (path.startsWith('/patients')) {
-        return { routeName: ROUTE_PATIENTS, options: {} };
+    if (path === '/') {
+        return { routeName: ROUTE_ABOUT, options: {} };
     }
-    if (path.startsWith('/medical-records')) {
+
+    const routeName = PATH_TO_ROUTE[path];
+    if (!routeName) {
+        return { routeName: ROUTE_NOT_FOUND, options: {} };
+    }
+
+    if (routeName === ROUTE_MEDICAL_RECORDS) {
         const patientId = params.get('patientId');
-        return { routeName: ROUTE_MEDICAL_RECORDS, options: patientId ? { patientId } : {} };
+        return { routeName, options: patientId ? { patientId } : {} };
     }
-    return { routeName: ROUTE_ABOUT, options: {} };
+
+    return { routeName, options: {} };
 };
 
 const routes = {
@@ -63,6 +80,11 @@ const routes = {
         appRoot.innerHTML = getMedicalRecordsView();
         modalRoot.innerHTML = '';
         initMedicalRecordsLogic(options.patientId);
+    },
+    [ROUTE_NOT_FOUND]: () => {
+        appRoot.innerHTML = getNotFoundView();
+        modalRoot.innerHTML = '';
+        initNotFoundLogic();
     },
 };
 

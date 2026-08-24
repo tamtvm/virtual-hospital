@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Little Virtual Hospital</title>
+
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/style.css">
+
+    <!-- 404 page layout -->
+    <style>
+        body {
+            background-color: var(--mlvh-bg);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .mlvh-404-card {
+            max-width: 480px;
+            width: 90%;
+        }
+    </style>
+</head>
+<body class="text-dark">
+
+    <div class="mlvh-card mlvh-404-card">
+        <div class="mlvh-card-header">
+            <span class="mlvh-card-tag">404</span>
+        </div>
+        <div class="mlvh-card-body text-center">
+            <h2>404. Not Found</h2>
+            <p class="mlvh-card-subtitle">This page does not exist in our hospital.</p>
+                        <a href="/patients" class="btn btn-primary">Back to the Hospital</a>
+        </div>
+    </div>
+
+</body>
+</html>
