@@ -34,7 +34,7 @@ if not SECRET_KEY:
     )
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get('DJANGO_DEBUG', 'True') == 'True'
+DEBUG = os.environ.get('DJANGO_DEBUG', 'False') == 'True'
 
 _allowed_hosts_env = os.environ.get('DJANGO_ALLOWED_HOSTS', '')
 ALLOWED_HOSTS = _allowed_hosts_env.split(',') if _allowed_hosts_env else []
@@ -152,6 +152,10 @@ CORS_ALLOWED_ORIGINS = [
     "https://virtual-hospital.pages.dev",
 ]
 
+CORS_ALLOWED_ORIGIN_REGEXES = [
+    r"^https://[a-z0-9-]+\.virtual-hospital\.pages\.dev$",
+]
+
 if DEBUG:
     CORS_ALLOWED_ORIGINS += [
         "http://localhost:8000",
@@ -163,5 +167,13 @@ if DEBUG:
         "http://localhost:8788",
         "http://127.0.0.1:8788",
     ]
+# --- PRODUCTION SECURITY ---
+if not DEBUG:
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+    SECURE_SSL_REDIRECT = True
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+    SECURE_HSTS_SECONDS = 3600
+
 # Shared secret for the sandbox reset endpoint!
 SANDBOX_RESET_TOKEN = os.environ.get('SANDBOX_RESET_TOKEN')

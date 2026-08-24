@@ -1,3 +1,5 @@
+import secrets
+
 from django.conf import settings
 from django.core.management import call_command
 from rest_framework import viewsets, status
@@ -57,7 +59,7 @@ def reset_sandbox(request):
     Resets demo data. Requires the shared secret in X-Sandbox-Token.
     """
     token = request.headers.get('X-Sandbox-Token')
-    if not settings.SANDBOX_RESET_TOKEN or token != settings.SANDBOX_RESET_TOKEN:
+    if not settings.SANDBOX_RESET_TOKEN or not token or not secrets.compare_digest(token.encode(), settings.SANDBOX_RESET_TOKEN.encode()):
         return Response({'detail': 'Invalid token'}, status=status.HTTP_403_FORBIDDEN)
 
     call_command('reset_sandbox')
