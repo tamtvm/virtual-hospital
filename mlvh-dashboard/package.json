@@ -6,7 +6,8 @@
     "dev": "next dev",
     "prebuild": "node scripts/sync-shared.js",
     "build": "next build",
-    "build:production": "node scripts/build-production.js",
+    "build:local": "node scripts/publish.js local",
+    "build:production": "node scripts/publish.js production",
     "start": "next start",
     "lint": "eslint"
   },
