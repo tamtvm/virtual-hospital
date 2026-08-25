@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import ResetCountdown from "@/components/ui/ResetCountdown";
 
 const BASE_PATH = "/dashboard";
 
@@ -55,6 +56,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
           <h1 className="mlvh-page-title">
             <img src={`${BASE_PATH}/brand/title.svg`} alt="My Little Virtual Hospital" />
           </h1>
+          <ResetCountdown />
           {children}
         </main>
       </div>
