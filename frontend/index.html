@@ -10,6 +10,11 @@
     
     <!-- Custom CSS -->
     <link rel="stylesheet" href="/css/style.css">
+
+    <script>
+        document.documentElement.dataset.mlvhRoute =
+            location.pathname.replace(/\/+$/, '') || '/';
+    </script>
 </head>
 <body class="text-dark">
 
@@ -19,6 +24,14 @@
             <span></span>
             <span></span>
         </button>
+        <div class="mlvh-header-nav">
+            <button class="mlvh-header-nav-btn" id="nav-back" aria-label="Go back">
+                <img src="/assets/icons/misc/back.svg" alt="">
+            </button>
+            <button class="mlvh-header-nav-btn mlvh-header-nav-btn-forward" id="nav-forward" aria-label="Go forward" disabled>
+                <img src="/assets/icons/misc/back.svg" alt="">
+            </button>
+        </div>
         <button class="mlvh-sidebar-toggle mlvh-sidebar-toggle-close" id="sidebar-close" aria-label="Close navigation">
             <img src="/assets/icons/misc/close.svg" alt="">
         </button>
@@ -38,7 +51,7 @@
                     <img src="/assets/icons/nav/dashboard.svg" alt="">
                     <span>Dashboard</span>
                 </a>
-                <a class="mlvh-sidebar-link active" href="/patients/" id="nav-patients">
+                <a class="mlvh-sidebar-link" href="/patients/" id="nav-patients">
                     <img src="/assets/icons/nav/patients.svg" alt="">
                     <span>Patient Admin</span>
                 </a>

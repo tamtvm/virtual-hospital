@@ -1,12 +1,45 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ResetCountdown from "@/components/ui/ResetCountdown";
 
 const BASE_PATH = "/dashboard";
 
 export default function AppShell({ children }: { children: React.ReactNode }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [canBack, setCanBack] = useState(true);
+  const [canForward, setCanForward] = useState(false);
+
+  useEffect(() => {
+    const nav = (window as unknown as {
+      navigation?: {
+        canGoBack: boolean;
+        canGoForward: boolean;
+        addEventListener: (type: string, listener: () => void) => void;
+        removeEventListener: (type: string, listener: () => void) => void;
+      };
+    }).navigation;
+
+    if (!nav) {
+      setCanBack(true);
+      setCanForward(true);
+      return;
+    }
+
+    const sync = () => {
+      setCanBack(nav.canGoBack);
+      setCanForward(nav.canGoForward);
+    };
+
+    sync();
+    nav.addEventListener("currententrychange", sync);
+    window.addEventListener("pageshow", sync);
+
+    return () => {
+      nav.removeEventListener("currententrychange", sync);
+      window.removeEventListener("pageshow", sync);
+    };
+  }, []);
 
   return (
     <>
@@ -20,6 +53,14 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
           <span></span>
           <span></span>
         </button>
+        <div className="mlvh-header-nav">
+          <button className="mlvh-header-nav-btn" aria-label="Go back" disabled={!canBack} onClick={() => window.history.back()}>
+            <img src={`${BASE_PATH}/icons/misc/back.svg`} alt="" />
+          </button>
+          <button className="mlvh-header-nav-btn mlvh-header-nav-btn-forward" aria-label="Go forward" disabled={!canForward} onClick={() => window.history.forward()}>
+            <img src={`${BASE_PATH}/icons/misc/back.svg`} alt="" />
+          </button>
+        </div>
         <a className="mlvh-sidebar-toggle mlvh-sidebar-toggle-close" href="/about" aria-label="Back to entry screen">
           <img src={`${BASE_PATH}/icons/misc/close.svg`} alt="" />
         </a>

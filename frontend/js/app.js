@@ -8,6 +8,21 @@ import { getNotFoundView, initNotFoundLogic } from './views/notfound/notfound.js
 const appRoot = document.getElementById('app-root');
 const modalRoot = document.getElementById('modal-root');
 
+// --- Header navigation history ---
+const updateHeaderNavState = () => {
+    const backBtn = document.getElementById('nav-back');
+    const forwardBtn = document.getElementById('nav-forward');
+    const nav = window.navigation;
+    if (backBtn) {
+        const disabled = nav ? !nav.canGoBack : false;
+        if (backBtn.disabled !== disabled) backBtn.disabled = disabled;
+    }
+    if (forwardBtn) {
+        const disabled = nav ? !nav.canGoForward : false;
+        if (forwardBtn.disabled !== disabled) forwardBtn.disabled = disabled;
+    }
+};
+
 const ROUTE_ABOUT = 'about';
 const ROUTE_PATIENTS = 'patients';
 const ROUTE_MEDICAL_RECORDS = 'medical-records';
@@ -92,6 +107,7 @@ const highlightActiveNav = (routeName) => {
     NAV_LINK_IDS.forEach((id) => {
         document.getElementById(id)?.classList.toggle('active', NAV_ROUTES[id] === routeName);
     });
+    document.documentElement.dataset.mlvhRoute = ROUTE_PATHS[routeName] ?? '';
 };
 
 const navigateTo = (routeName, options = {}, { push = true } = {}) => {
@@ -108,6 +124,8 @@ const navigateTo = (routeName, options = {}, { push = true } = {}) => {
             window.history.pushState({ routeName, options }, '', path);
         }
     }
+
+    updateHeaderNavState();
 };
 
 const initRouter = () => {
@@ -151,6 +169,14 @@ const initSidebarToggle = () => {
     });
 };
 
+const initHeaderNav = () => {
+    document.getElementById('nav-back')?.addEventListener('click', () => window.history.back());
+    document.getElementById('nav-forward')?.addEventListener('click', () => window.history.forward());
+
+    window.navigation?.addEventListener('currententrychange', updateHeaderNavState);
+    window.addEventListener('pageshow', updateHeaderNavState);
+};
+
 // Application bootstrap
 window.addEventListener('popstate', () => {
     const { routeName, options } = resolveRouteFromLocation();
@@ -160,6 +186,7 @@ window.addEventListener('popstate', () => {
 function bootstrap() {
     initRouter();
     initSidebarToggle();
+    initHeaderNav();
     const { routeName, options } = resolveRouteFromLocation();
     navigateTo(routeName, options, { push: false });
 }

@@ -255,7 +255,9 @@ body {
     color: var(--mlvh-text);
 }
 
-.mlvh-sidebar-link.active {
+.mlvh-sidebar-link.active,
+html[data-mlvh-route="/patients"] #nav-patients,
+html[data-mlvh-route="/medical-records"] #nav-medical-records {
     background: var(--mlvh-blue);
     border-color: var(--mlvh-blue);
     color: var(--mlvh-text);
@@ -524,6 +526,62 @@ body:has(.mlvh-sidebar-backdrop.show) .mlvh-sidebar-toggle {
     border-radius: 2px;
 }
 
+/* --- Header nav --- */
+.mlvh-header-nav {
+    position: absolute;
+    top: 50%;
+    left: calc(240px + 1.5rem);
+    transform: translateY(-50%);
+    display: flex;
+    gap: 0.5rem;
+}
+
+.mlvh-header-nav-btn {
+    width: 45px;
+    height: 45px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    border-radius: 14px;
+    background: var(--mlvh-cream);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+}
+
+.mlvh-header-nav-btn:not(:disabled):hover {
+    background: var(--mlvh-blue-dark);
+}
+
+.mlvh-header-nav-btn:focus,
+.mlvh-header-nav-btn:active {
+    background: var(--mlvh-cream) !important;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15) !important;
+    outline: none;
+}
+
+.mlvh-header-nav-btn:focus-visible {
+    outline: 2px solid var(--mlvh-blue-deep);
+    outline-offset: 2px;
+}
+
+.mlvh-header-nav-btn:disabled {
+    cursor: default;
+}
+
+.mlvh-header-nav-btn:disabled img {
+    opacity: 0.35;
+}
+
+.mlvh-header-nav-btn img {
+    width: 22px;
+    height: 22px;
+}
+
+.mlvh-header-nav-btn-forward img {
+    transform: scaleX(-1);
+}
+
 .mlvh-sidebar-backdrop {
     display: none;
 }
@@ -532,7 +590,8 @@ body:has(.mlvh-sidebar-backdrop.show) .mlvh-sidebar-toggle {
 body.mlvh-entry-screen .mlvh-sidebar,
 body.mlvh-entry-screen .mlvh-sidebar-backdrop,
 body.mlvh-entry-screen .mlvh-sidebar-toggle-open,
-body.mlvh-entry-screen .mlvh-sidebar-toggle-close {
+body.mlvh-entry-screen .mlvh-sidebar-toggle-close,
+body.mlvh-entry-screen .mlvh-header-nav {
     display: none !important;
 }
 
@@ -1039,6 +1098,10 @@ fieldset[disabled] .mlvh-icon-btn.active img {
 @media (max-width: 768px) {
     .mlvh-sidebar-toggle {
         display: flex;
+    }
+
+    .mlvh-header-nav {
+        left: calc(1rem + 45px + 0.5rem);
     }
 
     .mlvh-sidebar {
