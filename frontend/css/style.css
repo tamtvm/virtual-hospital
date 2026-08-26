@@ -122,7 +122,8 @@ body {
     width: 100%;
     height: 64px;
     background-color: var(--mlvh-blue);
-    position: relative;
+    position: sticky;
+    top: 0;
     z-index: 10;
 }
 
@@ -549,8 +550,10 @@ body:has(.mlvh-sidebar-backdrop.show) .mlvh-sidebar-toggle {
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
 }
 
-.mlvh-header-nav-btn:not(:disabled):hover {
-    background: var(--mlvh-blue-dark);
+@media (hover: hover) and (pointer: fine) {
+    .mlvh-header-nav-btn:not(:disabled):hover {
+        background: var(--mlvh-blue-dark);
+    }
 }
 
 .mlvh-header-nav-btn:focus,
@@ -1109,6 +1112,10 @@ fieldset[disabled] .mlvh-icon-btn.active img {
         transform: translateX(-100%);
         transition: transform 0.25s ease;
         box-shadow: 2px 0 8px rgba(0, 0, 0, 0.15);
+    }
+
+    html[data-mlvh-navigating] .mlvh-sidebar {
+        transition: none;
     }
 
     .mlvh-sidebar.open {

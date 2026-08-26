@@ -1,12 +1,21 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import ResetCountdown from "@/components/ui/ResetCountdown";
 
 const BASE_PATH = "/dashboard";
 
 export default function AppShell({ children }: { children: React.ReactNode }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const sidebarRef = useRef<HTMLElement>(null);
+  const backdropRef = useRef<HTMLDivElement>(null);
+
+  const closeSidebarForNavigationRef = useRef(() => {
+    document.documentElement.dataset.mlvhNavigating = "";
+    sidebarRef.current?.classList.remove("open");
+    backdropRef.current?.classList.remove("show");
+    setSidebarOpen(false);
+  });
   const [canBack, setCanBack] = useState(true);
   const [canForward, setCanForward] = useState(false);
 
@@ -31,13 +40,23 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
       setCanForward(nav.canGoForward);
     };
 
+    const closeSidebar = () => closeSidebarForNavigationRef.current();
+
     sync();
     nav.addEventListener("currententrychange", sync);
     window.addEventListener("pageshow", sync);
+    const handlePageShow = () => {
+      delete document.documentElement.dataset.mlvhNavigating;
+    };
+
+    window.addEventListener("pagehide", closeSidebar);
+    window.addEventListener("pageshow", handlePageShow);
 
     return () => {
       nav.removeEventListener("currententrychange", sync);
       window.removeEventListener("pageshow", sync);
+      window.removeEventListener("pagehide", closeSidebar);
+      window.removeEventListener("pageshow", handlePageShow);
     };
   }, []);
 
@@ -68,25 +87,26 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
 
       <div className="mlvh-app-shell">
         <div
+          ref={backdropRef}
           className={`mlvh-sidebar-backdrop ${sidebarOpen ? "show" : ""}`}
           onClick={() => setSidebarOpen(false)}
         />
 
-        <aside className={`mlvh-sidebar ${sidebarOpen ? "open" : ""}`}>
+        <aside ref={sidebarRef} className={`mlvh-sidebar ${sidebarOpen ? "open" : ""}`}>
           <a className="mlvh-sidebar-brand" href="/patients">
             <img src={`${BASE_PATH}/brand/mlvh.svg`} alt="MLVH" />
           </a>
 
           <nav className="mlvh-sidebar-nav">
-            <a className="mlvh-sidebar-link active" href="/dashboard/">
+            <a className="mlvh-sidebar-link active" href="/dashboard/" onClick={closeSidebarForNavigationRef.current}>
               <img src={`${BASE_PATH}/icons/nav/dashboard.svg`} alt="" />
               <span>Dashboard</span>
             </a>
-            <a className="mlvh-sidebar-link" href="/patients">
+            <a className="mlvh-sidebar-link" href="/patients" onClick={closeSidebarForNavigationRef.current}>
               <img src={`${BASE_PATH}/icons/nav/patients.svg`} alt="" />
               <span>Patient Admin</span>
             </a>
-            <a className="mlvh-sidebar-link" href="/medical-records">
+            <a className="mlvh-sidebar-link" href="/medical-records" onClick={closeSidebarForNavigationRef.current}>
               <img src={`${BASE_PATH}/icons/nav/consultations.svg`} alt="" />
               <span>Medical Records</span>
             </a>

@@ -152,6 +152,17 @@ const initSidebarToggle = () => {
         backdrop.classList.remove('show');
     };
 
+    const closeSidebarForNavigation = () => {
+        document.documentElement.dataset.mlvhNavigating = '';
+        closeSidebar();
+    };
+
+    window.addEventListener('pagehide', closeSidebarForNavigation);
+
+    window.addEventListener('pageshow', () => {
+        delete document.documentElement.dataset.mlvhNavigating;
+    });
+
     toggleBtn.addEventListener('click', () => {
         sidebar.classList.toggle('open');
         backdrop.classList.toggle('show');
@@ -165,7 +176,7 @@ const initSidebarToggle = () => {
     backdrop.addEventListener('click', closeSidebar);
 
     document.querySelectorAll('.mlvh-sidebar-link').forEach((link) => {
-        link.addEventListener('click', closeSidebar);
+        link.addEventListener('click', closeSidebarForNavigation);
     });
 };
 
