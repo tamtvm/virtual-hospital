@@ -1,8 +1,6 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import ResetCountdown from "@/components/ui/ResetCountdown";
-
 const BASE_PATH = "/dashboard";
 
 export default function AppShell({ children }: { children: React.ReactNode }) {
@@ -98,6 +96,10 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
           </a>
 
           <nav className="mlvh-sidebar-nav">
+            <a className="mlvh-sidebar-link" href="/home/" onClick={closeSidebarForNavigationRef.current}>
+              <img src={`${BASE_PATH}/icons/nav/home.svg`} alt="" />
+              <span>Home</span>
+            </a>
             <a className="mlvh-sidebar-link active" href="/dashboard/" onClick={closeSidebarForNavigationRef.current}>
               <img src={`${BASE_PATH}/icons/nav/dashboard.svg`} alt="" />
               <span>Dashboard</span>
@@ -117,7 +119,6 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
           <h1 className="mlvh-page-title">
             <img src={`${BASE_PATH}/brand/title.svg`} alt="My Little Virtual Hospital" />
           </h1>
-          <ResetCountdown />
           {children}
         </main>
       </div>
