@@ -442,10 +442,28 @@ html[data-mlvh-route="/medical-records"] #nav-medical-records {
 
 /* --- Home --- */
 .mlvh-home-wrap {
-    max-width: 1000px;
+    position: relative;
+    max-width: 1400px;
     margin-inline: auto;
-    text-align: center;
     padding-top: 2rem;
+}
+
+.mlvh-home-grid {
+    display: grid;
+    grid-template-columns: 280px 1fr 280px;
+    gap: 2rem;
+    align-items: start;
+}
+
+.mlvh-home-col-left,
+.mlvh-home-col-right {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.mlvh-home-col-center {
+    text-align: center;
 }
 
 .mlvh-home-welcome {
@@ -453,6 +471,198 @@ html[data-mlvh-route="/medical-records"] #nav-medical-records {
     font-weight: 700;
     font-size: 2rem;
     margin-bottom: 1.5rem;
+}
+
+.mlvh-home-card {
+    width: 100%;
+    max-width: none;
+    margin-inline: 0;
+    margin-bottom: 0;
+    aspect-ratio: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.mlvh-home-card-body {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.mlvh-calendar {
+    position: relative;
+    height: 100%;
+}
+
+.mlvh-calendar-detailed {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    height: 100%;
+}
+
+.mlvh-calendar[data-calendar-view="simple"] .mlvh-calendar-detailed {
+    display: none;
+}
+
+.mlvh-calendar[data-calendar-view="detailed"] .mlvh-calendar-simple {
+    display: none;
+}
+
+.mlvh-calendar-simple {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.mlvh-calendar-simple-month {
+    color: var(--mlvh-blue-deep);
+    font-weight: 700;
+    font-size: 1.4rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    text-align: center;
+    margin: 0 -1.75rem;
+    padding: 0.10rem 1.75rem 1rem;
+    box-shadow: 0 15px 0 #ffffff;
+}
+
+.mlvh-calendar-simple-day {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--mlvh-text);
+    font-weight: 700;
+    font-size: clamp(3.5rem, 11vw, 6rem);
+    line-height: 1;
+}
+
+.mlvh-calendar-toggle {
+    position: absolute;
+    right: -1.75rem;
+    bottom: -1.5rem;
+    z-index: 3;
+    width: 34px;
+    height: 34px;
+    padding: 0;
+    border: none;
+    cursor: pointer;
+    background:
+        linear-gradient(135deg, transparent 50%, #ffffff 50%);
+    border-bottom-right-radius: 14px;
+    box-shadow: -2px -2px 4px rgba(111, 168, 192, 0.25);
+    transition: filter 0.15s;
+}
+
+.mlvh-calendar-toggle:hover {
+    filter: brightness(0.97);
+}
+
+.mlvh-calendar-card {
+    position: relative;
+}
+
+.mlvh-calendar-spiral {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 2;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 2rem;
+    transform: translateY(-50%);
+}
+
+.mlvh-calendar-ring {
+    width: 14px;
+    height: 28px;
+    border: 3.5px solid var(--mlvh-blue-deep);
+    border-bottom: none;
+    border-radius: 9px 9px 0 0;
+}
+
+.mlvh-calendar-title {
+    color: var(--mlvh-blue-deep);
+    font-weight: 700;
+    font-size: 1.05rem;
+    text-align: center;
+}
+
+.mlvh-calendar-weekdays,
+.mlvh-calendar-days {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+}
+
+.mlvh-calendar-days {
+    flex: 1;
+    min-height: 0;
+    grid-auto-rows: 1fr;
+}
+
+.mlvh-calendar-weekday {
+    color: var(--mlvh-blue-deep);
+    font-weight: 700;
+    font-size: 0.72rem;
+    text-align: center;
+}
+
+.mlvh-calendar-day {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--mlvh-text);
+}
+
+.mlvh-calendar-today {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.7em;
+    height: 1.7em;
+    border-radius: 50%;
+    background: var(--mlvh-blue-deep);
+    color: #ffffff;
+}
+
+.mlvh-duty-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+}
+
+.mlvh-duty-item {
+    background: #ffffff;
+    border: 1px solid var(--mlvh-blue-dark);
+    border-radius: 12px;
+    padding: 0.5rem 0.9rem;
+    font-weight: 600;
+    color: var(--mlvh-text);
+    text-align: center;
+}
+
+.mlvh-home-desk {
+    min-height: 200px;
+    margin-top: 2rem;
+}
+
+@media (max-width: 900px) {
+    .mlvh-home-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .mlvh-home-col-center {
+        order: -1;
+    }
 }
 
 /* --- Patient search --- */
@@ -899,7 +1109,8 @@ fieldset[disabled] .mlvh-icon-btn.active img {
 }
 
 /* ----- Medical records search ----- */
-.mlvh-record-search-card .mlvh-card-body {
+.mlvh-record-search-card .mlvh-card-body,
+.mlvh-home-poster .mlvh-card-body {
     border-radius: 18px;
 }
 
