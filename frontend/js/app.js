@@ -2,6 +2,7 @@
 
 import { getPatientAdminView, getPatientModal, initPatientAdminLogic } from './views/patients/patientadmin.js';
 import { getMedicalRecordsView, initMedicalRecordsLogic } from './views/records/medicalrecords.js';
+import { getHomeView, initHomeLogic } from './views/home/home.js';
 import { getAboutView, initAboutLogic } from './views/about/about.js';
 import { getNotFoundView, initNotFoundLogic } from './views/notfound/notfound.js';
 
@@ -24,21 +25,24 @@ const updateHeaderNavState = () => {
 };
 
 const ROUTE_ABOUT = 'about';
+const ROUTE_HOME = 'home';
 const ROUTE_PATIENTS = 'patients';
 const ROUTE_MEDICAL_RECORDS = 'medical-records';
 const ROUTE_NOT_FOUND = 'not-found';
 
 // Maps each nav to its route
 const NAV_ROUTES = {
-    'nav-home': ROUTE_PATIENTS,
+    'nav-home': ROUTE_HOME,
+    'nav-home-link': ROUTE_HOME,
     'nav-patients': ROUTE_PATIENTS,
     'nav-medical-records': ROUTE_MEDICAL_RECORDS,
 };
 
-const NAV_LINK_IDS = ['nav-patients', 'nav-medical-records'];
+const NAV_LINK_IDS = ['nav-home-link', 'nav-patients', 'nav-medical-records'];
 
 const ROUTE_PATHS = {
     [ROUTE_ABOUT]: '/about',
+    [ROUTE_HOME]: '/home',
     [ROUTE_PATIENTS]: '/patients',
     [ROUTE_MEDICAL_RECORDS]: '/medical-records',
 };
@@ -85,6 +89,11 @@ const routes = {
         appRoot.innerHTML = getAboutView();
         modalRoot.innerHTML = '';
         initAboutLogic();
+    },
+    [ROUTE_HOME]: () => {
+        appRoot.innerHTML = getHomeView();
+        modalRoot.innerHTML = '';
+        initHomeLogic();
     },
     [ROUTE_PATIENTS]: () => {
         appRoot.innerHTML = getPatientAdminView();
