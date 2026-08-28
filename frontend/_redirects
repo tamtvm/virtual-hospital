@@ -2,6 +2,8 @@
 /dashboard/* /dashboard/:splat 200
 /about               /   200
 /about/              /   200
+/home                /   200
+/home/               /   200
 /patients            /   200
 /patients/           /   200
 /medical-records     /   200

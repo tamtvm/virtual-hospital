@@ -108,7 +108,7 @@ export const initAboutLogic = () => {
 
     document.getElementById('about-enter-btn')?.addEventListener('click', () => {
         document.dispatchEvent(new CustomEvent('mlvh:navigate', {
-            detail: { route: 'patients' },
+            detail: { route: 'home' },
         }));
     });
 };

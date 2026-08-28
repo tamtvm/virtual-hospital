@@ -18,7 +18,7 @@ export const getNotFoundView = () => {
 export const initNotFoundLogic = () => {
     document.getElementById('not-found-back-btn')?.addEventListener('click', () => {
         document.dispatchEvent(new CustomEvent('mlvh:navigate', {
-            detail: { route: 'patients' },
+            detail: { route: 'home' },
         }));
     });
 };
