@@ -48,7 +48,7 @@ export default function AdmissionsPanel({ initialWeeks, initialData }: Admission
       isEmpty={data.length === 0 && !isFetching}
       actions={
         <select
-          className="mlvh-range-select"
+          className="mlvh-rounded-input mlvh-range-select"
           value={weeks}
           onChange={(event) => setWeeks(Number(event.target.value))}
         >
