@@ -1,7 +1,7 @@
 // --- MODULE: home view ---
 
-import { PROFESSIONALS } from '../../constants/patientOptions.js';
 import { getCalendarHTML, initCalendar } from './calendar.js';
+import { getOnDutyHTML, initOnDuty } from './onduty.js';
 
 const RESET_INTERVAL_MINUTES = 30;
 
@@ -46,12 +46,10 @@ export const getHomeView = () => {
             <div class="mlvh-home-col-right">
                 <div class="mlvh-card mlvh-home-card">
                     <div class="mlvh-card-header">
-                        <span class="mlvh-card-tag">On Duty Today</span>
+                        <span class="mlvh-card-tag">On Duty</span>
                     </div>
                     <div class="mlvh-card-body mlvh-home-card-body">
-                        <ul class="mlvh-duty-list">
-                            ${PROFESSIONALS.map(({ label }) => `<li class="mlvh-duty-item">${label}</li>`).join('')}
-                        </ul>
+                        ${getOnDutyHTML()}
                     </div>
                 </div>
             </div>
@@ -62,6 +60,7 @@ export const getHomeView = () => {
 
 export const initHomeLogic = () => {
     initCalendar();
+    initOnDuty();
 
     const tick = () => {
         const timeEl = document.getElementById('home-clock-time');
