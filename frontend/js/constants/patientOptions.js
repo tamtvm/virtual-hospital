@@ -44,7 +44,7 @@ export const CONSULTATION_TYPES = [
 // im not creating staff accounts yet, so professionals will only be these now
 export const PROFESSIONALS = [
     { value: 'dr_milo', label: 'Dr. Milo' },
-    { value: 'rn_tam', label: 'RN Tam' },
+    { value: 'rn_tam', label: 'RN. Tam' },
 ];
 
 // ----- Icon sets -----

@@ -103,7 +103,7 @@ class PatientRecord(models.Model):
     # im not creating staff accounts yet, so professionals will only be these now
     PROFESSIONAL_CHOICES = [
         ('dr_milo', 'Dr. Milo'),
-        ('rn_tam', 'RN Tam'),
+        ('rn_tam', 'RN. Tam'),
     ]
 
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE, related_name='records')
