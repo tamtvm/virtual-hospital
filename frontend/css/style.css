@@ -465,6 +465,11 @@ html[data-mlvh-route="/medical-records"] #nav-medical-records {
     container-type: inline-size;
 }
 
+.mlvh-home-header {
+    grid-column: 1 / -1;
+    text-align: center;
+}
+
 .mlvh-home-col-center {
     text-align: center;
 }
@@ -472,8 +477,31 @@ html[data-mlvh-route="/medical-records"] #nav-medical-records {
 .mlvh-home-welcome {
     color: var(--mlvh-blue-deep);
     font-weight: 700;
-    font-size: 2rem;
+    font-size: clamp(2.5rem, 6vw, 4rem);
+    line-height: 1.1;
     margin-bottom: 1.5rem;
+}
+
+.mlvh-home-welcome.is-typing::after {
+    content: "";
+    display: inline-block;
+    width: 0.08em;
+    height: 0.9em;
+    margin-left: 0.06em;
+    background: currentColor;
+    vertical-align: -0.08em;
+    animation: mlvh-caret 0.9s steps(1, end) infinite;
+}
+
+@keyframes mlvh-caret {
+    0%, 49% { opacity: 1; }
+    50%, 100% { opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .mlvh-home-welcome.is-typing::after {
+        animation: none;
+    }
 }
 
 .mlvh-home-card {
@@ -778,11 +806,6 @@ html[data-mlvh-route="/medical-records"] #nav-medical-records {
     }
 
     .mlvh-home-col-center {
-        grid-column: 1 / -1;
-        order: -1;
-    }
-
-    .mlvh-home-desk {
         display: none;
     }
 }
