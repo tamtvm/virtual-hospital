@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "MLVH — Professional Dashboard",
+  title: "˚₊‧꒰ა mlvh ໒꒱ ‧₊˚",
   description: "Clinical analytics dashboard for My Little Virtual Hospital.",
 };
 
