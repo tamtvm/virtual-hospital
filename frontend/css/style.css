@@ -1027,6 +1027,11 @@ body.mlvh-entry-screen .mlvh-main {
     background-color: var(--mlvh-cream);
 }
 
+.mlvh-textarea-wrap {
+    border-radius: 0.75rem;
+    overflow: hidden;
+}
+
 .mlvh-rounded-textarea {
     border: 1px solid var(--mlvh-blue-dark);
     border-radius: 0.75rem;
@@ -1035,6 +1040,25 @@ body.mlvh-entry-screen .mlvh-main {
     color: var(--mlvh-text);
     background-color: var(--mlvh-cream);
     resize: none;
+    scrollbar-width: thin;
+    scrollbar-color: var(--mlvh-blue-dark) transparent;
+}
+
+.mlvh-rounded-textarea:focus {
+    box-shadow: none;
+    border-color: var(--mlvh-blue-dark);
+    background-color: var(--mlvh-cream);
+}
+
+.mlvh-rounded-textarea::-webkit-scrollbar {
+    width: 8px;
+}
+
+.mlvh-rounded-textarea::-webkit-scrollbar-thumb {
+    background: var(--mlvh-blue-dark);
+    border-radius: 999px;
+    border: 2px solid transparent;
+    background-clip: content-box;
 }
 
 .mlvh-icon-group {
@@ -1166,6 +1190,10 @@ body.mlvh-entry-screen .mlvh-main {
 .mlvh-date-badge-text {
     font-size: 0.8rem;
     color: var(--mlvh-text);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-width: 0;
 }
 
 .mlvh-date-badge-input {

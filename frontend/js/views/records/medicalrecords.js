@@ -94,18 +94,6 @@ const getRecordFormHTML = () => `
                     </select>
                 </div>
                 <div class="col-6 mb-2">
-                    <label class="form-label small text-muted mb-0 d-block">Professional</label>
-                    <select class="form-select form-select-sm mlvh-rounded-input" id="record-professional" required>
-                        ${renderOptions(PROFESSIONALS)}
-                    </select>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-7 mb-2">
-                    <label class="form-label small text-muted mb-0 d-block">Diagnosis</label>
-                    <input type="text" class="form-control form-control-sm mlvh-rounded-input" id="record-diagnosis" placeholder="Optional">
-                </div>
-                <div class="col-5 mb-2">
                     <label class="form-label small text-muted mb-0 d-block">Date</label>
                     <div class="mlvh-date-badge">
                         <img src="${CALENDAR_ICON}" alt="">
@@ -114,17 +102,29 @@ const getRecordFormHTML = () => `
                     </div>
                 </div>
             </div>
+            <div class="row">
+                <div class="col-6 mb-2">
+                    <label class="form-label small text-muted mb-0 d-block">Professional</label>
+                    <select class="form-select form-select-sm mlvh-rounded-input" id="record-professional" required>
+                        ${renderOptions(PROFESSIONALS)}
+                    </select>
+                </div>
+                <div class="col-6 mb-2">
+                    <label class="form-label small text-muted mb-0 d-block">Diagnosis</label>
+                    <input type="text" class="form-control form-control-sm mlvh-rounded-input" id="record-diagnosis" placeholder="Optional">
+                </div>
+            </div>
             <div class="mb-2">
                 <label class="form-label small text-muted mb-0 d-block">Description</label>
-                <textarea class="form-control form-control-sm mlvh-rounded-textarea" id="record-description" rows="2" placeholder="What happened during this visit..." required></textarea>
+                <div class="mlvh-textarea-wrap"><textarea class="form-control form-control-sm mlvh-rounded-textarea" id="record-description" rows="2" placeholder="What happened during this visit..." required></textarea></div>
             </div>
             <div class="mb-2">
                 <label class="form-label small text-muted mb-0 d-block">Procedures Performed</label>
-                <textarea class="form-control form-control-sm mlvh-rounded-textarea" id="record-procedures" rows="2" placeholder="Optional"></textarea>
+                <div class="mlvh-textarea-wrap"><textarea class="form-control form-control-sm mlvh-rounded-textarea" id="record-procedures" rows="2" placeholder="Optional"></textarea></div>
             </div>
             <div class="mb-2">
                 <label class="form-label small text-muted mb-0 d-block">Indications</label>
-                <textarea class="form-control form-control-sm mlvh-rounded-textarea" id="record-indications" rows="2" placeholder="Optional"></textarea>
+                <div class="mlvh-textarea-wrap"><textarea class="form-control form-control-sm mlvh-rounded-textarea" id="record-indications" rows="2" placeholder="Optional"></textarea></div>
             </div>
         </fieldset>
     </form>
