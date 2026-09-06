@@ -119,6 +119,13 @@ const highlightActiveNav = (routeName) => {
     document.documentElement.dataset.mlvhRoute = ROUTE_PATHS[routeName] ?? '';
 };
 
+const pushRouteUrl = (routeName, options = {}) => {
+    const path = buildPath(routeName, options);
+    if (window.location.pathname + window.location.search !== path) {
+        window.history.pushState({ routeName, options }, '', path);
+    }
+};
+
 const navigateTo = (routeName, options = {}, { push = true } = {}) => {
     const render = routes[routeName];
     if (!render) return;
@@ -127,12 +134,7 @@ const navigateTo = (routeName, options = {}, { push = true } = {}) => {
     highlightActiveNav(routeName);
     document.body.classList.toggle('mlvh-entry-screen', routeName === ROUTE_ABOUT);
 
-    if (push) {
-        const path = buildPath(routeName, options);
-        if (window.location.pathname + window.location.search !== path) {
-            window.history.pushState({ routeName, options }, '', path);
-        }
-    }
+    if (push) pushRouteUrl(routeName, options);
 
     updateHeaderNavState();
 };
@@ -147,6 +149,11 @@ const initRouter = () => {
 
     document.addEventListener('mlvh:navigate', (event) => {
         navigateTo(event.detail.route, event.detail.options);
+    });
+
+    document.addEventListener('mlvh:sync-url', (event) => {
+        pushRouteUrl(event.detail.route, event.detail.options);
+        updateHeaderNavState();
     });
 };
 

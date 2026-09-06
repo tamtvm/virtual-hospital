@@ -344,6 +344,10 @@ export const initMedicalRecordsLogic = (initialPatientId = null) => {
         const patient = localPatients.find((p) => p.id == id);
         if (!patient) return;
 
+        document.dispatchEvent(new CustomEvent('mlvh:sync-url', {
+            detail: { route: 'medical-records', options: { patientId: patient.id } },
+        }));
+
         searchInput.value = patient.name;
         resultsList.innerHTML = '';
 
