@@ -5,6 +5,15 @@ import { getMedicalRecordsView, initMedicalRecordsLogic } from './views/records/
 import { getHomeView, initHomeLogic } from './views/home/home.js';
 import { getAboutView, initAboutLogic } from './views/about/about.js';
 import { getNotFoundView, initNotFoundLogic } from './views/notfound/notfound.js';
+import {
+    ROUTE_ABOUT,
+    ROUTE_HOME,
+    ROUTE_PATIENTS,
+    ROUTE_MEDICAL_RECORDS,
+    ROUTE_NOT_FOUND,
+    ROUTE_PATHS,
+} from './constants/routes.js';
+import { applyRouteMeta } from './seo.js';
 
 const appRoot = document.getElementById('app-root');
 const modalRoot = document.getElementById('modal-root');
@@ -24,12 +33,6 @@ const updateHeaderNavState = () => {
     }
 };
 
-const ROUTE_ABOUT = 'about';
-const ROUTE_HOME = 'home';
-const ROUTE_PATIENTS = 'patients';
-const ROUTE_MEDICAL_RECORDS = 'medical-records';
-const ROUTE_NOT_FOUND = 'not-found';
-
 // Maps each nav to its route
 const NAV_ROUTES = {
     'nav-home': ROUTE_HOME,
@@ -39,13 +42,6 @@ const NAV_ROUTES = {
 };
 
 const NAV_LINK_IDS = ['nav-home-link', 'nav-patients', 'nav-medical-records'];
-
-const ROUTE_PATHS = {
-    [ROUTE_ABOUT]: '/about',
-    [ROUTE_HOME]: '/home',
-    [ROUTE_PATIENTS]: '/patients',
-    [ROUTE_MEDICAL_RECORDS]: '/medical-records',
-};
 
 const PATH_TO_ROUTE = Object.fromEntries(
     Object.entries(ROUTE_PATHS).map(([routeName, path]) => [path, routeName])
@@ -66,10 +62,6 @@ const normalizePath = (pathname) => {
 const resolveRouteFromLocation = () => {
     const path = normalizePath(window.location.pathname);
     const params = new URLSearchParams(window.location.search);
-
-    if (path === '/') {
-        return { routeName: ROUTE_ABOUT, options: {} };
-    }
 
     const routeName = PATH_TO_ROUTE[path];
     if (!routeName) {
@@ -132,6 +124,7 @@ const navigateTo = (routeName, options = {}, { push = true } = {}) => {
 
     render(options);
     highlightActiveNav(routeName);
+    applyRouteMeta(routeName);
     document.body.classList.toggle('mlvh-entry-screen', routeName === ROUTE_ABOUT);
 
     if (push) pushRouteUrl(routeName, options);

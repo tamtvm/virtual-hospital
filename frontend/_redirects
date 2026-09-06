@@ -1,10 +1,13 @@
-/config.local.json /config.local.json 200
-/dashboard/* /dashboard/:splat 200
-/about               /   200
-/about/              /   200
-/home                /   200
-/home/               /   200
-/patients            /   200
-/patients/           /   200
-/medical-records     /   200
-/medical-records/    /   200
+/config.local.json  /config.local.json  200
+
+/about              /                   301
+/about/             /                   301
+/home/              /home               301
+/patients/          /patients           301
+/medical-records/   /medical-records    301
+
+/dashboard/*        /dashboard/:splat   200
+
+/home               /                   200
+/patients           /                   200
+/medical-records    /                   200

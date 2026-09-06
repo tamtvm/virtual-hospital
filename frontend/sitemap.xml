@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    <url>
+        <loc>https://virtual-hospital.pages.dev/</loc>
+    </url>
+    <url>
+        <loc>https://virtual-hospital.pages.dev/home</loc>
+    </url>
+    <url>
+        <loc>https://virtual-hospital.pages.dev/patients</loc>
+    </url>
+    <url>
+        <loc>https://virtual-hospital.pages.dev/medical-records</loc>
+    </url>
+    <url>
+        <loc>https://virtual-hospital.pages.dev/dashboard/</loc>
+    </url>
+</urlset>
