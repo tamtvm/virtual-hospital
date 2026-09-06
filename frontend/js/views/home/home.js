@@ -45,10 +45,6 @@ export const getHomeView = () => {
                 -->
             </div>
 
-            <div class="mlvh-home-col-center">
-                <div class="mlvh-home-desk" aria-hidden="true"></div>
-            </div>
-
             <div class="mlvh-home-col-right">
                 <div class="mlvh-card mlvh-home-card">
                     <div class="mlvh-card-header">
@@ -59,6 +55,7 @@ export const getHomeView = () => {
                     </div>
                 </div>
             </div>
+            <img class="mlvh-home-scene" src="/assets/illustrations/hospital.png" alt="" aria-hidden="true">
         </div>
     </div>
     `;
