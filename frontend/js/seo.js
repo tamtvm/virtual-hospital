@@ -9,12 +9,14 @@ const canonicalEl = document.querySelector('link[rel="canonical"]');
 const ogTitleEl = document.querySelector('meta[property="og:title"]');
 const ogDescriptionEl = document.querySelector('meta[property="og:description"]');
 const ogUrlEl = document.querySelector('meta[property="og:url"]');
+const headingEl = document.getElementById('page-heading');
 
 export const applyRouteMeta = (routeName) => {
     const meta = ROUTE_META[routeName] ?? ROUTE_META[ROUTE_ABOUT];
     const canonicalUrl = `${SITE_ORIGIN}${ROUTE_PATHS[routeName] ?? '/'}`;
 
     titleEl.textContent = meta.title;
+    headingEl.textContent = meta.heading;
     descriptionEl.content = meta.description;
     robotsEl.content = meta.noindex ? 'noindex, follow' : 'index, follow';
     canonicalEl.href = canonicalUrl;

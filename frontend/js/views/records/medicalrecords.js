@@ -2,7 +2,7 @@
 
 import { fetchPatients, fetchPatientRecords, addPatientRecord, ApiError } from '../../api/patients.js';
 import { AVATAR_BASE_PATH, DEFAULT_AVATAR } from '../../config.js';
-import { escapeHtml, setAvatarWithFallback, formatDisplayDate } from '../../utils/dom.js';
+import { escapeHtml, setAvatarWithFallback, formatDisplayDate, onActivate } from '../../utils/dom.js';
 import { LOCATIONS, SPECIES, SEXES, CONSULTATION_TYPES, PROFESSIONALS, CALENDAR_ICON, renderOptions } from '../../constants/patientOptions.js';
 import { formatRecordSummary, PROFESSIONAL_LABELS } from '../../constants/recordOptions.js';
 import { showToast } from '../../utils/toast.js';
@@ -177,7 +177,7 @@ export const initMedicalRecordsLogic = (initialPatientId = null) => {
         resultsList.innerHTML = patients.map((patient) => {
             const displayId = `${patient.location}-${patient.id_number}`;
             return `
-            <div class="mlvh-record-result-item" data-id="${patient.id}">
+            <div class="mlvh-record-result-item" data-id="${patient.id}" role="button" tabindex="0" aria-label="Open history for ${escapeHtml(patient.name)}">
                 <img data-avatar-src="${AVATAR_BASE_PATH}/${patient.avatar_style}.png" alt="${escapeHtml(patient.name)}">
                 <div>
                     <div class="mlvh-record-result-name">${escapeHtml(patient.name)}</div>
@@ -246,12 +246,12 @@ export const initMedicalRecordsLogic = (initialPatientId = null) => {
         });
 
         const recordList = document.getElementById('history-record-list');
-        recordList?.addEventListener('click', (event) => {
-            const entry = event.target.closest('.mlvh-history-entry');
-            if (!entry) return;
-            const record = currentRecords.find((r) => r.id == entry.dataset.recordId);
-            if (record) renderRecordDetail(patient, record);
-        });
+        if (recordList) {
+            onActivate(recordList, '.mlvh-history-entry', (entry) => {
+                const record = currentRecords.find((r) => r.id == entry.dataset.recordId);
+                if (record) renderRecordDetail(patient, record);
+            });
+        }
     };
 
     const setCardActions = (extraButtons) => {
@@ -374,11 +374,7 @@ export const initMedicalRecordsLogic = (initialPatientId = null) => {
         renderResults(filterPatients(localPatients, searchInput.value));
     });
 
-    resultsList.addEventListener('click', (event) => {
-        const item = event.target.closest('.mlvh-record-result-item');
-        if (!item) return;
-        selectPatient(item.dataset.id);
-    });
+    onActivate(resultsList, '.mlvh-record-result-item', (item) => selectPatient(item.dataset.id));
 
     loadPatients();
 };

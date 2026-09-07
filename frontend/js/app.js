@@ -156,10 +156,13 @@ const initSidebarToggle = () => {
     const closeBtn = document.getElementById('sidebar-close');
     const backdrop = document.getElementById('sidebar-backdrop');
 
-    const closeSidebar = () => {
-        sidebar.classList.remove('open');
-        backdrop.classList.remove('show');
+    const setSidebarOpen = (open) => {
+        sidebar.classList.toggle('open', open);
+        backdrop.classList.toggle('show', open);
+        toggleBtn.setAttribute('aria-expanded', String(open));
     };
+
+    const closeSidebar = () => setSidebarOpen(false);
 
     const closeSidebarForNavigation = () => {
         document.documentElement.dataset.mlvhNavigating = '';
@@ -173,8 +176,7 @@ const initSidebarToggle = () => {
     });
 
     toggleBtn.addEventListener('click', () => {
-        sidebar.classList.toggle('open');
-        backdrop.classList.toggle('show');
+        setSidebarOpen(!sidebar.classList.contains('open'));
     });
 
     closeBtn.addEventListener('click', () => {
@@ -186,6 +188,16 @@ const initSidebarToggle = () => {
 
     document.querySelectorAll('.mlvh-sidebar-link').forEach((link) => {
         link.addEventListener('click', closeSidebarForNavigation);
+    });
+};
+
+const initSkipLink = () => {
+    const skipLink = document.querySelector('.mlvh-skip-link');
+    const main = document.getElementById('main-content');
+
+    skipLink?.addEventListener('click', (event) => {
+        event.preventDefault();
+        main.focus();
     });
 };
 
@@ -206,6 +218,7 @@ window.addEventListener('popstate', () => {
 function bootstrap() {
     initRouter();
     initSidebarToggle();
+    initSkipLink();
     initHeaderNav();
     const { routeName, options } = resolveRouteFromLocation();
     navigateTo(routeName, options, { push: false });

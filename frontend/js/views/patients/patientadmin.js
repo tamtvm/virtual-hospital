@@ -19,7 +19,7 @@ import {
     renderIconButtons,
 } from '../../constants/patientOptions.js';
 import { formatRecordSummary } from '../../constants/recordOptions.js';
-import { escapeHtml, setAvatarWithFallback, formatDisplayDate } from '../../utils/dom.js';
+import { escapeHtml, setAvatarWithFallback, formatDisplayDate, onActivate } from '../../utils/dom.js';
 import { showToast, confirmAction } from '../../utils/toast.js';
 
 export const getPatientAdminView = () => {
@@ -426,7 +426,7 @@ export const initPatientAdminLogic = () => {
         patientGallery.innerHTML = patients.map((patient) => {
             const displayId = `${patient.location}-${patient.id_number}`;
             return `
-            <div class="card h-100 border-0 text-center patient-card" data-id="${patient.id}" style="cursor: pointer; transition: transform 0.2s;">
+            <div class="card h-100 border-0 text-center patient-card" data-id="${patient.id}" role="button" tabindex="0" aria-label="Open profile for ${escapeHtml(patient.name)}" style="cursor: pointer; transition: transform 0.2s;">
                 <img data-avatar-src="${AVATAR_BASE_PATH}/${patient.avatar_style}.png"
                      class="card-img-top p-2 mx-auto patient-avatar"
                      alt="${escapeHtml(patient.name)}"
@@ -453,11 +453,7 @@ export const initPatientAdminLogic = () => {
     });
 
     // Listener for all cards
-    patientGallery.addEventListener('click', (event) => {
-        const card = event.target.closest('.patient-card');
-        if (!card) return;
-        openPatientDetails(card.dataset.id);
-    });
+    onActivate(patientGallery, '.patient-card', (card) => openPatientDetails(card.dataset.id));
 
     const openPatientDetails = (id) => {
         const patient = localPatients.find((p) => p.id == id);

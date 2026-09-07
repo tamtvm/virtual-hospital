@@ -42,8 +42,10 @@
 </head>
 <body class="text-dark">
 
+    <a class="mlvh-skip-link" href="#main-content">Skip to main content</a>
+
     <header class="mlvh-header">
-        <button class="mlvh-sidebar-toggle mlvh-sidebar-toggle-open" id="sidebar-toggle" aria-label="Toggle navigation">
+        <button class="mlvh-sidebar-toggle mlvh-sidebar-toggle-open" id="sidebar-toggle" aria-label="Toggle navigation" aria-controls="mlvh-sidebar" aria-expanded="false">
             <span></span>
             <span></span>
             <span></span>
@@ -65,7 +67,7 @@
         <div class="mlvh-sidebar-backdrop" id="sidebar-backdrop"></div>
 
         <!-- Sidebar -->
-        <aside class="mlvh-sidebar">
+        <aside class="mlvh-sidebar" id="mlvh-sidebar">
             <a class="mlvh-sidebar-brand" href="/home" id="nav-home">
                 <img src="/assets/brand/mlvh.svg" alt="MLVH">
             </a>
@@ -90,9 +92,9 @@
             </nav>
         </aside>
 
-        <main class="mlvh-main">
+        <main class="mlvh-main" id="main-content" tabindex="-1">
             <h1 class="mlvh-page-title">
-                <!-- <img src="/assets/brand/title.svg" alt="My Little Virtual Hospital"> -->
+                <span class="mlvh-visually-hidden" id="page-heading"></span>
             </h1>
             <div id="app-root"></div>
         </main>

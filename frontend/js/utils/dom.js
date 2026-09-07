@@ -31,3 +31,22 @@ export const formatDisplayDate = (isoDate) => {
     const date = new Date(year, month - 1, day);
     return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
 };
+
+// --- Delegated activation for role="button" elements ---
+
+export const onActivate = (container, selector, handler) => {
+    const resolve = (event) => event.target.closest(selector);
+
+    container.addEventListener('click', (event) => {
+        const target = resolve(event);
+        if (target) handler(target);
+    });
+
+    container.addEventListener('keydown', (event) => {
+        if (event.key !== 'Enter' && event.key !== ' ') return;
+        const target = resolve(event);
+        if (!target) return;
+        event.preventDefault();
+        handler(target);
+    });
+};
