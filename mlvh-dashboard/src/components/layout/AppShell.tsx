@@ -78,7 +78,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
             <img src={`${BASE_PATH}/icons/misc/back.svg`} alt="" />
           </button>
         </div>
-        <a className="mlvh-sidebar-toggle mlvh-sidebar-toggle-close" href="/about" aria-label="Back to entry screen">
+        <a className="mlvh-sidebar-toggle mlvh-sidebar-toggle-close" href="/" aria-label="Back to entry screen">
           <img src={`${BASE_PATH}/icons/misc/close.svg`} alt="" />
         </a>
       </header>
@@ -100,10 +100,6 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
               <img src={`${BASE_PATH}/icons/nav/home.svg`} alt="" />
               <span>Home</span>
             </a>
-            <a className="mlvh-sidebar-link active" href="/dashboard/" onClick={closeSidebarForNavigationRef.current}>
-              <img src={`${BASE_PATH}/icons/nav/dashboard.svg`} alt="" />
-              <span>Dashboard</span>
-            </a>
             <a className="mlvh-sidebar-link" href="/patients" onClick={closeSidebarForNavigationRef.current}>
               <img src={`${BASE_PATH}/icons/nav/patients.svg`} alt="" />
               <span>Patient Admin</span>
@@ -111,6 +107,10 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
             <a className="mlvh-sidebar-link" href="/medical-records" onClick={closeSidebarForNavigationRef.current}>
               <img src={`${BASE_PATH}/icons/nav/consultations.svg`} alt="" />
               <span>Medical Records</span>
+            </a>
+            <a className="mlvh-sidebar-link active" href="/dashboard/" onClick={closeSidebarForNavigationRef.current}>
+              <img src={`${BASE_PATH}/icons/nav/dashboard.svg`} alt="" />
+              <span>Dashboard</span>
             </a>
           </nav>
         </aside>
