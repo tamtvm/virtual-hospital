@@ -1692,10 +1692,6 @@ body.mlvh-entry-screen .mlvh-skip-link {
     display: none;
 }
 
-body.mlvh-entry-screen .mlvh-skip-link {
-    display: none;
-}
-
 /* --- Keyboard focus for delegated buttons --- */
 .patient-card:focus-visible,
 .mlvh-record-result-item:focus-visible,

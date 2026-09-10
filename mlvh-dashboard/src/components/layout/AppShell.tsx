@@ -96,7 +96,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
           </a>
 
           <nav className="mlvh-sidebar-nav">
-            <a className="mlvh-sidebar-link" href="/home/" onClick={closeSidebarForNavigationRef.current}>
+            <a className="mlvh-sidebar-link" href="/home" onClick={closeSidebarForNavigationRef.current}>
               <img src={`${BASE_PATH}/icons/nav/home.svg`} alt="" />
               <span>Home</span>
             </a>
