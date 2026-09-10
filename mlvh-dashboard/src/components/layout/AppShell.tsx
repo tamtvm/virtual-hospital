@@ -91,7 +91,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
         />
 
         <aside ref={sidebarRef} className={`mlvh-sidebar ${sidebarOpen ? "open" : ""}`}>
-          <a className="mlvh-sidebar-brand" href="/patients">
+          <a className="mlvh-sidebar-brand" href="/home">
             <img src={`${BASE_PATH}/brand/mlvh.svg`} alt="MLVH" />
           </a>
 
