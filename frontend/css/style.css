@@ -1691,7 +1691,6 @@ fieldset[disabled] .mlvh-icon-btn.active img {
 body.mlvh-entry-screen .mlvh-skip-link {
     display: none;
 }
-
 /* --- Keyboard focus for delegated buttons --- */
 .patient-card:focus-visible,
 .mlvh-record-result-item:focus-visible,
