@@ -7,7 +7,7 @@ const ABOUT_TABS = {
             <h5 class="mlvh-about-title">hello!! this is tam, welcome to my little virtual hospital!</h5>
             <p>My Little Virtual Hospital (MLVH) is a gamified hospital management system I started building mostly out of boredom in my free time. I will be using it as a collection of ideas + stuff Ill be learning along the way, so maybe it will never truly have an end!</p>
             <p>The website is a live online sandbox, everything is made with free easy accessible tools and every single illustration you see here is handmade by me :+}</p>
-            <p class="mb-0">theres no login needed, no data collection, just click around!! (for now heh)</p>
+            <p class="mb-0">theres no login needed, no cookies, no tracking, just click around!! (for now heh)</p>
         `,
     },
     'how-to': {
