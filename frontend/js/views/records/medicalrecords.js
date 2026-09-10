@@ -178,7 +178,7 @@ export const initMedicalRecordsLogic = (initialPatientId = null) => {
             const displayId = `${patient.location}-${patient.id_number}`;
             return `
             <div class="mlvh-record-result-item" data-id="${patient.id}" role="button" tabindex="0" aria-label="Open history for ${escapeHtml(patient.name)}">
-                <img data-avatar-src="${AVATAR_BASE_PATH}/${patient.avatar_style}.png" alt="${escapeHtml(patient.name)}">
+                <img data-avatar-src="${AVATAR_BASE_PATH}/${patient.avatar_style}.png" alt="${escapeHtml(patient.name)}" loading="lazy" decoding="async">
                 <div>
                     <div class="mlvh-record-result-name">${escapeHtml(patient.name)}</div>
                     <div class="mlvh-record-result-id">${escapeHtml(displayId)}</div>

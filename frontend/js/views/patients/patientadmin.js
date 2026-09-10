@@ -430,6 +430,8 @@ export const initPatientAdminLogic = () => {
                 <img data-avatar-src="${AVATAR_BASE_PATH}/${patient.avatar_style}.png"
                      class="card-img-top p-2 mx-auto patient-avatar"
                      alt="${escapeHtml(patient.name)}"
+                     loading="lazy"
+                     decoding="async"
                      style="max-height: 150px; width: auto;">
                 <div class="card-body pt-0">
                     <h6 class="card-title fw-bold mb-1">${escapeHtml(patient.name)}</h6>
