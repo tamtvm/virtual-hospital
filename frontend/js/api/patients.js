@@ -1,7 +1,7 @@
 ﻿// --- API layer ---
-import { API_BASE_URL } from '../config.js';
+import { getApiBaseUrl } from '../config.js';
 
-const PATIENTS_URL = `${API_BASE_URL}/patients/`;
+const patientsUrl = async (path = '') => `${await getApiBaseUrl()}/patients/${path}`;
 
 export class ApiError extends Error {
     constructor(message, fieldErrors = {}) {
@@ -39,7 +39,7 @@ const buildErrorFromResponse = async (response, fallbackMessage) => {
 };
 
 export const fetchPatients = async () => {
-    const response = await fetch(PATIENTS_URL);
+    const response = await fetch(await patientsUrl());
     if (!response.ok) {
         throw new ApiError('Could not load the patient roster.');
     }
@@ -48,7 +48,7 @@ export const fetchPatients = async () => {
 };
 
 export const fetchPatientRecords = async (id) => {
-    const response = await fetch(`${PATIENTS_URL}${id}/records/`);
+    const response = await fetch(await patientsUrl(`${id}/records/`));
     if (!response.ok) {
         throw new ApiError("Could not load this patient's record history.");
     }
@@ -56,7 +56,7 @@ export const fetchPatientRecords = async (id) => {
 };
 
 export const addPatientRecord = async (id, payload) => {
-    const response = await fetch(`${PATIENTS_URL}${id}/add_record/`, {
+    const response = await fetch(await patientsUrl(`${id}/add_record/`), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
@@ -68,7 +68,7 @@ export const addPatientRecord = async (id, payload) => {
 };
 
 export const createPatient = async (patientData) => {
-    const response = await fetch(PATIENTS_URL, {
+    const response = await fetch(await patientsUrl(), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(patientData),
@@ -80,7 +80,7 @@ export const createPatient = async (patientData) => {
 };
 
 export const updatePatient = async (id, patientData) => {
-    const response = await fetch(`${PATIENTS_URL}${id}/`, {
+    const response = await fetch(await patientsUrl(`${id}/`), {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(patientData),
@@ -92,7 +92,7 @@ export const updatePatient = async (id, patientData) => {
 };
 
 export const dischargePatient = async (id) => {
-    const response = await fetch(`${PATIENTS_URL}${id}/`, { method: 'DELETE' });
+    const response = await fetch(await patientsUrl(`${id}/`), { method: 'DELETE' });
     if (!response.ok) {
         throw await buildErrorFromResponse(response, 'Failed to discharge patient.');
     }
