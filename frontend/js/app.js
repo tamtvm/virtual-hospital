@@ -19,18 +19,38 @@ const appRoot = document.getElementById('app-root');
 const modalRoot = document.getElementById('modal-root');
 
 // --- Header navigation history ---
+const HISTORY_INDEX_KEY = 'mlvh:historyIndex';
+const HISTORY_MAX_INDEX_KEY = 'mlvh:historyMaxIndex';
+const readHistoryPosition = (key) => Number(window.sessionStorage.getItem(key)) || 0;
+const writeHistoryPosition = (key, value) => window.sessionStorage.setItem(key, String(value));
+const getHistoryIndex = () => window.history.state?.index ?? 0;
+
+const resolveNewEntryIndex = () => {
+    const stored = window.sessionStorage.getItem(HISTORY_INDEX_KEY);
+    return stored === null ? 0 : Number(stored) + 1;
+};
+
+const commitHistoryIndex = (index, { truncate = false } = {}) => {
+    writeHistoryPosition(HISTORY_INDEX_KEY, index);
+    const maxIndex = truncate ? index : Math.max(index, readHistoryPosition(HISTORY_MAX_INDEX_KEY));
+    writeHistoryPosition(HISTORY_MAX_INDEX_KEY, maxIndex);
+};
+
+const stampHistoryEntry = (routeName, options) => {
+    const restoredIndex = window.history.state?.index;
+    const index = restoredIndex ?? resolveNewEntryIndex();
+    window.history.replaceState({ routeName, options, index }, '', window.location.href);
+    commitHistoryIndex(index, { truncate: restoredIndex === undefined });
+};
+
 const updateHeaderNavState = () => {
     const backBtn = document.getElementById('nav-back');
     const forwardBtn = document.getElementById('nav-forward');
-    const nav = window.navigation;
-    if (backBtn) {
-        const disabled = nav ? !nav.canGoBack : false;
-        if (backBtn.disabled !== disabled) backBtn.disabled = disabled;
-    }
-    if (forwardBtn) {
-        const disabled = nav ? !nav.canGoForward : false;
-        if (forwardBtn.disabled !== disabled) forwardBtn.disabled = disabled;
-    }
+    const index = getHistoryIndex();
+    commitHistoryIndex(index);
+
+    if (backBtn) backBtn.disabled = index === 0;
+    if (forwardBtn) forwardBtn.disabled = index >= readHistoryPosition(HISTORY_MAX_INDEX_KEY);
 };
 
 // Maps each nav to its route
@@ -114,7 +134,9 @@ const highlightActiveNav = (routeName) => {
 const pushRouteUrl = (routeName, options = {}) => {
     const path = buildPath(routeName, options);
     if (window.location.pathname + window.location.search !== path) {
-        window.history.pushState({ routeName, options }, '', path);
+        const index = getHistoryIndex() + 1;
+        window.history.pushState({ routeName, options, index }, '', path);
+        commitHistoryIndex(index, { truncate: true });
     }
 };
 
@@ -205,7 +227,6 @@ const initHeaderNav = () => {
     document.getElementById('nav-back')?.addEventListener('click', () => window.history.back());
     document.getElementById('nav-forward')?.addEventListener('click', () => window.history.forward());
 
-    window.navigation?.addEventListener('currententrychange', updateHeaderNavState);
     window.addEventListener('pageshow', updateHeaderNavState);
 };
 
@@ -221,6 +242,7 @@ function bootstrap() {
     initSkipLink();
     initHeaderNav();
     const { routeName, options } = resolveRouteFromLocation();
+    stampHistoryEntry(routeName, options);
     navigateTo(routeName, options, { push: false });
 }
 

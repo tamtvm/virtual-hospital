@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { getHistoryPosition, stampHistoryEntry } from "@/lib/historyPosition";
 const BASE_PATH = "/dashboard";
 
 export default function AppShell({ children }: { children: React.ReactNode }) {
@@ -14,47 +15,33 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
     backdropRef.current?.classList.remove("show");
     setSidebarOpen(false);
   });
-  const [canBack, setCanBack] = useState(true);
+  const [canBack, setCanBack] = useState(false);
   const [canForward, setCanForward] = useState(false);
 
   useEffect(() => {
-    const nav = (window as unknown as {
-      navigation?: {
-        canGoBack: boolean;
-        canGoForward: boolean;
-        addEventListener: (type: string, listener: () => void) => void;
-        removeEventListener: (type: string, listener: () => void) => void;
-      };
-    }).navigation;
-
-    if (!nav) {
-      setCanBack(true);
-      setCanForward(true);
-      return;
-    }
-
     const sync = () => {
-      setCanBack(nav.canGoBack);
-      setCanForward(nav.canGoForward);
+      const position = getHistoryPosition();
+      setCanBack(position.canGoBack);
+      setCanForward(position.canGoForward);
     };
 
     const closeSidebar = () => closeSidebarForNavigationRef.current();
 
-    sync();
-    nav.addEventListener("currententrychange", sync);
-    window.addEventListener("pageshow", sync);
     const handlePageShow = () => {
       delete document.documentElement.dataset.mlvhNavigating;
+      sync();
     };
 
-    window.addEventListener("pagehide", closeSidebar);
+    stampHistoryEntry();
+    sync();
+    window.addEventListener("popstate", sync);
     window.addEventListener("pageshow", handlePageShow);
+    window.addEventListener("pagehide", closeSidebar);
 
     return () => {
-      nav.removeEventListener("currententrychange", sync);
-      window.removeEventListener("pageshow", sync);
-      window.removeEventListener("pagehide", closeSidebar);
+      window.removeEventListener("popstate", sync);
       window.removeEventListener("pageshow", handlePageShow);
+      window.removeEventListener("pagehide", closeSidebar);
     };
   }, []);
 
