@@ -55,18 +55,22 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
           <span></span>
           <span></span>
         </button>
-        <div className="mlvh-header-nav">
-          <button className="mlvh-header-nav-btn" aria-label="Go back" disabled={!canBack} onClick={() => window.history.back()}>
-            <img src={`/assets/icons/misc/back.svg`} alt="" />
-          </button>
-          <button className="mlvh-header-nav-btn mlvh-header-nav-btn-forward" aria-label="Go forward" disabled={!canForward} onClick={() => window.history.forward()}>
-            <img src={`/assets/icons/misc/back.svg`} alt="" />
-          </button>
-        </div>
         <a className="mlvh-sidebar-toggle mlvh-sidebar-toggle-close" href="/" aria-label="Back to entry screen">
           <img src={`/assets/icons/misc/close.svg`} alt="" />
         </a>
       </header>
+
+      <nav className="mlvh-dock" aria-label="History">
+        <button className="mlvh-dock-btn" aria-label="Go back" disabled={!canBack} onClick={() => window.history.back()}>
+          <img src={`/assets/icons/misc/back.svg`} alt="" />
+        </button>
+        <button type="button" className="mlvh-dock-badge" aria-hidden="true" tabIndex={-1}>
+          <img src={`/assets/brand/star.svg`} alt="" />
+        </button>
+        <button className="mlvh-dock-btn mlvh-dock-btn-forward" aria-label="Go forward" disabled={!canForward} onClick={() => window.history.forward()}>
+          <img src={`/assets/icons/misc/back.svg`} alt="" />
+        </button>
+      </nav>
 
       <div className="mlvh-app-shell">
         <div

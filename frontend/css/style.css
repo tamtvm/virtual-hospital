@@ -24,7 +24,14 @@ textarea,
     --mlvh-disabled-text: #6c757d;
     --mlvh-disabled-active-bg: #dee2e6;
     --mlvh-header-height: 64px;
+    --mlvh-sidebar-width: 240px;
+    --mlvh-dock-btn-size: 45px;
+    --mlvh-dock-inset: calc((var(--mlvh-header-height) - var(--mlvh-dock-btn-size)) / 2);
+    --mlvh-dock-badge-size: 120px;
+    --mlvh-dock-badge-overflow: calc(var(--mlvh-dock-badge-size) + var(--mlvh-dock-inset) - var(--mlvh-header-height));
+    --mlvh-shadow-soft: 0 1px 4px rgba(0, 0, 0, 0.15);
 }
+
 body {
     background-color: var(--mlvh-bg);
 }
@@ -128,7 +135,7 @@ body {
 }
 
 .mlvh-sidebar {
-    width: 240px;
+    width: var(--mlvh-sidebar-width);
     flex-shrink: 0;
     background: var(--mlvh-cream);
     margin-top: 1rem;
@@ -267,8 +274,8 @@ html[data-mlvh-route="/medical-records"] #nav-medical-records {
 .mlvh-main {
     flex: 1;
     min-width: 0;
-    margin-left: 240px;
-    padding: 1.5rem 1.5rem 2.5rem;
+    margin-left: var(--mlvh-sidebar-width);
+    padding: calc(var(--mlvh-dock-badge-overflow) + 1rem) 1.5rem 2.5rem;
     overflow-x: hidden;
 }
 
@@ -906,7 +913,7 @@ html[data-mlvh-route="/medical-records"] #nav-medical-records {
     border: none;
     border-radius: 14px;
     background: var(--mlvh-cream);
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+    box-shadow: var(--mlvh-shadow-soft);
     flex-direction: column;
     align-items: center;
     justify-content: center;
@@ -936,19 +943,28 @@ body:has(.mlvh-sidebar-backdrop.show) .mlvh-sidebar-toggle {
     border-radius: 2px;
 }
 
-/* --- Header nav --- */
-.mlvh-header-nav {
-    position: absolute;
-    top: 50%;
-    left: calc(240px + 1.5rem);
-    transform: translateY(-50%);
+/* --- Dock --- */
+.mlvh-dock {
+    position: fixed;
+    top: 0;
+    left: var(--mlvh-sidebar-width);
+    right: 0;
+    z-index: 10;
+    height: var(--mlvh-header-height);
+    padding: 0 1.5rem;
     display: flex;
+    align-items: center;
     gap: 0.5rem;
+    pointer-events: none;
 }
 
-.mlvh-header-nav-btn {
-    width: 45px;
-    height: 45px;
+.mlvh-dock > * {
+    pointer-events: auto;
+}
+
+.mlvh-dock-btn {
+    width: var(--mlvh-dock-btn-size);
+    height: var(--mlvh-dock-btn-size);
     padding: 0;
     display: flex;
     align-items: center;
@@ -956,42 +972,82 @@ body:has(.mlvh-sidebar-backdrop.show) .mlvh-sidebar-toggle {
     border: none;
     border-radius: 14px;
     background: var(--mlvh-cream);
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+    box-shadow: var(--mlvh-shadow-soft);
+    transition: transform 0.15s;
+    -webkit-tap-highlight-color: transparent;
 }
 
-@media (hover: hover) and (pointer: fine) {
-    .mlvh-header-nav-btn:not(:disabled):hover {
-        background: var(--mlvh-blue-dark);
-    }
-}
-
-.mlvh-header-nav-btn:focus,
-.mlvh-header-nav-btn:active {
+.mlvh-dock-btn:focus,
+.mlvh-dock-btn:active {
     background: var(--mlvh-cream) !important;
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15) !important;
+    box-shadow: var(--mlvh-shadow-soft) !important;
     outline: none;
 }
 
-.mlvh-header-nav-btn:focus-visible {
-    outline: 2px solid var(--mlvh-blue-deep);
-    outline-offset: 2px;
-}
-
-.mlvh-header-nav-btn:disabled {
+.mlvh-dock-btn:disabled {
     cursor: default;
 }
 
-.mlvh-header-nav-btn:disabled img {
+.mlvh-dock-btn:disabled img {
     opacity: 0.35;
 }
 
-.mlvh-header-nav-btn img {
+.mlvh-dock-btn img {
     width: 22px;
     height: 22px;
 }
 
-.mlvh-header-nav-btn-forward img {
+.mlvh-dock-btn-forward img {
     transform: scaleX(-1);
+}
+
+.mlvh-dock-badge {
+    position: absolute;
+    top: var(--mlvh-dock-inset);
+    left: 50%;
+    width: var(--mlvh-dock-badge-size);
+    height: var(--mlvh-dock-badge-size);
+    margin-left: calc(var(--mlvh-dock-badge-size) / -2);
+    padding: 0;
+    border: none;
+    background: transparent;
+    cursor: default;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.15s;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.mlvh-dock-badge img {
+    width: 100%;
+    height: auto;
+    filter: drop-shadow(var(--mlvh-shadow-soft));
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .mlvh-dock-btn:not(:disabled):hover {
+        background: var(--mlvh-blue-dark);
+    }
+
+    .mlvh-dock-badge:hover {
+        transform: translateY(-2px);
+    }
+}
+
+.mlvh-dock-badge:active {
+    transform: scale(0.9);
+}
+
+@media (hover: none) {
+    .mlvh-dock-btn:not(:disabled):active {
+        transform: scale(0.94);
+    }
+}
+
+.mlvh-dock-btn:focus-visible {
+    outline: 2px solid var(--mlvh-blue-deep);
+    outline-offset: 2px;
 }
 
 .mlvh-sidebar-backdrop {
@@ -1003,12 +1059,13 @@ body.mlvh-entry-screen .mlvh-sidebar,
 body.mlvh-entry-screen .mlvh-sidebar-backdrop,
 body.mlvh-entry-screen .mlvh-sidebar-toggle-open,
 body.mlvh-entry-screen .mlvh-sidebar-toggle-close,
-body.mlvh-entry-screen .mlvh-header-nav {
+body.mlvh-entry-screen .mlvh-dock {
     display: none !important;
 }
 
 body.mlvh-entry-screen .mlvh-main {
     margin-left: 0;
+    padding-top: 1.5rem;
 }
 
 /* ----- Patient forms ----- */
@@ -1537,8 +1594,26 @@ fieldset[disabled] .mlvh-icon-btn.active img {
         display: flex;
     }
 
-    .mlvh-header-nav {
-        left: calc(1rem + 45px + 0.5rem);
+    :root {
+        --mlvh-dock-badge-size: 80px;
+    }
+
+    .mlvh-dock {
+        top: auto;
+        bottom: 0;
+        left: 0;
+        padding: 0;
+        gap: 2rem;
+        justify-content: center;
+        background-color: var(--mlvh-blue);
+        pointer-events: auto;
+    }
+
+    .mlvh-dock-badge {
+        position: static;
+        margin-left: 0;
+        align-self: flex-end;
+        margin-bottom: var(--mlvh-dock-inset);
     }
 
     .mlvh-sidebar {
@@ -1566,7 +1641,7 @@ fieldset[disabled] .mlvh-icon-btn.active img {
 
     .mlvh-main {
         margin-left: 0;
-        padding: 4.5rem 0.5rem 1.5rem;
+        padding: 4.5rem 0.5rem calc(var(--mlvh-header-height) + var(--mlvh-dock-badge-overflow) + 1rem);
     }
 
     .mlvh-card {
@@ -1622,7 +1697,7 @@ fieldset[disabled] .mlvh-icon-btn.active img {
     }
 
     body.mlvh-entry-screen .mlvh-main {
-        padding-top: 1.5rem;
+        padding-bottom: 1.5rem;
     }
 
     .mlvh-about-nav-col {
@@ -1680,7 +1755,7 @@ fieldset[disabled] .mlvh-icon-btn.active img {
     color: var(--mlvh-blue-deep);
     font-weight: 600;
     text-decoration: none;
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+    box-shadow: var(--mlvh-shadow-soft);
     transition: top 0.15s ease;
 }
 

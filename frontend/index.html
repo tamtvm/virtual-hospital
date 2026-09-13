@@ -61,18 +61,22 @@
             <span></span>
             <span></span>
         </button>
-        <div class="mlvh-header-nav">
-            <button class="mlvh-header-nav-btn" id="nav-back" aria-label="Go back">
-                <img src="/assets/icons/misc/back.svg" alt="">
-            </button>
-            <button class="mlvh-header-nav-btn mlvh-header-nav-btn-forward" id="nav-forward" aria-label="Go forward" disabled>
-                <img src="/assets/icons/misc/back.svg" alt="">
-            </button>
-        </div>
         <button class="mlvh-sidebar-toggle mlvh-sidebar-toggle-close" id="sidebar-close" aria-label="Close navigation">
             <img src="/assets/icons/misc/close.svg" alt="">
         </button>
     </header>
+
+    <nav class="mlvh-dock" aria-label="History">
+        <button class="mlvh-dock-btn" id="nav-back" aria-label="Go back">
+            <img src="/assets/icons/misc/back.svg" alt="">
+        </button>
+        <button type="button" class="mlvh-dock-badge" aria-hidden="true" tabindex="-1">
+            <img src="/assets/brand/star.svg" alt="">
+        </button>
+        <button class="mlvh-dock-btn mlvh-dock-btn-forward" id="nav-forward" aria-label="Go forward" disabled>
+            <img src="/assets/icons/misc/back.svg" alt="">
+        </button>
+    </nav>
 
     <div class="mlvh-app-shell">
         <div class="mlvh-sidebar-backdrop" id="sidebar-backdrop"></div>
