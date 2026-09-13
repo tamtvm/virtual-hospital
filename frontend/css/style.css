@@ -185,7 +185,7 @@ body {
     max-width: 320px;
     width: 100%;
     height: auto;
-    margin: 0 auto;
+    margin: 0 auto 2rem;
 }
 
 .mlvh-sidebar-nav {
@@ -280,13 +280,7 @@ html[data-mlvh-route="/medical-records"] #nav-medical-records {
 }
 
 .mlvh-page-title {
-    min-height: 50px;
-    color: var(--mlvh-blue-deep);
-    font-weight: 700;
-    font-size: 2.25rem;
-    letter-spacing: 0.03em;
-    text-align: center;
-    margin-bottom: 2rem;
+    margin: 0;
 }
 
 .mlvh-card {
@@ -1642,7 +1636,7 @@ fieldset[disabled] .mlvh-icon-btn.active img {
 
     .mlvh-main {
         margin-left: 0;
-        padding: 4.5rem 0.5rem calc(var(--mlvh-header-height) + var(--mlvh-dock-badge-overflow) + 1rem);
+        padding: 1.5rem 0.5rem calc(var(--mlvh-header-height) + var(--mlvh-dock-badge-overflow) + 1rem);
     }
 
     .mlvh-card {
