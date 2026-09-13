@@ -191,10 +191,23 @@ const initSidebarToggle = () => {
         closeSidebar();
     };
 
+    const navigateAfterClose = (event) => {
+        if (!sidebar.classList.contains('open') || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+        event.preventDefault();
+        const { href } = event.currentTarget;
+        closeSidebar();
+        Promise.allSettled(sidebar.getAnimations().map((animation) => animation.finished))
+            .then(() => window.location.assign(href));
+    };
+
     window.addEventListener('pagehide', closeSidebarForNavigation);
 
     window.addEventListener('pageshow', () => {
-        delete document.documentElement.dataset.mlvhNavigating;
+        requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+                delete document.documentElement.dataset.mlvhNavigating;
+            });
+        });
     });
 
     toggleBtn.addEventListener('click', () => {
@@ -209,7 +222,7 @@ const initSidebarToggle = () => {
     backdrop.addEventListener('click', closeSidebar);
 
     document.querySelectorAll('.mlvh-sidebar-link').forEach((link) => {
-        link.addEventListener('click', closeSidebar);
+        link.addEventListener('click', NAV_ROUTES[link.id] ? closeSidebar : navigateAfterClose);
     });
 };
 

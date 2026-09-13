@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { flushSync } from "react-dom";
 import { getHistoryPosition, stampHistoryEntry } from "@/lib/historyPosition";
 
 export default function AppShell({ children }: { children: React.ReactNode }) {
@@ -10,6 +11,16 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
 
   const [canBack, setCanBack] = useState(false);
   const [canForward, setCanForward] = useState(false);
+
+  const navigateAfterClose = (event: React.MouseEvent<HTMLAnchorElement>) => {
+    if (!sidebarOpen || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+    event.preventDefault();
+    const { href } = event.currentTarget;
+    flushSync(() => setSidebarOpen(false));
+    const animations = sidebarRef.current?.getAnimations() ?? [];
+    Promise.allSettled(animations.map((animation) => animation.finished))
+      .then(() => window.location.assign(href));
+  };
 
   useEffect(() => {
     const sync = () => {
@@ -26,8 +37,12 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
     };
 
     const handlePageShow = () => {
-      delete document.documentElement.dataset.mlvhNavigating;
       sync();
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          delete document.documentElement.dataset.mlvhNavigating;
+        });
+      });
     };
 
     stampHistoryEntry();
@@ -80,24 +95,24 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
         />
 
         <aside ref={sidebarRef} className={`mlvh-sidebar ${sidebarOpen ? "open" : ""}`}>
-          <a className="mlvh-sidebar-brand" href="/home">
+          <a className="mlvh-sidebar-brand" href="/home" onClick={navigateAfterClose}>
             <img src={`/assets/brand/mlvh.svg`} alt="MLVH" />
           </a>
 
           <nav className="mlvh-sidebar-nav">
-            <a className="mlvh-sidebar-link" href="/home" onClick={() => setSidebarOpen(false)}>
+            <a className="mlvh-sidebar-link" href="/home" onClick={navigateAfterClose}>
               <img src={`/assets/icons/nav/home.svg`} alt="" />
               <span>Home</span>
             </a>
-            <a className="mlvh-sidebar-link" href="/patients" onClick={() => setSidebarOpen(false)}>
+            <a className="mlvh-sidebar-link" href="/patients" onClick={navigateAfterClose}>
               <img src={`/assets/icons/nav/patients.svg`} alt="" />
               <span>Patient Admin</span>
             </a>
-            <a className="mlvh-sidebar-link" href="/medical-records" onClick={() => setSidebarOpen(false)}>
+            <a className="mlvh-sidebar-link" href="/medical-records" onClick={navigateAfterClose}>
               <img src={`/assets/icons/nav/consultations.svg`} alt="" />
               <span>Medical Records</span>
             </a>
-            <a className="mlvh-sidebar-link active" href="/dashboard/" onClick={() => setSidebarOpen(false)}>
+            <a className="mlvh-sidebar-link active" href="/dashboard/" onClick={navigateAfterClose}>
               <img src={`/assets/icons/nav/dashboard.svg`} alt="" />
               <span>Dashboard</span>
             </a>

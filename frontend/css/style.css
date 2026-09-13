@@ -1623,7 +1623,8 @@ fieldset[disabled] .mlvh-icon-btn.active img {
         box-shadow: 2px 0 8px rgba(0, 0, 0, 0.15);
     }
 
-    html[data-mlvh-navigating] .mlvh-sidebar {
+    html[data-mlvh-navigating] .mlvh-sidebar,
+    html[data-mlvh-navigating] .mlvh-sidebar-toggle {
         transition: none;
     }
 
