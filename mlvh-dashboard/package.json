@@ -4,7 +4,6 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "prebuild": "node scripts/sync-shared.js",
     "build": "next build",
     "build:local": "node scripts/publish.js local",
     "build:production": "node scripts/publish.js production",

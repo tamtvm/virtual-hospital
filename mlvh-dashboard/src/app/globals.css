@@ -1,5 +1,5 @@
 @import "tailwindcss";
-@import "./style.css";
+@import "../../../frontend/css/style.css";
 
 body {
   color: var(--mlvh-text);
