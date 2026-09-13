@@ -209,7 +209,7 @@ const initSidebarToggle = () => {
     backdrop.addEventListener('click', closeSidebar);
 
     document.querySelectorAll('.mlvh-sidebar-link').forEach((link) => {
-        link.addEventListener('click', closeSidebarForNavigation);
+        link.addEventListener('click', closeSidebar);
     });
 };
 
