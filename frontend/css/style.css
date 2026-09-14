@@ -516,7 +516,8 @@ html[data-mlvh-route="/medical-records"] #nav-medical-records {
 }
 
 @media (prefers-reduced-motion: reduce) {
-    .mlvh-home-welcome.is-typing::after {
+    .mlvh-home-welcome.is-typing::after,
+    #item-phone.is-ringing {
         animation: none;
     }
 }
@@ -803,6 +804,7 @@ html[data-mlvh-route="/medical-records"] #nav-medical-records {
     transform: scaleX(-1);
 }
 
+/* --- home scene --- */
 .mlvh-home-scene {
     grid-column: 2;
     grid-row: 2;
@@ -812,9 +814,76 @@ html[data-mlvh-route="/medical-records"] #nav-medical-records {
     z-index: 0;
     margin-top: -3.5rem;
     width: min(1100px, 260%);
-    height: auto;
-    pointer-events: none;
+    aspect-ratio: 4 / 3;
     user-select: none;
+}
+
+.mlvh-scene-item {
+    position: absolute;
+    inset: 0;
+}
+
+.mlvh-scene-layer {
+    display: block;
+    width: 100%;
+    height: 100%;
+    image-rendering: pixelated;
+    pointer-events: none;
+}
+
+.mlvh-scene-zone {
+    position: absolute;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* --- Scene: phone --- */
+#item-phone {
+    --mlvh-ring-duration: 0.8s;
+    --mlvh-handset-x: 0.35;
+    --mlvh-handset-y: 0.25;
+    transform-origin:
+        calc(var(--mlvh-zone-left) + var(--mlvh-zone-width) / 2)
+        calc(var(--mlvh-zone-top) + var(--mlvh-zone-height) / 2);
+}
+
+#item-phone::after {
+    content: "";
+    position: absolute;
+    left: calc(var(--mlvh-zone-left) + var(--mlvh-zone-width) * var(--mlvh-handset-x));
+    top: calc(var(--mlvh-zone-top) + var(--mlvh-zone-height) * var(--mlvh-handset-y));
+    width: calc(var(--mlvh-zone-width) * 0.85);
+    aspect-ratio: 1;
+    transform: translate(-50%, -50%);
+    background: url("/assets/illustrations/fx/ring-waves.svg") center / contain no-repeat;
+    opacity: 0;
+    pointer-events: none;
+}
+
+#item-phone.is-ringing {
+    animation: mlvh-phone-shake var(--mlvh-ring-duration) ease-in-out;
+}
+
+#item-phone.is-ringing::after {
+    animation: mlvh-ring-waves var(--mlvh-ring-duration) ease-out;
+}
+
+@keyframes mlvh-phone-shake {
+    0%, 100% { transform: rotate(0); }
+    15% { transform: rotate(-3deg); }
+    35% { transform: rotate(3deg); }
+    55% { transform: rotate(-2.5deg); }
+    75% { transform: rotate(2deg); }
+    90% { transform: rotate(-1deg); }
+}
+
+@keyframes mlvh-ring-waves {
+    0% { opacity: 0; transform: translate(-50%, -50%) scale(0.7); }
+    30% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+    100% { opacity: 0; transform: translate(-50%, -50%) scale(1.15); }
 }
 
 @media (max-width: 900px) {
@@ -1764,7 +1833,8 @@ body.mlvh-entry-screen .mlvh-skip-link {
 /* --- Keyboard focus for delegated buttons --- */
 .patient-card:focus-visible,
 .mlvh-record-result-item:focus-visible,
-.mlvh-history-entry:focus-visible {
+.mlvh-history-entry:focus-visible,
+.mlvh-scene-zone:focus-visible {
     outline: 2px solid var(--mlvh-blue-deep);
     outline-offset: 2px;
 }

@@ -1,0 +1,20 @@
+{
+  "phone": {
+    "left": 35.29,
+    "top": 33.08,
+    "width": 10.76,
+    "height": 10.88
+  },
+  "monitor": {
+    "left": 44.08,
+    "top": 35.13,
+    "width": 6.82,
+    "height": 11.36
+  },
+  "board": {
+    "left": 15.02,
+    "top": 27.63,
+    "width": 12.37,
+    "height": 19.92
+  }
+}

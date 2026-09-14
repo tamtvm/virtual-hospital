@@ -2,6 +2,7 @@
 
 import { getCalendarHTML, initCalendar } from './calendar.js';
 import { getOnDutyHTML, initOnDuty } from './onduty.js';
+import { getSceneHTML, initScene } from './scene.js';
 
 const RESET_INTERVAL_MINUTES = 30;
 const TYPE_SPEED_MS = 55;
@@ -55,7 +56,7 @@ export const getHomeView = () => {
                     </div>
                 </div>
             </div>
-            <img class="mlvh-home-scene" src="/assets/illustrations/hospital.png" alt="" aria-hidden="true">
+            ${getSceneHTML()}
         </div>
     </div>
     `;
@@ -90,6 +91,7 @@ export const initHomeLogic = () => {
     initCalendar();
     initOnDuty();
     initWelcomeTyping();
+    initScene();
 
     const tick = () => {
         const timeEl = document.getElementById('home-clock-time');
