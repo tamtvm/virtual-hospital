@@ -1,6 +1,7 @@
 // --- MODULE: home scene ---
 
 const SCENE_BASE_PATH = '/assets/illustrations/scene';
+const BOARD_MODAL_ID = 'boardModal';
 
 // --- Item behaviors ---
 const SCENE_BEHAVIORS = {
@@ -8,6 +9,10 @@ const SCENE_BEHAVIORS = {
         if (layer.classList.contains('is-ringing')) return;
         layer.classList.add('is-ringing');
         layer.addEventListener('animationend', () => layer.classList.remove('is-ringing'), { once: true });
+    },
+    board: () => {
+        const modal = document.getElementById(BOARD_MODAL_ID);
+        if (modal) bootstrap.Modal.getOrCreateInstance(modal).show();
     },
 };
 

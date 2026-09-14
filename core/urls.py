@@ -9,4 +9,7 @@ urlpatterns = [
 
     # Route all analytics requests to the analytics app
     path('api/analytics/', include('analytics.urls')),
+
+    # Route all whiteboard requests to the board app
+    path('api/board/', include('board.urls')),
 ]

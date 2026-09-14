@@ -2,7 +2,7 @@
 
 import { getPatientAdminView, getPatientModal, initPatientAdminLogic } from './views/patients/patientadmin.js';
 import { getMedicalRecordsView, initMedicalRecordsLogic } from './views/records/medicalrecords.js';
-import { getHomeView, initHomeLogic } from './views/home/home.js';
+import { getHomeView, getHomeModal, initHomeLogic } from './views/home/home.js';
 import { getAboutView, initAboutLogic } from './views/about/about.js';
 import { getNotFoundView, initNotFoundLogic } from './views/notfound/notfound.js';
 import {
@@ -104,7 +104,7 @@ const routes = {
     },
     [ROUTE_HOME]: () => {
         appRoot.innerHTML = getHomeView();
-        modalRoot.innerHTML = '';
+        modalRoot.innerHTML = getHomeModal();
         initHomeLogic();
     },
     [ROUTE_PATIENTS]: () => {

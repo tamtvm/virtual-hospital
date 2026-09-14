@@ -3,6 +3,7 @@
 import { getCalendarHTML, initCalendar } from './calendar.js';
 import { getOnDutyHTML, initOnDuty } from './onduty.js';
 import { getSceneHTML, initScene } from './scene.js';
+import { getBoardModal, initBoard } from './board.js';
 
 const RESET_INTERVAL_MINUTES = 30;
 const TYPE_SPEED_MS = 55;
@@ -92,6 +93,7 @@ export const initHomeLogic = () => {
     initOnDuty();
     initWelcomeTyping();
     initScene();
+    initBoard();
 
     const tick = () => {
         const timeEl = document.getElementById('home-clock-time');
@@ -111,3 +113,5 @@ export const initHomeLogic = () => {
     const intervalId = setInterval(tick, 1000);
     tick();
 };
+
+export const getHomeModal = () => getBoardModal();
