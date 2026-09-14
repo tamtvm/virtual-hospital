@@ -1285,6 +1285,12 @@ body.mlvh-entry-screen .mlvh-main {
     background: var(--mlvh-blue);
 }
 
+.modal,
+.swal2-container {
+    width: 100vw;
+    height: 100vh;
+}
+
 /* --- Shared border frame for SA2 --- */
 #patientDetailsModal .modal-content,
 #createPatientModal .modal-content,
