@@ -15,7 +15,15 @@ const ABOUT_TABS = {
         content: `
             <h5 class="mlvh-about-title">how to play mlvh?</h5>
             <p>You can enter the hospital management dashboard by pressing "Enter" below! From there, youll find different sections to interact with.</p>
-            <p>Currently, I only have these three active, but Im working on adding more:</p>
+            <p>Currently, I only have these four active, but Im working on adding more:</p>
+
+            <p class="mb-1"><strong>Home</strong></p>
+            <ul>
+                <li>The reception is an interactive scene! hover around and click the objects that react: the phone rings, and the board opens a shared whiteboard where you can draw and erase. Everyone visiting the sandbox draws on the same one and sees each others strokes live, so leave something there before the next reset wipes it!</li>
+                <li>The clock shows your own local time and counts down to the next sandbox reset.</li>
+                <li>Flip the calendar with the folded corner to switch between the big date and the full month.</li>
+                <li>Check whos On Duty!</li>
+            </ul>
 
             <p class="mb-1"><strong>Dashboard</strong></p>
             <ul>
