@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
 import AppShell from "@/components/layout/AppShell";
+import { LocaleProvider } from "@/lib/i18n";
+import { LOCALE_BOOT_SCRIPT } from "@/lib/localeBoot";
+import { DEFAULT_LOCALE } from "@locales/registry.js";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -25,9 +28,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang={DEFAULT_LOCALE} suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: LOCALE_BOOT_SCRIPT }} />
+      </head>
       <body className="antialiased">
-        <AppShell>{children}</AppShell>
+        <LocaleProvider>
+          <AppShell>{children}</AppShell>
+        </LocaleProvider>
       </body>
     </html>
   );

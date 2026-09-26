@@ -2,17 +2,17 @@
 
 import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { AdmissionsWeeklyPoint } from "@/lib/types";
+import { useI18n } from "@/lib/i18n";
 
 interface AdmissionsBarChartProps {
   data: AdmissionsWeeklyPoint[];
 }
 
 export default function AdmissionsBarChart({ data }: AdmissionsBarChartProps) {
+  const { locale, t } = useI18n();
+  const weekFormat = new Intl.DateTimeFormat(locale, { month: "short", day: "numeric", timeZone: "UTC" });
   const chartData = data.map((point) => ({
-    week: new Date(point.week_start).toLocaleDateString("en-US", {
-      month: "short",
-      day: "numeric",
-    }),
+    week: weekFormat.format(new Date(point.week_start)),
     admissions: point.admissions,
   }));
 
@@ -30,7 +30,7 @@ export default function AdmissionsBarChart({ data }: AdmissionsBarChartProps) {
             color: "var(--mlvh-text)",
           }}
         />
-        <Bar dataKey="admissions" fill="var(--mlvh-blue-deep)" radius={[10, 10, 0, 0]} />
+        <Bar dataKey="admissions" name={t("dashboard.admissions.series")} fill="var(--mlvh-blue-deep)" radius={[10, 10, 0, 0]} />
       </BarChart>
     </ResponsiveContainer>
   );

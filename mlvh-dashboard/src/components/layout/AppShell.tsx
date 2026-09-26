@@ -2,9 +2,11 @@
 
 import { useEffect, useRef, useState } from "react";
 import { flushSync } from "react-dom";
-import { getHistoryPosition, stampHistoryEntry } from "@/lib/historyPosition";
+  import { getHistoryPosition, stampHistoryEntry } from "@/lib/historyPosition";
+  import { useI18n } from "@/lib/i18n";
 
 export default function AppShell({ children }: { children: React.ReactNode }) {
+  const { t } = useI18n();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const sidebarRef = useRef<HTMLElement>(null);
   const backdropRef = useRef<HTMLDivElement>(null);
@@ -63,26 +65,26 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
       <header className="mlvh-header">
         <button
           className="mlvh-sidebar-toggle mlvh-sidebar-toggle-open"
-          aria-label="Toggle navigation"
+          aria-label={t("shell.toggleNavigation")}
           onClick={() => setSidebarOpen(true)}
         >
           <span></span>
           <span></span>
           <span></span>
         </button>
-        <a className="mlvh-sidebar-toggle mlvh-sidebar-toggle-close" href="/" aria-label="Back to entry screen">
+        <a className="mlvh-sidebar-toggle mlvh-sidebar-toggle-close" href="/" aria-label={t("shell.backToEntry")}>
           <img src={`/assets/icons/misc/close.svg`} alt="" />
         </a>
       </header>
 
-      <nav className="mlvh-dock" aria-label="History">
-        <button className="mlvh-dock-btn" aria-label="Go back" disabled={!canBack} onClick={() => window.history.back()}>
+      <nav className="mlvh-dock" aria-label={t("shell.history")}>
+        <button className="mlvh-dock-btn" aria-label={t("shell.goBack")} disabled={!canBack} onClick={() => window.history.back()}>
           <img src={`/assets/icons/misc/back.svg`} alt="" />
         </button>
         <button type="button" className="mlvh-dock-badge" aria-hidden="true" tabIndex={-1}>
           <img src={`/assets/brand/star.svg`} alt="" />
         </button>
-        <button className="mlvh-dock-btn mlvh-dock-btn-forward" aria-label="Go forward" disabled={!canForward} onClick={() => window.history.forward()}>
+        <button className="mlvh-dock-btn mlvh-dock-btn-forward" aria-label={t("shell.goForward")} disabled={!canForward} onClick={() => window.history.forward()}>
           <img src={`/assets/icons/misc/back.svg`} alt="" />
         </button>
       </nav>
@@ -102,23 +104,23 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
           <nav className="mlvh-sidebar-nav">
             <a className="mlvh-sidebar-link" href="/home" onClick={navigateAfterClose}>
               <img src={`/assets/icons/nav/home.svg`} alt="" />
-              <span>Home</span>
+              <span data-i18n="nav.home">{t("nav.home")}</span>
             </a>
             <a className="mlvh-sidebar-link" href="/patients" onClick={navigateAfterClose}>
               <img src={`/assets/icons/nav/patients.svg`} alt="" />
-              <span>Patient Admin</span>
+              <span data-i18n="nav.patients">{t("nav.patients")}</span>
             </a>
             <a className="mlvh-sidebar-link" href="/medical-records" onClick={navigateAfterClose}>
               <img src={`/assets/icons/nav/consultations.svg`} alt="" />
-              <span>Medical Records</span>
+              <span data-i18n="nav.medicalRecords">{t("nav.medicalRecords")}</span>
             </a>
             <a className="mlvh-sidebar-link active" href="/dashboard/" onClick={navigateAfterClose}>
               <img src={`/assets/icons/nav/dashboard.svg`} alt="" />
-              <span>Dashboard</span>
+              <span data-i18n="nav.dashboard">{t("nav.dashboard")}</span>
             </a>
             <a className="mlvh-sidebar-link" href="/settings" onClick={navigateAfterClose}>
               <img src={`/assets/icons/nav/settings.svg`} alt="" />
-              <span>Settings</span>
+              <span data-i18n="nav.settings">{t("nav.settings")}</span>
             </a>
           </nav>
         </aside>

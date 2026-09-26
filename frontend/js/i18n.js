@@ -1,29 +1,13 @@
 // --- MODULE: internationalization ---
 
-import { en } from './locales/en.js';
-import { es } from './locales/es.js';
+import { STORAGE_KEY, DEFAULT_LOCALE, isSupportedLocale, translate } from './locales/registry.js';
 
-const STORAGE_KEY = 'mlvh:locale';
-const DEFAULT_LOCALE = 'en';
-
-const LOCALES = {
-    en: { label: 'English', messages: en },
-    es: { label: 'Español', messages: es },
-};
-
-export const AVAILABLE_LOCALES = Object.entries(LOCALES).map(([code, { label }]) => ({ code, label }));
-
-const isSupportedLocale = (locale) => Object.hasOwn(LOCALES, locale);
+export { AVAILABLE_LOCALES } from './locales/registry.js';
 
 const initialLocale = document.documentElement.lang;
 let currentLocale = isSupportedLocale(initialLocale) ? initialLocale : DEFAULT_LOCALE;
 
-const resolveMessage = (messages, key) => key.split('.').reduce((node, segment) => node?.[segment], messages);
-
-export const t = (key) =>
-    resolveMessage(LOCALES[currentLocale].messages, key)
-    ?? resolveMessage(LOCALES[DEFAULT_LOCALE].messages, key)
-    ?? key;
+export const t = (key) => translate(currentLocale, key);
 
 export const getLocale = () => currentLocale;
 

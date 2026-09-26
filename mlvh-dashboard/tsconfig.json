@@ -19,7 +19,8 @@
       }
     ],
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@locales/*": ["../frontend/js/locales/*"]
     }
   },
   "include": [
