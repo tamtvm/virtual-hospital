@@ -116,6 +116,10 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
               <img src={`/assets/icons/nav/dashboard.svg`} alt="" />
               <span>Dashboard</span>
             </a>
+            <a className="mlvh-sidebar-link" href="/settings" onClick={navigateAfterClose}>
+              <img src={`/assets/icons/nav/settings.svg`} alt="" />
+              <span>Settings</span>
+            </a>
           </nav>
         </aside>
 

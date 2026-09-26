@@ -195,6 +195,7 @@ body {
 }
 
 /* Shared shape for nav links, the card tag n search bar*/
+.mlvh-segmented,
 .mlvh-sidebar-link,
 .mlvh-card-tag,
 .mlvh-search-field,
@@ -264,8 +265,10 @@ body {
 }
 
 .mlvh-sidebar-link.active,
+html[data-mlvh-route="/home"] #nav-home-link,
 html[data-mlvh-route="/patients"] #nav-patients,
-html[data-mlvh-route="/medical-records"] #nav-medical-records {
+html[data-mlvh-route="/medical-records"] #nav-medical-records,
+html[data-mlvh-route="/settings"] #nav-settings {
     background: var(--mlvh-blue);
     border-color: var(--mlvh-blue);
     color: var(--mlvh-text);
@@ -1655,6 +1658,48 @@ fieldset[disabled] .mlvh-icon-btn.active img {
     padding: 0.5rem 2.2rem 0.5rem 1rem;
 }
 
+/* --- Settings --- */
+.mlvh-setting-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--mlvh-blue-deep);
+    margin-bottom: 0.25rem;
+}
+
+.mlvh-segmented {
+    position: relative;
+    display: inline-flex;
+    gap: 0.25rem;
+    padding: 4px;
+    background: var(--mlvh-cream);
+    border: 1px solid var(--mlvh-blue-dark);
+}
+
+.mlvh-segmented-option {
+    display: flex;
+    align-items: center;
+    padding: 0 1rem;
+    border-radius: 10px;
+    color: var(--mlvh-blue-deep);
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.15s;
+}
+
+.mlvh-segmented-option:hover {
+    background: #ffffff;
+}
+
+.mlvh-segmented input:checked + .mlvh-segmented-option {
+    background: var(--mlvh-blue);
+    color: var(--mlvh-text);
+}
+
+.mlvh-segmented input:focus-visible + .mlvh-segmented-option {
+    outline: 2px solid var(--mlvh-blue-deep);
+    outline-offset: 2px;
+}
+
 @media (max-width: 900px) {
     .mlvh-history-profile-col,
     .mlvh-history-timeline-col {
@@ -1833,6 +1878,11 @@ fieldset[disabled] .mlvh-icon-btn.active img {
         height: 50px;
         font-size: 0.95rem;
     }
+}
+
+/* --- Locale boot --- */
+html[data-mlvh-i18n-pending] [data-i18n] {
+    visibility: hidden;
 }
 
 /* --- Screen reader only --- */

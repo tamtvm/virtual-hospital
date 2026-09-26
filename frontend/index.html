@@ -44,6 +44,23 @@
         document.documentElement.dataset.mlvhRoute =
             location.pathname.replace(/\/+$/, '') || '/';
     </script>
+
+    <script>
+        (() => {
+            const root = document.documentElement;
+            const supportedLocales = ['en', 'es'];
+            const candidates = [
+                localStorage.getItem('mlvh:locale'),
+                ...navigator.languages.map((tag) => tag.split('-')[0]),
+            ];
+            const locale = candidates.find((code) => supportedLocales.includes(code));
+
+            if (locale && locale !== root.lang) {
+                root.lang = locale;
+                root.dataset.mlvhI18nPending = '';
+            }
+        })();
+    </script>
 </head>
 <body class="text-dark">
 
@@ -53,27 +70,27 @@
         }
     </script>
 
-    <a class="mlvh-skip-link" href="#main-content">Skip to main content</a>
+    <a class="mlvh-skip-link" href="#main-content" data-i18n="shell.skipToContent">Skip to main content</a>
 
     <header class="mlvh-header">
-        <button class="mlvh-sidebar-toggle mlvh-sidebar-toggle-open" id="sidebar-toggle" aria-label="Toggle navigation" aria-controls="mlvh-sidebar" aria-expanded="false">
+        <button class="mlvh-sidebar-toggle mlvh-sidebar-toggle-open" id="sidebar-toggle" aria-label="Toggle navigation" data-i18n-aria-label="shell.toggleNavigation" aria-controls="mlvh-sidebar" aria-expanded="false">
             <span></span>
             <span></span>
             <span></span>
         </button>
-        <button class="mlvh-sidebar-toggle mlvh-sidebar-toggle-close" id="sidebar-close" aria-label="Close navigation">
+        <button class="mlvh-sidebar-toggle mlvh-sidebar-toggle-close" id="sidebar-close" aria-label="Back to entry screen" data-i18n-aria-label="shell.backToEntry">
             <img src="/assets/icons/misc/close.svg" alt="">
         </button>
     </header>
 
-    <nav class="mlvh-dock" aria-label="History">
-        <button class="mlvh-dock-btn" id="nav-back" aria-label="Go back">
+    <nav class="mlvh-dock" aria-label="History" data-i18n-aria-label="shell.history">
+        <button class="mlvh-dock-btn" id="nav-back" aria-label="Go back" data-i18n-aria-label="shell.goBack">
             <img src="/assets/icons/misc/back.svg" alt="">
         </button>
         <button type="button" class="mlvh-dock-badge" aria-hidden="true" tabindex="-1">
             <img src="/assets/brand/star.svg" alt="">
         </button>
-        <button class="mlvh-dock-btn mlvh-dock-btn-forward" id="nav-forward" aria-label="Go forward" disabled>
+        <button class="mlvh-dock-btn mlvh-dock-btn-forward" id="nav-forward" aria-label="Go forward" data-i18n-aria-label="shell.goForward" disabled>
             <img src="/assets/icons/misc/back.svg" alt="">
         </button>
     </nav>
@@ -90,19 +107,23 @@
             <nav class="mlvh-sidebar-nav">
                 <a class="mlvh-sidebar-link" href="/home" id="nav-home-link">
                     <img src="/assets/icons/nav/home.svg" alt="">
-                    <span>Home</span>
+                    <span data-i18n="nav.home">Home</span>
                 </a>
                 <a class="mlvh-sidebar-link" href="/patients" id="nav-patients">
                     <img src="/assets/icons/nav/patients.svg" alt="">
-                    <span>Patient Admin</span>
+                    <span data-i18n="nav.patients">Patient Admin</span>
                 </a>
                 <a class="mlvh-sidebar-link" href="/medical-records" id="nav-medical-records">
                     <img src="/assets/icons/nav/consultations.svg" alt="">
-                    <span>Medical Records</span>
+                    <span data-i18n="nav.medicalRecords">Medical Records</span>
                 </a>
                 <a class="mlvh-sidebar-link" href="/dashboard/">
                     <img src="/assets/icons/nav/dashboard.svg" alt="">
-                    <span>Dashboard</span>
+                    <span data-i18n="nav.dashboard">Dashboard</span>
+                </a>
+                <a class="mlvh-sidebar-link" href="/settings" id="nav-settings">
+                    <img src="/assets/icons/nav/settings.svg" alt="">
+                    <span data-i18n="nav.settings">Settings</span>
                 </a>
             </nav>
         </aside>
