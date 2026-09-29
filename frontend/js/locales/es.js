@@ -90,6 +90,60 @@ export const es = {
             saveError: 'No se pudo guardar tu trazo.',
         },
     },
+    about: {
+        title: 'Bienvenida',
+        enter: 'Entrar',
+        tabs: {
+            whatIs: '¿Qué es MLVH?',
+            howTo: 'Cómo se usa',
+            stack: 'Tecnologías',
+            contact: '¡Contáctame!',
+        },
+        whatIs: {
+            heading: 'hola!! soy tam, bievenido a my little virtual hospital!',
+            intro: 'My Little Virtual Hospital (MLVH) es un sistema gamificado de gestión hospitalaria que empecé a construir más que nada por aburrimiento en mi tiempo libre. Lo voy a usar como una colección de ideas + cosas que vaya aprendiendo en el camino, ¡así que quizás nunca tenga un final!',
+            sandbox: 'El sitio es un sandbox en línea y en vivo, todo está hecho con herramientas gratuitas y fáciles de conseguir, y cada ilustración que ves aquí la hice a mano yo :+}',
+            noLogin: 'no necesitas iniciar sesión, no hay cookies ni rastreo, solo es explorar por ahí (por ahora heh)',
+        },
+        howTo: {
+            heading: '¿cómo se juega mlvh?',
+            enter: '¡Puedes entrar al panel de gestión del hospital presionando "Entrar" aquí abajo! Desde ahí vas a encontrar distintas secciones con las que interactuar.',
+            sections: 'Por ahora solo tengo estas cuatro activas, pero estoy trabajando para agregar más:',
+            home: {
+                scene: '¡La recepción es una escena interactiva! pasa el cursor y haz clic en los objetos que reaccionan: el teléfono suena y la pizarra se abre para que puedas dibujar y borrar. Todos los que visitan el sandbox dibujan en la misma pizarra y ven los trazos de los demás en vivo, deja algo antes de que el próximo reinicio lo borre! :]',
+                clock: 'El reloj muestra tu hora local y la cuenta regresiva para el próximo reinicio del sandbox.',
+                calendar: 'Voltea el calendario con la esquina doblada para cambiar entre la fecha grande y el mes completo.',
+                onDuty: 'Mira quién está de turno!',
+            },
+            dashboard: {
+                charts: 'Revisa los ingresos por semana, los pacientes por especie, las consultas por tipo, etc. Todo sale automáticamente de los mismos datos.',
+            },
+            patients: {
+                manage: 'Ingresa nuevos pacientes, busca en el registro y gestiona las altas.',
+                create: 'Crea tu propio personaje presionando el "+" junto a la barra de búsqueda. ¡Personaliza su avatar, nombre, pronombres, ubicación, entre otras cosas',
+                profile: 'Haz clic en tus personajes para ver su perfil, editar su información, revisar su historial médico o darlos de alta.',
+                defaults: 'Pero si prefieres no crear un paciente, puedes usar cualquiera de nuestros 3 personajes predeterminados para seguir explorando el hospital.',
+            },
+            records: {
+                search: 'Busca a cualquier paciente registrado y revisa su historial completo.',
+                add: '¡Registra nuevas consultas!',
+            },
+            comingSoon: 'próximamente: estoy planeando agregar roles, ventanas con explicaciones, etc :+]',
+        },
+        stack: {
+            frontendLabel: 'Frontend:',
+            frontend: 'Decidí trabajar con JavaScript vanilla (módulos ES), Bootstrap 5 y un router propio y liviano para casi todo el sitio. Para experimentar con otro stack, construí la sección "Estadísticas" con Next.js y Recharts. Es una app separada, pero consume la misma API de Django y vive en el mismo dominio, (por eso sesiente como un solo sitio) Todo está alojado en Cloudflare Pages.',
+            backendLabel: 'Backend:',
+            backend: 'Django + Django REST Framework, con una base de datos PostgreSQL en Neon.tech, desplegado en Render.',
+            sandboxLabel: 'El sandbox:',
+            sandbox: 'El sitio es un sandbox centralizado y en vivo. ¡¡Todo funciona junto en este único link!! además todos pueden ver lo que estás actualizando, así que siéntete libre de romper cosas :+] Para mantenerlo limpio, la base de datos se reinicia automáticamente cada 30 minutos con un reinicio externo programado (vía cron-job.org), junto con un ping de disponibilidad (UptimeRobot) para mantener despierto el backend del plan gratuito.',
+            repo: '¿Curiosidad sobre el código? ¡Puedes revisar el {repo} aquí!',
+            repoLink: 'repositorio en GitHub',
+        },
+        contact: {
+            message: 'puedes escribirme a {email}!',
+        },
+    },
     species: {
         human: 'Humano',
         cat: 'Gato',
