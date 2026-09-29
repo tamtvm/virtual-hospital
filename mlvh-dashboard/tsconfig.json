@@ -20,7 +20,7 @@
     ],
     "paths": {
       "@/*": ["./src/*"],
-      "@locales/*": ["../frontend/js/locales/*"]
+      "@frontend/*": ["../frontend/js/*"]
     }
   },
   "include": [

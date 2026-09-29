@@ -23,6 +23,47 @@ export const es = {
             hint: 'Elige el idioma de todo el hospital.',
         },
     },
+    routes: {
+        about: {
+            title: '',
+            heading: 'My Little Virtual Hospital',
+            description: 'Un sandbox gamificado de gestión hospitalaria. Ingresa pacientes, revisa el registro y explora analíticas clínicas en vivo. No necesitas iniciar sesión.',
+        },
+        home: {
+            title: 'inicio',
+            heading: 'Inicio',
+            description: 'La recepción 3D interactiva de MLVH, revisa el calendario, mira quién está de turno hoy y más.',
+        },
+        patients: {
+            title: 'pacientes',
+            heading: 'Administración de pacientes',
+            description: 'Ingresa nuevos pacientes, busca en el registro del hospital y gestiona las altas. Crea tu propio personaje.',
+        },
+        'medical-records': {
+            title: 'fichas médicas',
+            heading: 'Fichas médicas',
+            description: 'Busca cualquier paciente registrado, revisa su historial médico completo y registra nuevas consultas.',
+        },
+        settings: {
+            title: 'configuración',
+            heading: 'Configuración',
+            description: 'Personaliza tu visita, elige el idioma del hospital.',
+        },
+        'not-found': {
+            title: 'no encontrada',
+            heading: 'Página no encontrada',
+            description: 'Esta página no existe en nuestro hospital.',
+        },
+        dashboard: {
+            title: 'estadísticas',
+            description: 'Analíticas clínicas en vivo de My Little Virtual Hospital, ingresos por semana, pacientes por especie y consultas por tipo.',
+        },
+    },
+    notFound: {
+        title: '404. Página no encontrada',
+        message: 'Esta página no existe en nuestro hospital.',
+        back: 'Volver al hospital',
+    },
     species: {
         human: 'Humano',
         cat: 'Gato',

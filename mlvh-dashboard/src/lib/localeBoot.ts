@@ -1,4 +1,4 @@
-import { AVAILABLE_LOCALES, STORAGE_KEY } from "@locales/registry.js";
+import { AVAILABLE_LOCALES, STORAGE_KEY } from "@frontend/locales/registry.js";
 
 const supportedLocales = JSON.stringify(AVAILABLE_LOCALES.map(({ code }) => code));
 

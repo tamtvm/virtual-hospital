@@ -1,4 +1,6 @@
-// --- MODULE: not found view ---
+  // --- MODULE: not found view ---
+
+  import { t } from '../../i18n.js';
 
 export const getNotFoundView = () => {
     return `
@@ -7,9 +9,9 @@ export const getNotFoundView = () => {
             <span class="mlvh-card-tag">404</span>
         </div>
         <div class="mlvh-card-body text-center">
-            <h5 class="mlvh-about-title">404. Not Found</h5>
-            <p class="mlvh-card-subtitle">This page does not exist in our hospital.</p>
-            <button type="button" class="btn btn-primary" id="not-found-back-btn">Back to the Hospital</button>
+            <h5 class="mlvh-about-title">${t('notFound.title')}</h5>
+            <p class="mlvh-card-subtitle">${t('notFound.message')}</p>
+            <button type="button" class="btn btn-primary" id="not-found-back-btn">${t('notFound.back')}</button>
         </div>
     </div>
     `;
