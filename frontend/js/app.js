@@ -63,6 +63,7 @@ const NAV_ROUTES = {
     'nav-patients': ROUTE_PATIENTS,
     'nav-medical-records': ROUTE_MEDICAL_RECORDS,
     'nav-settings': ROUTE_SETTINGS,
+    'sidebar-close': ROUTE_ABOUT,
 };
 
 const NAV_LINK_IDS = ['nav-home-link', 'nav-patients', 'nav-medical-records', 'nav-settings'];
@@ -234,10 +235,7 @@ const initSidebarToggle = () => {
         setSidebarOpen(!sidebar.classList.contains('open'));
     });
 
-    closeBtn.addEventListener('click', () => {
-        closeSidebar();
-        navigateTo(ROUTE_ABOUT);
-    });
+    closeBtn.addEventListener('click', closeSidebar);
 
     backdrop.addEventListener('click', closeSidebar);
 
