@@ -1,11 +1,21 @@
 // --- MODULE: home calendar ---
 
-const WEEKDAYS = ['su', 'mo', 'tu', 'we', 'th', 'fr', 'sa'];
+import { t, getLocale } from '../../i18n.js';
+
+const REFERENCE_SUNDAY_UTC = Date.UTC(2024, 0, 7);
+const DAY_MS = 24 * 60 * 60 * 1000;
 const pad = (value) => String(value).padStart(2, '0');
 
+const getWeekdayLabels = (locale) => {
+    const format = new Intl.DateTimeFormat(locale, { weekday: 'short', timeZone: 'UTC' });
+    return Array.from({ length: 7 }, (_, day) => format.format(REFERENCE_SUNDAY_UTC + day * DAY_MS).slice(0, 2));
+};
+
 export const getCalendarHTML = (today = new Date()) => {
+    const locale = getLocale();
     const year = today.getFullYear();
     const month = today.getMonth();
+    const monthName = today.toLocaleDateString(locale, { month: 'long' });
     const firstWeekday = new Date(year, month, 1).getDay();
     const daysInMonth = new Date(year, month + 1, 0).getDate();
 
@@ -20,9 +30,9 @@ export const getCalendarHTML = (today = new Date()) => {
 
     const detailedHTML = `
         <div class="mlvh-calendar-detailed">
-            <span class="mlvh-calendar-title">${today.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}</span>
+            <span class="mlvh-calendar-title">${monthName} ${year}</span>
             <div class="mlvh-calendar-weekdays">
-                ${WEEKDAYS.map((label) => `<span class="mlvh-calendar-weekday">${label}</span>`).join('')}
+                ${getWeekdayLabels(locale).map((label) => `<span class="mlvh-calendar-weekday">${label}</span>`).join('')}
             </div>
             <div class="mlvh-calendar-days">
                 ${leadingCells.join('')}
@@ -33,14 +43,14 @@ export const getCalendarHTML = (today = new Date()) => {
 
     const simpleHTML = `
         <div class="mlvh-calendar-simple">
-            <span class="mlvh-calendar-simple-month">${today.toLocaleDateString('en-US', { month: 'long' })}</span>
+            <span class="mlvh-calendar-simple-month">${monthName}</span>
             <span class="mlvh-calendar-simple-day">${pad(today.getDate())}</span>
         </div>
     `;
 
     return `
     <div class="mlvh-calendar" data-calendar-view="simple">
-        <button type="button" class="mlvh-calendar-toggle" aria-label="Toggle calendar view"></button>
+        <button type="button" class="mlvh-calendar-toggle" aria-label="${t('home.calendar.toggle')}"></button>
         ${simpleHTML}
         ${detailedHTML}
     </div>

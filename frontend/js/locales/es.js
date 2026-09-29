@@ -64,6 +64,32 @@ export const es = {
         message: 'Esta página no existe en nuestro hospital.',
         back: 'Volver al hospital',
     },
+    common: {
+        close: 'Cerrar',
+    },
+    home: {
+        welcome: '¡¡Bienvenido a My Little Virtual Hospital!!',
+        nextReset: 'próximo reinicio en {time}...',
+        onDuty: 'De turno',
+        nextProfessional: 'Siguiente profesional',
+        calendar: {
+            toggle: 'Cambiar vista del calendario',
+        },
+        scene: {
+            phone: 'Teléfono',
+            board: 'Pizarra',
+        },
+        board: {
+            title: 'Pizarra de recepción',
+            tools: 'Herramientas de la pizarra',
+            pen: 'Lápiz',
+            eraser: 'Goma',
+            canvas: 'Pizarra compartida',
+            loading: '¡La pizarra está cargando...!',
+            loadError: 'No se pudo cargar la pizarra.',
+            saveError: 'No se pudo guardar tu trazo.',
+        },
+    },
     species: {
         human: 'Humano',
         cat: 'Gato',

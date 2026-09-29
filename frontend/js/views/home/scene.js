@@ -1,4 +1,6 @@
-// --- MODULE: home scene ---
+  // --- MODULE: home scene ---
+
+  import { tOption } from '../../i18n.js';
 
 const SCENE_BASE_PATH = '/assets/illustrations/scene';
 const BOARD_MODAL_ID = 'boardModal';
@@ -46,7 +48,7 @@ const createZone = (key, { left, top, width, height }) => {
     zone.type = 'button';
     zone.className = 'mlvh-scene-zone';
     zone.dataset.item = key;
-    zone.setAttribute('aria-label', key);
+    zone.setAttribute('aria-label', tOption('home.scene', key));
     Object.assign(zone.style, {
         left: `${left}%`,
         top: `${top}%`,

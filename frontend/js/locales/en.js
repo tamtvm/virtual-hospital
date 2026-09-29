@@ -64,6 +64,32 @@ export const en = {
         message: 'This page does not exist in our hospital.',
         back: 'Back to the Hospital',
     },
+    common: {
+        close: 'Close',
+    },
+    home: {
+        welcome: 'Welcome to My Little Virtual Hospital !!',
+        nextReset: 'next reset in {time}...',
+        onDuty: 'On Duty',
+        nextProfessional: 'Next professional',
+        calendar: {
+            toggle: 'Toggle calendar view',
+        },
+        scene: {
+            phone: 'Phone',
+            board: 'Whiteboard',
+        },
+        board: {
+            title: 'Reception Whiteboard',
+            tools: 'Whiteboard tools',
+            pen: 'Pen',
+            eraser: 'Eraser',
+            canvas: 'Shared whiteboard',
+            loading: 'the board is loading...!',
+            loadError: 'Could not load the whiteboard.',
+            saveError: 'Could not save your stroke.',
+        },
+    },
     species: {
         human: 'Human',
         cat: 'Cat',

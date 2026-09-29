@@ -1,14 +1,14 @@
 // --- MODULE: internationalization ---
 
-import { STORAGE_KEY, DEFAULT_LOCALE, isSupportedLocale, translate } from './locales/registry.js';
+import { STORAGE_KEY, DEFAULT_LOCALE, isSupportedLocale, translate, translateOption } from './locales/registry.js';
 
 export { AVAILABLE_LOCALES } from './locales/registry.js';
 
 const initialLocale = document.documentElement.lang;
 let currentLocale = isSupportedLocale(initialLocale) ? initialLocale : DEFAULT_LOCALE;
 
-export const t = (key) => translate(currentLocale, key);
-
+export const t = (key, values) => translate(currentLocale, key, values);
+export const tOption = (group, value) => translateOption(currentLocale, group, value);
 export const getLocale = () => currentLocale;
 
 // --- Document translation ---
