@@ -43,6 +43,7 @@ export const confirmAction = async (message, confirmButtonText) => {
         confirmButtonText,
         cancelButtonText: t('common.cancel'),
         reverseButtons: true,
+        target: document.querySelector('.modal.show') ?? 'body',
         buttonsStyling: false,
         customClass: {
             popup: 'mlvh-swal-popup',

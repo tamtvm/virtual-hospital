@@ -48,3 +48,4 @@ class BoardStrokeApiTests(APITestCase):
         BoardStroke.objects.create(tool='pen', points=[[0.5, 0.5]])
         response = self.client.post(STROKES_URL, {'tool': 'pen', 'points': [[0.1, 0.2]]}, format='json')
         self.assertEqual(response.status_code, status.HTTP_409_CONFLICT)
+        self.assertEqual(response.data['detail']['code'], 'board_full')
