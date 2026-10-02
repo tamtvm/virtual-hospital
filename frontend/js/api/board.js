@@ -1,6 +1,7 @@
 // --- API layer: board ---
 import { getApiBaseUrl } from '../config.js';
-import { ApiError } from './patients.js';
+import { t } from '../i18n.js';
+import { ApiError, buildErrorFromResponse } from './errors.js';
 
 const boardUrl = async (path = '') => `${await getApiBaseUrl()}/board/${path}`;
 
@@ -8,7 +9,7 @@ export const fetchBoardStrokes = async (afterId = null) => {
     const query = afterId === null ? '' : `?after=${afterId}`;
     const response = await fetch(await boardUrl(`strokes/${query}`));
     if (!response.ok) {
-        throw new ApiError('Could not load the whiteboard.');
+        throw new ApiError(t('home.board.loadError'));
     }
     return response.json();
 };
@@ -20,8 +21,7 @@ export const createBoardStroke = async (stroke) => {
         body: JSON.stringify(stroke),
     });
     if (!response.ok) {
-        const payload = await response.json().catch(() => ({}));
-        throw new ApiError(payload.detail ?? 'Could not save your stroke.');
+        throw await buildErrorFromResponse(response, t('home.board.saveError'));
     }
     return response.json();
 };

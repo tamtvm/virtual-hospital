@@ -1,47 +1,14 @@
 ﻿// --- API layer ---
 import { getApiBaseUrl } from '../config.js';
+import { t } from '../i18n.js';
+import { ApiError, buildErrorFromResponse } from './errors.js';
 
 const patientsUrl = async (path = '') => `${await getApiBaseUrl()}/patients/${path}`;
-
-export class ApiError extends Error {
-    constructor(message, fieldErrors = {}) {
-        super(message);
-        this.name = 'ApiError';
-        this.fieldErrors = fieldErrors;
-    }
-}
-
-
-// --- Error report --
-const buildErrorFromResponse = async (response, fallbackMessage) => {
-    let payload = {};
-    try {
-        payload = await response.json();
-    } catch {
-    }
-
-    if (typeof payload.detail === 'string') {
-        return new ApiError(payload.detail, payload);
-    }
-
-    const firstFieldWithError = Object.keys(payload).find(
-        (key) => Array.isArray(payload[key]) && payload[key].length > 0
-    );
-
-    if (firstFieldWithError) {
-        const message = firstFieldWithError === 'non_field_errors'
-            ? payload[firstFieldWithError][0]
-            : `${firstFieldWithError}: ${payload[firstFieldWithError][0]}`;
-        return new ApiError(message, payload);
-    }
-
-    return new ApiError(fallbackMessage, payload);
-};
 
 export const fetchPatients = async () => {
     const response = await fetch(await patientsUrl());
     if (!response.ok) {
-        throw new ApiError('Could not load the patient roster.');
+        throw new ApiError(t('api.errors.loadPatients'));
     }
     const data = await response.json();
     return Array.isArray(data) ? data : data.results;
@@ -50,7 +17,7 @@ export const fetchPatients = async () => {
 export const fetchPatientRecords = async (id) => {
     const response = await fetch(await patientsUrl(`${id}/records/`));
     if (!response.ok) {
-        throw new ApiError("Could not load this patient's record history.");
+        throw new ApiError(t('api.errors.loadRecords'));
     }
     return response.json();
 };
@@ -62,7 +29,7 @@ export const addPatientRecord = async (id, payload) => {
         body: JSON.stringify(payload),
     });
     if (!response.ok) {
-        throw await buildErrorFromResponse(response, 'Could not save this record.');
+        throw await buildErrorFromResponse(response, t('api.errors.saveRecord'));
     }
     return response.json();
 };
@@ -74,7 +41,7 @@ export const createPatient = async (patientData) => {
         body: JSON.stringify(patientData),
     });
     if (!response.ok) {
-        throw await buildErrorFromResponse(response, 'Failed to save patient to the database.');
+        throw await buildErrorFromResponse(response, t('api.errors.createPatient'));
     }
     return response.json();
 };
@@ -86,7 +53,7 @@ export const updatePatient = async (id, patientData) => {
         body: JSON.stringify(patientData),
     });
     if (!response.ok) {
-        throw await buildErrorFromResponse(response, 'Failed to update patient.');
+        throw await buildErrorFromResponse(response, t('api.errors.updatePatient'));
     }
     return response.json();
 };
@@ -94,6 +61,6 @@ export const updatePatient = async (id, patientData) => {
 export const dischargePatient = async (id) => {
     const response = await fetch(await patientsUrl(`${id}/`), { method: 'DELETE' });
     if (!response.ok) {
-        throw await buildErrorFromResponse(response, 'Failed to discharge patient.');
+        throw await buildErrorFromResponse(response, t('api.errors.dischargePatient'));
     }
 };

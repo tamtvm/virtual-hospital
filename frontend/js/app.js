@@ -4,16 +4,19 @@ import { getPatientAdminView, getPatientModal, initPatientAdminLogic } from './v
 import { getMedicalRecordsView, initMedicalRecordsLogic } from './views/records/medicalrecords.js';
 import { getHomeView, getHomeModal, initHomeLogic } from './views/home/home.js';
 import { getAboutView, initAboutLogic } from './views/about/about.js';
+import { getSettingsView, initSettingsLogic } from './views/settings/settings.js';
 import { getNotFoundView, initNotFoundLogic } from './views/notfound/notfound.js';
 import {
     ROUTE_ABOUT,
     ROUTE_HOME,
     ROUTE_PATIENTS,
     ROUTE_MEDICAL_RECORDS,
+    ROUTE_SETTINGS,
     ROUTE_NOT_FOUND,
     ROUTE_PATHS,
 } from './constants/routes.js';
 import { applyRouteMeta } from './seo.js';
+import { initI18n } from './i18n.js';
 
 const appRoot = document.getElementById('app-root');
 const modalRoot = document.getElementById('modal-root');
@@ -59,9 +62,11 @@ const NAV_ROUTES = {
     'nav-home-link': ROUTE_HOME,
     'nav-patients': ROUTE_PATIENTS,
     'nav-medical-records': ROUTE_MEDICAL_RECORDS,
+    'nav-settings': ROUTE_SETTINGS,
+    'sidebar-close': ROUTE_ABOUT,
 };
 
-const NAV_LINK_IDS = ['nav-home-link', 'nav-patients', 'nav-medical-records'];
+const NAV_LINK_IDS = ['nav-home-link', 'nav-patients', 'nav-medical-records', 'nav-settings'];
 
 const PATH_TO_ROUTE = Object.fromEntries(
     Object.entries(ROUTE_PATHS).map(([routeName, path]) => [path, routeName])
@@ -117,6 +122,11 @@ const routes = {
         modalRoot.innerHTML = '';
         initMedicalRecordsLogic(options.patientId);
     },
+    [ROUTE_SETTINGS]: () => {
+        appRoot.innerHTML = getSettingsView();
+        modalRoot.innerHTML = '';
+        initSettingsLogic();
+    },
     [ROUTE_NOT_FOUND]: () => {
         appRoot.innerHTML = getNotFoundView();
         modalRoot.innerHTML = '';
@@ -154,6 +164,11 @@ const navigateTo = (routeName, options = {}, { push = true } = {}) => {
     updateHeaderNavState();
 };
 
+const renderCurrentLocation = () => {
+    const { routeName, options } = resolveRouteFromLocation();
+    navigateTo(routeName, options, { push: false });
+};
+
 const initRouter = () => {
     Object.entries(NAV_ROUTES).forEach(([navId, routeName]) => {
         document.getElementById(navId)?.addEventListener('click', (event) => {
@@ -164,6 +179,12 @@ const initRouter = () => {
 
     document.addEventListener('mlvh:navigate', (event) => {
         navigateTo(event.detail.route, event.detail.options);
+    });
+
+    document.addEventListener('mlvh:locale-change', () => {
+        const focusedId = document.activeElement?.id;
+        renderCurrentLocation();
+        if (focusedId) document.getElementById(focusedId)?.focus();
     });
 
     document.addEventListener('mlvh:sync-url', (event) => {
@@ -214,10 +235,7 @@ const initSidebarToggle = () => {
         setSidebarOpen(!sidebar.classList.contains('open'));
     });
 
-    closeBtn.addEventListener('click', () => {
-        closeSidebar();
-        navigateTo(ROUTE_ABOUT);
-    });
+    closeBtn.addEventListener('click', closeSidebar);
 
     backdrop.addEventListener('click', closeSidebar);
 
@@ -244,12 +262,10 @@ const initHeaderNav = () => {
 };
 
 // Application bootstrap
-window.addEventListener('popstate', () => {
-    const { routeName, options } = resolveRouteFromLocation();
-    navigateTo(routeName, options, { push: false });
-});
+window.addEventListener('popstate', renderCurrentLocation);
 
 function bootstrap() {
+    initI18n();
     initRouter();
     initSidebarToggle();
     initSkipLink();

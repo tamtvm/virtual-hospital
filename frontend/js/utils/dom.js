@@ -1,4 +1,5 @@
-// --- DOM helpers ---
+  // --- DOM helpers ---
+  import { getLocale } from '../i18n.js';
 
 /**
  * Escapes a value before its interpolated into an innerHTML template string.
@@ -29,9 +30,13 @@ export const formatDisplayDate = (isoDate) => {
     if (!isoDate) return '';
     const [year, month, day] = isoDate.split('-').map(Number);
     const date = new Date(year, month - 1, day);
-    return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+    return date.toLocaleDateString(getLocale(), { month: 'short', day: 'numeric', year: 'numeric' });
 };
 
+export const toLocalIsoDate = (date = new Date()) =>
+    [date.getFullYear(), date.getMonth() + 1, date.getDate()]
+        .map((part) => String(part).padStart(2, '0'))
+        .join('-');
 // --- Delegated activation for role="button" elements ---
 
 export const onActivate = (container, selector, handler) => {

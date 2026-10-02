@@ -7,7 +7,7 @@ import {
 const API_BASE = process.env.NEXT_PUBLIC_API_URL ?? "https://virtual-hospital-b471.onrender.com/api";
 
 async function fetchJson<T>(path: string): Promise<T> {
-  const res = await fetch(`${API_BASE}${path}`, { next: { revalidate: 60 } });
+  const res = await fetch(`${API_BASE}${path}`);
 
   if (!res.ok) {
     throw new Error(`Failed to fetch ${path}: ${res.status}`);

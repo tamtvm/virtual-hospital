@@ -3,6 +3,7 @@
 import { PROFESSIONALS } from '../../constants/patientOptions.js';
 import { AVATAR_BASE_PATH, DEFAULT_AVATAR } from '../../config.js';
 import { setAvatarWithFallback } from '../../utils/dom.js';
+import { t } from '../../i18n.js';
 
 const DUTY_AVATARS = {
     dr_milo: DEFAULT_AVATAR,
@@ -24,7 +25,7 @@ export const getOnDutyHTML = () => {
         <div class="mlvh-duty-slides">
             ${slides}
         </div>
-        <button type="button" class="mlvh-duty-next" aria-label="Next professional">
+        <button type="button" class="mlvh-duty-next" aria-label="${t('home.nextProfessional')}">
             <img src="/assets/icons/misc/back.svg" alt="">
         </button>
     </div>

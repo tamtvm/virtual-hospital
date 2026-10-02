@@ -1,51 +1,40 @@
 // --- Option lists for <select> ---
+import { tOption } from '../i18n.js';
 
-export const LOCATIONS = [
-    { value: 'EA', label: 'Earth (EA)' },
-    { value: 'PL', label: 'Pluto (PL)' },
-    { value: 'ET', label: 'Ether (ET)' },
-    { value: 'NW', label: 'Nowhere (NW)' },
-    { value: 'XX', label: 'Unknown (XX)' },
-];
+const defineOptions = (group, values) => values.map((value) => ({
+    value,
+    get label() {
+        return tOption(group, value);
+    },
+}));
 
-export const SPECIES = [
-    { value: 'human', label: 'Human' },
-    { value: 'cat', label: 'Cat' },
-    { value: 'bunny', label: 'Bunny' },
-    { value: 'rat', label: 'Rat' },
-    { value: 'monkey', label: 'Monkey' },
-    { value: 'unknown', label: 'Unknown' },
-];
+export const LOCATIONS = defineOptions('locations', ['EA', 'PL', 'ET', 'NW', 'XX']);
 
-export const SEXES = [
-    { value: 'unknown', label: 'Unknown' },
-    { value: 'male', label: 'Male' },
-    { value: 'female', label: 'Female' },
-];
+export const SPECIES = defineOptions('species', ['human', 'cat', 'bunny', 'rat', 'monkey', 'unknown']);
+
+export const SEXES = defineOptions('sexes', ['unknown', 'male', 'female']);
 
 export const ID_NUMBER_PATTERN = '[a-zA-Z0-9]{1,5}';
 export const ID_NUMBER_MAXLENGTH = 5;
+export const NAME_MAXLENGTH = 20;
+export const DIAGNOSIS_MAXLENGTH = 200;
 
-export const renderOptions = (options) =>
-    options.map(({ value, label }) => `<option value="${value}">${label}</option>`).join('');
+export const renderOptions = (options) => {
+    const shownLabels = new Set();
 
-export const PRONOUNS = [
-    { value: 'she/her', label: 'she/her' },
-    { value: 'he/him', label: 'he/him' },
-    { value: 'they/them', label: 'they/them' },
-];
+    return options.map(({ value, label }) => {
+        const isRepeated = shownLabels.has(label);
+        shownLabels.add(label);
+        return `<option value="${value}"${isRepeated ? ' hidden disabled' : ''}>${label}</option>`;
+    }).join('');
+};
 
-export const CONSULTATION_TYPES = [
-    { value: 'scheduled', label: 'Scheduled' },
-    { value: 'preventive', label: 'Preventive' },
-    { value: 'urgent', label: 'Urgent' },
-];
+export const PRONOUNS = defineOptions('pronouns', ['she/her', 'he/him', 'they/them']);
+
+export const CONSULTATION_TYPES = defineOptions('consultationTypes', ['scheduled', 'preventive', 'urgent']);
 
 // im not creating staff accounts yet, so professionals will only be these now
-export const PROFESSIONALS = [
-    { value: 'dr_milo', label: 'Dr. Milo' },
-    { value: 'rn_tam', label: 'RN. Tam' },
-];
+export const PROFESSIONALS = defineOptions('professionals', ['dr_milo', 'rn_tam']);
 
 // ----- Icon sets -----
 export const SPECIES_ICONS = {

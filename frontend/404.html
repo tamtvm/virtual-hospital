@@ -33,6 +33,8 @@
             width: 90%;
         }
     </style>
+
+    <script src="/js/locale-boot.js"></script>
 </head>
 <body class="text-dark">
 
@@ -41,11 +43,18 @@
             <span class="mlvh-card-tag">404</span>
         </div>
         <div class="mlvh-card-body text-center">
-            <h2>404. Not Found</h2>
-            <p class="mlvh-card-subtitle">This page does not exist in our hospital.</p>
-                        <a href="/home" class="btn btn-primary">Back to the Hospital</a>
+            <h2 data-i18n="notFound.title">404. Not Found</h2>
+            <p class="mlvh-card-subtitle" data-i18n="notFound.message">This page does not exist in our hospital.</p>
+            <a href="/home" class="btn btn-primary" data-i18n="notFound.back">Back to the Hospital</a>
         </div>
     </div>
 
+    <script type="module">
+        import { initI18n, t } from '/js/i18n.js';
+        import { brandTitle } from '/js/constants/brand.js';
+
+        initI18n();
+        document.title = brandTitle(t('routes.not-found.title'));
+    </script>
 </body>
 </html>

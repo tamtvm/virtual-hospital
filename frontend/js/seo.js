@@ -1,6 +1,8 @@
 // --- MODULE: document metadata ---
 
-import { SITE_ORIGIN, ROUTE_META, ROUTE_PATHS, ROUTE_ABOUT } from './constants/routes.js';
+import { SITE_ORIGIN, ROUTE_PATHS, NOINDEX_ROUTES } from './constants/routes.js';
+import { brandTitle } from './constants/brand.js';
+import { t } from './i18n.js';
 
 const titleEl = document.querySelector('title');
 const descriptionEl = document.querySelector('meta[name="description"]');
@@ -12,15 +14,16 @@ const ogUrlEl = document.querySelector('meta[property="og:url"]');
 const headingEl = document.getElementById('page-heading');
 
 export const applyRouteMeta = (routeName) => {
-    const meta = ROUTE_META[routeName] ?? ROUTE_META[ROUTE_ABOUT];
+    const title = brandTitle(t(`routes.${routeName}.title`));
+    const description = t(`routes.${routeName}.description`);
     const canonicalUrl = `${SITE_ORIGIN}${ROUTE_PATHS[routeName] ?? '/'}`;
 
-    titleEl.textContent = meta.title;
-    headingEl.textContent = meta.heading;
-    descriptionEl.content = meta.description;
-    robotsEl.content = meta.noindex ? 'noindex, follow' : 'index, follow';
+    titleEl.textContent = title;
+    headingEl.textContent = t(`routes.${routeName}.heading`);
+    descriptionEl.content = description;
+    robotsEl.content = NOINDEX_ROUTES.has(routeName) ? 'noindex, follow' : 'index, follow';
     canonicalEl.href = canonicalUrl;
-    ogTitleEl.content = meta.title;
-    ogDescriptionEl.content = meta.description;
+    ogTitleEl.content = title;
+    ogDescriptionEl.content = description;
     ogUrlEl.content = canonicalUrl;
 };

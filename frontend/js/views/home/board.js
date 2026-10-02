@@ -1,15 +1,15 @@
 // --- MODULE: reception whiteboard ---
 
 import { fetchBoardStrokes, createBoardStroke } from '../../api/board.js';
-import { ApiError } from '../../api/patients.js';
+import { ApiError } from '../../api/errors.js';
 import { showToast } from '../../utils/toast.js';
+import { t } from '../../i18n.js';
 
 const CANVAS_WIDTH = 1200;
 const CANVAS_HEIGHT = 800;
 const PEN_WIDTH = 5;
 const ERASER_WIDTH = 36;
 const MIN_POINT_DISTANCE = 0.004;
-const LOADING_TEXT = 'the board is loading...!';
 const SYNC_INTERVAL_MS = 2000;
 
 export const getBoardModal = () => `
@@ -19,20 +19,20 @@ export const getBoardModal = () => `
             <div class="modal-content">
                 <!-- Folder header -->
                 <div class="modal-header border-0 pb-0 d-flex justify-content-between align-items-center mlvh-folder-header">
-                    <h5 class="mlvh-visually-hidden" id="board-modal-title">Reception Whiteboard</h5>
-                    <button type="button" class="btn-close me-3" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <h5 class="mlvh-visually-hidden" id="board-modal-title">${t('home.board.title')}</h5>
+                    <button type="button" class="btn-close me-3" data-bs-dismiss="modal" aria-label="${t('common.close')}"></button>
                 </div>
                 <div class="modal-body">
-                    <div class="mlvh-board-toolbar" role="group" aria-label="Whiteboard tools">
-                        <button type="button" class="mlvh-icon-btn active" data-tool="pen" aria-pressed="true" aria-label="Pen">
+                    <div class="mlvh-board-toolbar" role="group" aria-label="${t('home.board.tools')}">
+                        <button type="button" class="mlvh-icon-btn active" data-tool="pen" aria-pressed="true" aria-label="${t('home.board.pen')}">
                             <img src="/assets/icons/misc/pencil.svg" alt="">
                         </button>
-                        <button type="button" class="mlvh-icon-btn" data-tool="eraser" aria-pressed="false" aria-label="Eraser">
+                        <button type="button" class="mlvh-icon-btn" data-tool="eraser" aria-pressed="false" aria-label="${t('home.board.eraser')}">
                             <img src="/assets/icons/misc/eraser.svg" alt="">
                         </button>
                     </div>
                     <div class="mlvh-board-stage">
-                        <canvas id="board-canvas" class="mlvh-board-canvas" width="${CANVAS_WIDTH}" height="${CANVAS_HEIGHT}" aria-label="Shared whiteboard"></canvas>
+                        <canvas id="board-canvas" class="mlvh-board-canvas" width="${CANVAS_WIDTH}" height="${CANVAS_HEIGHT}" aria-label="${t('home.board.canvas')}"></canvas>
                     </div>
                 </div>
             </div>
@@ -69,7 +69,7 @@ const paintLoading = (context) => {
     context.font = '600 40px system-ui, sans-serif';
     context.textAlign = 'center';
     context.textBaseline = 'middle';
-    context.fillText(LOADING_TEXT, CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2);
+    context.fillText(t('home.board.loading'), CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2);
     context.restore();
 };
 
@@ -138,7 +138,7 @@ export const initBoard = () => {
             paintIncoming(strokes);
         } catch (error) {
             console.error(error);
-            showToast('Could not load the whiteboard.', 'error');
+            showToast(t('home.board.loadError'), 'error');
         } finally {
             isLoading = false;
         }
@@ -154,7 +154,7 @@ export const initBoard = () => {
             ownStrokeIds.add(saved.id);
         } catch (error) {
             console.error(error);
-            showToast(error instanceof ApiError ? error.message : 'Could not save your stroke.', 'error');
+            showToast(error instanceof ApiError ? error.message : t('home.board.saveError'), 'error');
             loadBoard();
         }
     };

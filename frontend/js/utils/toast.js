@@ -1,4 +1,5 @@
-// ------- Notifications ------
+  // ------- Notifications ------
+  import { t } from '../i18n.js';
 
 const Toast = Swal.mixin({
     toast: true,
@@ -33,14 +34,14 @@ export const showToast = (message, variant = 'success') => {
  * @param {string} confirmButtonText
  * @returns {Promise<boolean>}
  */
-export const confirmAction = async (message, confirmButtonText = 'Yes, continue') => {
+export const confirmAction = async (message, confirmButtonText) => {
     const result = await Swal.fire({
         icon: 'warning',
         iconColor: 'var(--mlvh-blue-deep)',
         text: message,
         showCancelButton: true,
         confirmButtonText,
-        cancelButtonText: 'Cancel',
+        cancelButtonText: t('common.cancel'),
         reverseButtons: true,
         buttonsStyling: false,
         customClass: {

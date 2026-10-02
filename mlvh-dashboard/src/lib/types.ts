@@ -10,7 +10,6 @@ export interface AdmissionsWeeklyResponse {
 
 export interface PatientsBySpeciesRow {
   species: string;
-  label: string;
   count: number;
 }
 
@@ -20,7 +19,6 @@ export interface PatientsBySpeciesResponse {
 
 export interface ConsultationsByReasonRow {
   consultation_type: string;
-  label: string;
   count: number;
 }
 

@@ -6,15 +6,17 @@ import PatientsBySpeciesChart from "@/components/charts/PatientsBySpeciesChart";
 import ConsultationsByReasonChart from "@/components/charts/ConsultationsByReasonChart";
 import { getAdmissionsWeekly, getPatientsBySpecies, getConsultationsByReason } from "@/lib/api";
 import { PatientsBySpeciesRow, ConsultationsByReasonRow, AdmissionsWeeklyPoint } from "@/lib/types";
+import { useI18n } from "@/lib/i18n";
 
 const INITIAL_WEEKS = 8;
 
 export default function DashboardPage() {
+  const { t } = useI18n();
   const [admissions, setAdmissions] = useState<AdmissionsWeeklyPoint[]>([]);
   const [species, setSpecies] = useState<PatientsBySpeciesRow[]>([]);
   const [consultations, setConsultations] = useState<ConsultationsByReasonRow[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [hasError, setHasError] = useState(false);
 
   useEffect(() => {
     Promise.all([
@@ -27,7 +29,7 @@ export default function DashboardPage() {
         setSpecies(speciesRes.data);
         setConsultations(consultationsRes.data);
       })
-      .catch(() => setError("Couldn't load the dashboard."))
+      .catch(() => setHasError(true))
       .finally(() => setIsLoading(false));
   }, []);
 
@@ -41,12 +43,12 @@ export default function DashboardPage() {
     );
   }
 
-  if (error) {
+  if (hasError) {
     return (
       <div className="dashboard-grid">
         <div className="mlvh-card mlvh-error-card">
-          <p className="mlvh-card-title">Couldn&apos;t load the dashboard</p>
-          <p>{error}</p>
+          <p className="mlvh-card-title">{t("dashboard.loadError.title")}</p>
+          <p>{t("dashboard.loadError.hint")}</p>
         </div>
       </div>
     );

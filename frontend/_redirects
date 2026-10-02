@@ -5,9 +5,11 @@
 /home/              /home               301
 /patients/          /patients           301
 /medical-records/   /medical-records    301
+/settings/          /settings           301
 
 /dashboard/*        /dashboard/:splat   200
 
 /home               /                   200
 /patients           /                   200
 /medical-records    /                   200
+/settings           /                   200

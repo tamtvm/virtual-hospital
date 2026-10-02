@@ -3,7 +3,8 @@
 import { getCalendarHTML, initCalendar } from './calendar.js';
 import { getOnDutyHTML, initOnDuty } from './onduty.js';
 import { getSceneHTML, initScene } from './scene.js';
-import { getBoardModal, initBoard } from './board.js';
+  import { getBoardModal, initBoard } from './board.js';
+  import { t, getLocale } from '../../i18n.js';
 
 const RESET_INTERVAL_MINUTES = 30;
 const TYPE_SPEED_MS = 55;
@@ -22,7 +23,7 @@ export const getHomeView = () => {
     <div class="mlvh-home-wrap">
         <div class="mlvh-home-grid">
             <div class="mlvh-home-header">
-                <h2 class="mlvh-home-welcome">๋₊˚࣭⭑welcome to my little virtual hospital !! ᐢ..ᐢ࣭⭑๋₊ </h2>
+                <h2 class="mlvh-home-welcome">๋₊˚࣭⭑${t('home.welcome')} ᐢ..ᐢ࣭⭑๋₊ </h2>
                 <div class="mlvh-reset-clock">
                     <span class="mlvh-reset-time" id="home-clock-time"></span>
                     <span class="mlvh-reset-note" id="home-clock-note"></span>
@@ -40,17 +41,12 @@ export const getHomeView = () => {
                         </div>
                     </div>
                 </div>
-                <!-- Wash hands poster
-                <div class="mlvh-card mlvh-home-card mlvh-home-poster">
-                    <div class="mlvh-card-body mlvh-home-card-body"></div>
-                </div>
-                -->
             </div>
 
             <div class="mlvh-home-col-right">
                 <div class="mlvh-card mlvh-home-card">
                     <div class="mlvh-card-header">
-                        <span class="mlvh-card-tag">On Duty</span>
+                        <span class="mlvh-card-tag">${t('home.onDuty')}</span>
                     </div>
                     <div class="mlvh-card-body mlvh-home-card-body">
                         ${getOnDutyHTML()}
@@ -106,8 +102,8 @@ export const initHomeLogic = () => {
         const diff = getNextReset(now) - now;
         const minutes = Math.floor(diff / 60000);
         const seconds = Math.floor((diff % 60000) / 1000);
-        timeEl.textContent = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-        noteEl.textContent = `next reset in ${pad(minutes)}:${pad(seconds)}...`;
+        timeEl.textContent = now.toLocaleTimeString(getLocale(), { hour: '2-digit', minute: '2-digit' });
+        noteEl.textContent = t('home.nextReset', { time: `${pad(minutes)}:${pad(seconds)}` });
     };
 
     const intervalId = setInterval(tick, 1000);
