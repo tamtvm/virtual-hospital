@@ -121,3 +121,26 @@ class PatientAdmissionApiTests(APITestCase):
         response = self.client.post(self.url, PATIENT_PAYLOAD, format='json')
 
         self.assertEqual(response.status_code, 400)
+
+# --- Error codes ---
+
+class ApiErrorCodeTests(APITestCase):
+
+    url = '/api/patients/'
+
+    def test_duplicate_id_reports_the_unique_code(self):
+        self.client.post(self.url, PATIENT_PAYLOAD, format='json')
+        response = self.client.post(self.url, PATIENT_PAYLOAD, format='json')
+
+        self.assertEqual(response.data['non_field_errors'][0]['code'], 'unique')
+
+    def test_invalid_id_number_reports_the_field_and_code(self):
+        response = self.client.post(self.url, {**PATIENT_PAYLOAD, 'id_number': 'A-1'}, format='json')
+
+        self.assertEqual(response.data['id_number'][0]['code'], 'invalid')
+
+    def test_missing_patient_reports_the_not_found_code(self):
+        response = self.client.patch(f'{self.url}9999/', {'name': 'Momo'}, format='json')
+
+        self.assertEqual(response.status_code, 404)
+        self.assertEqual(response.data['detail']['code'], 'not_found')

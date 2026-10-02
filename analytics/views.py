@@ -38,8 +38,6 @@ def admissions_weekly(request):
 
 @api_view(['GET'])
 def patients_by_species(request):
-    species_labels = dict(Patient.SPECIES_CHOICES)
-
     queryset = (
         Patient.objects
         .filter(is_active=True)
@@ -48,21 +46,12 @@ def patients_by_species(request):
         .order_by('-count')
     )
 
-    data = [
-        {
-            'species': row['species'],
-            'label': species_labels.get(row['species'], row['species']),
-            'count': row['count'],
-        }
-        for row in queryset
-    ]
+    data = [{'species': row['species'], 'count': row['count']} for row in queryset]
     return Response({'data': data})
 
 
 @api_view(['GET'])
 def consultations_by_reason(request):
-    type_labels = dict(PatientRecord.CONSULTATION_TYPE_CHOICES)
-
     queryset = (
         PatientRecord.objects
         .filter(record_type='consultation')
@@ -72,12 +61,5 @@ def consultations_by_reason(request):
         .order_by('-count')
     )
 
-    data = [
-        {
-            'consultation_type': row['consultation_type'],
-            'label': type_labels.get(row['consultation_type'], row['consultation_type']),
-            'count': row['count'],
-        }
-        for row in queryset
-    ]
+    data = [{'consultation_type': row['consultation_type'], 'count': row['count']} for row in queryset]
     return Response({'data': data})

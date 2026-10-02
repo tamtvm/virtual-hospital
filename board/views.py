@@ -1,10 +1,15 @@
 from rest_framework import mixins, status, viewsets
-from rest_framework.exceptions import ValidationError
-from rest_framework.response import Response
+from rest_framework.exceptions import APIException, ValidationError
 from .models import BoardStroke
 from .serializers import BoardStrokeSerializer
 
 BOARD_MAX_STROKES = 5000
+
+
+class BoardFull(APIException):
+    status_code = status.HTTP_409_CONFLICT
+    default_detail = 'The board is full!! wait till next sandbox reset.'
+    default_code = 'board_full'
 
 
 class BoardStrokeViewSet(mixins.ListModelMixin, mixins.CreateModelMixin, viewsets.GenericViewSet):
@@ -24,8 +29,5 @@ class BoardStrokeViewSet(mixins.ListModelMixin, mixins.CreateModelMixin, viewset
 
     def create(self, request, *args, **kwargs):
         if BoardStroke.objects.count() >= BOARD_MAX_STROKES:
-            return Response(
-                {'detail': 'The board is full!! wait till next sandbox reset.'},
-                status=status.HTTP_409_CONFLICT,
-            )
+            raise BoardFull()
         return super().create(request, *args, **kwargs)
