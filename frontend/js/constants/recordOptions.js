@@ -1,18 +1,10 @@
 // --- Display helpers for patient records (admission, edits, discharge, etc) ---
-import { CONSULTATION_TYPES, PROFESSIONALS } from './patientOptions.js';
-
-const CONSULTATION_TYPE_LABELS = Object.fromEntries(
-    CONSULTATION_TYPES.map(({ value, label }) => [value, label])
-);
+import { PROFESSIONALS } from './patientOptions.js';
+import { t, tOption } from '../i18n.js';
 
 export const PROFESSIONAL_LABELS = Object.fromEntries(
     PROFESSIONALS.map(({ value, label }) => [value, label])
 );
-
-const RECORD_TYPE_LABELS = {
-    admission: 'Admission',
-    consultation: 'Consultation',
-};
 
 /**
  * Generates summary string from PatientRecord, 
@@ -21,14 +13,13 @@ const RECORD_TYPE_LABELS = {
 export const formatRecordType = (record) => {
     if (!record) return '';
 
-    const typeLabel = RECORD_TYPE_LABELS[record.record_type] ?? record.record_type;
-    const consultationLabel = CONSULTATION_TYPE_LABELS[record.consultation_type];
+    const typeLabel = tOption('recordTypes', record.record_type);
 
-    return consultationLabel ? `${typeLabel} (${consultationLabel})` : typeLabel;
+    return record.consultation_type ? `${typeLabel} (${tOption('consultationTypes', record.consultation_type)})` : typeLabel;
 };
 
 export const formatRecordSummary = (record) => {
-    if (!record) return 'No records yet.';
+    if (!record) return t('records.empty');
 
     return `${formatRecordType(record)}: ${record.description}`;
 };

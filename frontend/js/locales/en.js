@@ -66,6 +66,7 @@ export const en = {
     },
     common: {
         close: 'Close',
+        cancel: 'Cancel',
     },
     home: {
         welcome: 'Welcome to My Little Virtual Hospital !!',
@@ -142,6 +143,109 @@ export const en = {
         },
         contact: {
             message: 'pls feel free to contact me at {email}!',
+        },
+    },
+    patients: {
+        search: 'Search by name or ID...',
+        admit: 'Admit Patient',
+        loadError: 'Failed to connect to database.',
+        count: {
+            loading: 'Loading roster...',
+            error: 'API Error',
+            none: '0 patients',
+            noMatches: '0 patients found',
+            active: {
+                one: '{count} active patient',
+                other: '{count} active patients',
+            },
+            filtered: {
+                one: '{shown} of {count} patient',
+                other: '{shown} of {count} patients',
+            },
+        },
+        empty: {
+            none: 'No patients admitted yet.',
+            noMatches: 'No patients match your search.',
+        },
+        card: {
+            open: 'Open profile for {name}',
+        },
+        fields: {
+            namePlaceholder: 'name',
+            sex: 'Sex',
+            pronouns: 'Pronouns',
+            species: 'Species',
+            age: 'Age',
+            agePlaceholder: 'e.g. 25',
+            location: 'Location',
+            idNumber: 'ID Number',
+            idHint: 'Up to 5 alphanumeric characters',
+            idPlaceholder: 'e.g. 1234',
+            admissionDate: 'Admission Date',
+            consultationType: 'Consultation Type',
+            professional: 'Professional',
+            description: 'Description',
+            descriptionPlaceholder: 'Describe why the patient is checking into the hospital today...',
+            latestRecord: 'Latest Record',
+        },
+        create: {
+            title: 'Admit New Patient',
+            avatarAlt: 'Avatar Preview',
+            submit: 'Admit to Hospital',
+            submitting: 'Admitting...',
+            success: 'Patient admitted successfully.',
+            error: "Couldn't reach the hospital server. Try again in a moment.",
+        },
+        details: {
+            title: 'Patient Profile',
+            avatarAlt: 'Patient Avatar',
+            edit: 'Edit Profile',
+            history: 'Medical History',
+            discharge: 'Discharge',
+            updated: 'Patient updated successfully.',
+            updateError: 'Error saving changes.',
+            dischargeConfirm: 'This patient will be discharged and removed from the active roster.',
+            dischargeButton: 'Yes, discharge',
+            discharged: 'Patient discharged successfully.',
+            dischargeError: 'Error discharging patient.',
+        },
+    },
+    locations: {
+        EA: 'Earth (EA)',
+        PL: 'Pluto (PL)',
+        ET: 'Ether (ET)',
+        NW: 'Nowhere (NW)',
+        XX: 'Unknown (XX)',
+    },
+    sexes: {
+        unknown: 'Unknown',
+        male: 'Male',
+        female: 'Female',
+    },
+    pronouns: {
+        'she/her': 'she/her',
+        'he/him': 'he/him',
+        'they/them': 'they/them',
+    },
+    professionals: {
+        dr_milo: 'Dr. Milo',
+        rn_tam: 'RN. Tam',
+    },
+    recordTypes: {
+        admission: 'Admission',
+        consultation: 'Consultation',
+    },
+    records: {
+        empty: 'No records yet.',
+    },
+    api: {
+        errors: {
+            loadPatients: 'Could not load the patient roster.',
+            loadRecords: "Could not load this patient's record history.",
+            saveRecord: 'Could not save this record.',
+            createPatient: 'Failed to save patient to the database.',
+            updatePatient: 'Failed to update patient.',
+            dischargePatient: 'Failed to discharge patient.',
         },
     },
     species: {

@@ -19,27 +19,28 @@ import {
     renderIconButtons,
 } from '../../constants/patientOptions.js';
 import { formatRecordSummary } from '../../constants/recordOptions.js';
-import { escapeHtml, setAvatarWithFallback, formatDisplayDate, onActivate } from '../../utils/dom.js';
+import { escapeHtml, setAvatarWithFallback, formatDisplayDate, toLocalIsoDate, onActivate } from '../../utils/dom.js';
 import { showToast, confirmAction } from '../../utils/toast.js';
+import { t } from '../../i18n.js';
 
 export const getPatientAdminView = () => {
     return `
     <div class="mlvh-card">
         <div class="mlvh-card-header">
-            <span class="mlvh-card-tag">Patient Administration</span>
+            <span class="mlvh-card-tag">${t('routes.patients.heading')}</span>
         </div>
         <div class="mlvh-card-body">
         <div class="d-flex align-items-center gap-2 mb-4">
             <div class="mlvh-search-field flex-grow-1">
                 <img src="/assets/icons/misc/search.svg" alt="">
-                <input type="text" id="patient-search" class="form-control form-control-sm border-0 bg-transparent p-0" placeholder="Search by name or ID...">
+                <input type="text" id="patient-search" class="form-control form-control-sm border-0 bg-transparent p-0" placeholder="${t('patients.search')}">
             </div>
-            <button class="btn mlvh-admit-btn shadow-sm flex-shrink-0" data-bs-toggle="modal" data-bs-target="#createPatientModal" aria-label="Admit Patient">
+            <button class="btn mlvh-admit-btn shadow-sm flex-shrink-0" data-bs-toggle="modal" data-bs-target="#createPatientModal" aria-label="${t('patients.admit')}">
                 <img src="/assets/icons/misc/plus.svg" alt="" class="mlvh-btn-icon">
             </button>
         </div>
 
-        <span class="d-block mb-3 mlvh-card-subtitle" id="patient-count">Loading roster...</span>
+        <span class="d-block mb-3 mlvh-card-subtitle" id="patient-count">${t('patients.count.loading')}</span>
         <div id="patient-gallery" class="mlvh-patient-grid"></div>
         </div>
     </div>
@@ -54,16 +55,16 @@ export const getPatientModal = () => {
             <div class="modal-content">
                 <!-- Folder header -->
                 <div class="modal-header border-0 pb-0 d-flex justify-content-between align-items-center mlvh-folder-header">
-                    <h5 class="fw-bold mb-0 mlvh-folder-tab-title">Admit New Patient</h5>
-                    <button type="button" class="btn-close me-3" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <h5 class="fw-bold mb-0 mlvh-folder-tab-title">${t('patients.create.title')}</h5>
+                    <button type="button" class="btn-close me-3" data-bs-dismiss="modal" aria-label="${t('common.close')}"></button>
                 </div>
                 <div class="modal-body p-0">
                     <div class="row g-0">
                         <div class="col-md-5 text-center d-flex flex-column mlvh-profile-left-col">
                             <div class="mlvh-avatar-stage">
-                                <img id="avatar-preview" src="${DEFAULT_AVATAR}" alt="Avatar Preview" class="img-fluid mb-2" style="max-height: 220px;">
+                                <img id="avatar-preview" src="${DEFAULT_AVATAR}" alt="${t('patients.create.avatarAlt')}" class="img-fluid mb-2" style="max-height: 220px;">
                                 <div class="mlvh-name-field">
-                                    <input type="text" class="form-control form-control-sm text-center mlvh-name-input" id="name" placeholder="name" required>
+                                    <input type="text" class="form-control form-control-sm text-center mlvh-name-input" id="name" placeholder="${t('patients.fields.namePlaceholder')}" required>
                                     <img src="${PENCIL_ICON}" alt="">
                                 </div>
                             </div>
@@ -72,7 +73,7 @@ export const getPatientModal = () => {
                             <form id="patient-form">
                                 <div class="row">
                                     <div class="col-7 mb-2">
-                                        <label class="form-label small text-muted mb-0 d-block">Sex</label>
+                                        <label class="form-label small text-muted mb-0 d-block">${t('patients.fields.sex')}</label>
                                         <div class="mlvh-icon-group" id="sex-icons" data-target="sex">
                                             ${renderIconButtons(SEXES, SEX_ICONS, 'sex')}
                                         </div>
@@ -81,7 +82,7 @@ export const getPatientModal = () => {
                                         </select>
                                     </div>
                                     <div class="col-5 mb-2">
-                                        <label class="form-label small text-muted mb-0">Pronouns</label>
+                                        <label class="form-label small text-muted mb-0">${t('patients.fields.pronouns')}</label>
                                         <select class="form-select form-select-sm mlvh-rounded-input" id="pronouns">
                                             ${renderOptions(PRONOUNS)}
                                         </select>
@@ -89,7 +90,7 @@ export const getPatientModal = () => {
                                 </div>
                                 <div class="row">
                                     <div class="col-7 mb-2">
-                                        <label class="form-label small text-muted mb-0 d-block">Species</label>
+                                        <label class="form-label small text-muted mb-0 d-block">${t('patients.fields.species')}</label>
                                         <div class="mlvh-icon-group" id="species-icons" data-target="species">
                                             ${renderIconButtons(SPECIES, SPECIES_ICONS, 'species')}
                                         </div>
@@ -98,47 +99,47 @@ export const getPatientModal = () => {
                                         </select>
                                     </div>
                                     <div class="col-5 mb-2">
-                                        <label class="form-label small text-muted mb-0">Age</label>
-                                        <input type="number" class="form-control form-control-sm mlvh-rounded-input" id="age" min="0" placeholder="e.g. 25" required>
+                                        <label class="form-label small text-muted mb-0">${t('patients.fields.age')}</label>
+                                        <input type="number" class="form-control form-control-sm mlvh-rounded-input" id="age" min="0" placeholder="${t('patients.fields.agePlaceholder')}" required>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-7 mb-2">
-                                        <label class="form-label small text-muted mb-0">Location</label>
+                                        <label class="form-label small text-muted mb-0">${t('patients.fields.location')}</label>
                                         <select class="form-select form-select-sm mlvh-rounded-input" id="location" required>
                                             ${renderOptions(LOCATIONS)}
                                         </select>
                                     </div>
                                     <div class="col-5 mb-2">
-                                        <label class="form-label small text-muted mb-0">ID Number</label>
-                                        <input type="text" class="form-control form-control-sm mlvh-rounded-input" id="id_number" maxlength="${ID_NUMBER_MAXLENGTH}" pattern="${ID_NUMBER_PATTERN}" title="Up to 5 alphanumeric characters" placeholder="e.g. 1234" required>
+                                        <label class="form-label small text-muted mb-0">${t('patients.fields.idNumber')}</label>
+                                        <input type="text" class="form-control form-control-sm mlvh-rounded-input" id="id_number" maxlength="${ID_NUMBER_MAXLENGTH}" pattern="${ID_NUMBER_PATTERN}" title="${t('patients.fields.idHint')}" placeholder="${t('patients.fields.idPlaceholder')}" required>
                                     </div>
                                 </div>
                                 <div class="mb-2">
-                                    <label class="form-label small text-muted mb-0 d-block">Admission Date</label>
+                                    <label class="form-label small text-muted mb-0 d-block">${t('patients.fields.admissionDate')}</label>
                                     <div class="mlvh-date-badge mlvh-date-badge-readonly">
                                         <img src="${CALENDAR_ICON}" alt="">
                                         <span class="mlvh-date-badge-text" id="admission_date"></span>
                                     </div>
                                 </div>
                                 <div class="mb-2">
-                                    <label class="form-label small text-muted mb-0 d-block">Consultation Type</label>
+                                    <label class="form-label small text-muted mb-0 d-block">${t('patients.fields.consultationType')}</label>
                                     <select class="form-select form-select-sm mlvh-rounded-input" id="consultation_type" required>
                                         ${renderOptions(CONSULTATION_TYPES)}
                                     </select>
                                 </div>
                                 <div class="mb-2">
-                                    <label class="form-label small text-muted mb-0 d-block">Professional</label>
+                                    <label class="form-label small text-muted mb-0 d-block">${t('patients.fields.professional')}</label>
                                     <select class="form-select form-select-sm mlvh-rounded-input" id="assigned_professional" required>
                                         ${renderOptions(PROFESSIONALS)}
                                     </select>
                                 </div>
                                 <div class="mb-2">
-                                    <label class="form-label small text-muted mb-0 d-block">Description</label>
-                                    <textarea class="form-control form-control-sm mlvh-rounded-textarea" id="record_description" rows="2" placeholder="Describe why the patient is checking into the hospital today..." required></textarea>
+                                    <label class="form-label small text-muted mb-0 d-block">${t('patients.fields.description')}</label>
+                                    <textarea class="form-control form-control-sm mlvh-rounded-textarea" id="record_description" rows="2" placeholder="${t('patients.fields.descriptionPlaceholder')}" required></textarea>
                                 </div>
                                 <div class="text-end mt-3">
-                                    <button type="submit" class="btn btn-primary w-100">Admit to Hospital</button>
+                                    <button type="submit" class="btn btn-primary w-100">${t('patients.create.submit')}</button>
                                 </div>
                             </form>
                         </div>
@@ -154,8 +155,8 @@ export const getPatientModal = () => {
             <div class="modal-content">
                 <!-- Folder header -->
                 <div class="modal-header border-0 pb-0 d-flex justify-content-between align-items-center mlvh-folder-header">
-                    <h5 class="fw-bold mb-0 mlvh-folder-tab-title" id="details-modal-title">Patient Profile</h5>
-                    <button type="button" class="btn-close me-3" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <h5 class="fw-bold mb-0 mlvh-folder-tab-title" id="details-modal-title">${t('patients.details.title')}</h5>
+                    <button type="button" class="btn-close me-3" data-bs-dismiss="modal" aria-label="${t('common.close')}"></button>
                 </div>
                 <div class="modal-body p-0">
                     <form id="patient-details-form">
@@ -163,7 +164,7 @@ export const getPatientModal = () => {
                             <div class="col-md-5 text-center d-flex flex-column mlvh-profile-left-col">
                                 <fieldset id="patient-name-fieldset" disabled>
                                     <div class="mlvh-avatar-stage">
-                                        <img id="details-avatar" src="${DEFAULT_AVATAR}" alt="Patient Avatar" class="img-fluid mb-2 mlvh-detail-avatar-img">
+                                        <img id="details-avatar" src="${DEFAULT_AVATAR}" alt="${t('patients.details.avatarAlt')}" class="img-fluid mb-2 mlvh-detail-avatar-img">
                                         <div class="mlvh-name-field">
                                             <input type="text" class="form-control form-control-sm text-center mlvh-name-input" id="details-name">
                                             <img src="${PENCIL_ICON}" alt="">
@@ -172,13 +173,13 @@ export const getPatientModal = () => {
                                     </div>
                                 </fieldset>
                                 <div class="d-flex justify-content-center gap-2 mt-3">
-                                    <button type="button" class="btn mlvh-admit-btn shadow-sm" id="edit-toggle-btn" aria-label="Edit Profile">
+                                    <button type="button" class="btn mlvh-admit-btn shadow-sm" id="edit-toggle-btn" aria-label="${t('patients.details.edit')}">
                                         <img src="/assets/icons/misc/pencil.svg" alt="" id="edit-toggle-icon" class="mlvh-btn-icon">
                                     </button>
-                                    <button type="button" class="btn mlvh-admit-btn shadow-sm" id="history-btn" aria-label="Medical History">
+                                    <button type="button" class="btn mlvh-admit-btn shadow-sm" id="history-btn" aria-label="${t('patients.details.history')}">
                                         <img src="/assets/icons/misc/history.svg" alt="" class="mlvh-btn-icon">
                                     </button>
-                                    <button type="button" class="btn mlvh-admit-btn shadow-sm" id="discharge-btn" aria-label="Discharge">
+                                    <button type="button" class="btn mlvh-admit-btn shadow-sm" id="discharge-btn" aria-label="${t('patients.details.discharge')}">
                                         <img src="/assets/icons/misc/exit.svg" alt="" class="mlvh-btn-icon">
                                     </button>
                                 </div>
@@ -187,7 +188,7 @@ export const getPatientModal = () => {
                                 <fieldset id="patient-fieldset" disabled>
                                     <div class="row">
                                         <div class="col-7 mb-2">
-                                            <label class="form-label small text-muted mb-0 d-block">Sex</label>
+                                            <label class="form-label small text-muted mb-0 d-block">${t('patients.fields.sex')}</label>
                                             <div class="mlvh-icon-group" id="details-sex-icons" data-target="details-sex">
                                                 ${renderIconButtons(SEXES, SEX_ICONS, 'details-sex')}
                                             </div>
@@ -196,7 +197,7 @@ export const getPatientModal = () => {
                                             </select>
                                         </div>
                                         <div class="col-5 mb-2">
-                                            <label class="form-label small text-muted mb-0">Pronouns</label>
+                                            <label class="form-label small text-muted mb-0">${t('patients.fields.pronouns')}</label>
                                             <select class="form-select form-select-sm mlvh-rounded-input" id="details-pronouns">
                                                 ${renderOptions(PRONOUNS)}
                                             </select>
@@ -204,7 +205,7 @@ export const getPatientModal = () => {
                                     </div>
                                     <div class="row">
                                         <div class="col-7 mb-2">
-                                            <label class="form-label small text-muted mb-0 d-block">Species</label>
+                                            <label class="form-label small text-muted mb-0 d-block">${t('patients.fields.species')}</label>
                                             <div class="mlvh-icon-group" id="details-species-icons" data-target="details-species">
                                                 ${renderIconButtons(SPECIES, SPECIES_ICONS, 'details-species')}
                                             </div>
@@ -213,31 +214,31 @@ export const getPatientModal = () => {
                                             </select>
                                         </div>
                                         <div class="col-5 mb-2">
-                                            <label class="form-label small text-muted mb-0">Age</label>
-                                            <input type="number" class="form-control form-control-sm mlvh-rounded-input" id="details-age" min="0" placeholder="e.g. 25">
+                                            <label class="form-label small text-muted mb-0">${t('patients.fields.age')}</label>
+                                            <input type="number" class="form-control form-control-sm mlvh-rounded-input" id="details-age" min="0" placeholder="${t('patients.fields.agePlaceholder')}">
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-7 mb-2">
-                                            <label class="form-label small text-muted mb-0">Location</label>
+                                            <label class="form-label small text-muted mb-0">${t('patients.fields.location')}</label>
                                             <select class="form-select form-select-sm mlvh-rounded-input" id="details-location">
                                                 ${renderOptions(LOCATIONS)}
                                             </select>
                                         </div>
                                         <div class="col-5 mb-2">
-                                            <label class="form-label small text-muted mb-0">ID Number</label>
-                                            <input type="text" class="form-control form-control-sm mlvh-rounded-input" id="details-id_number" maxlength="${ID_NUMBER_MAXLENGTH}" pattern="${ID_NUMBER_PATTERN}" title="Up to 5 alphanumeric characters" placeholder="e.g. 1234">
+                                            <label class="form-label small text-muted mb-0">${t('patients.fields.idNumber')}</label>
+                                            <input type="text" class="form-control form-control-sm mlvh-rounded-input" id="details-id_number" maxlength="${ID_NUMBER_MAXLENGTH}" pattern="${ID_NUMBER_PATTERN}" title="${t('patients.fields.idHint')}" placeholder="${t('patients.fields.idPlaceholder')}">
                                         </div>
                                     </div>
                                     <div class="mb-2">
-                                        <label class="form-label small text-muted mb-0 d-block">Admission Date</label>
+                                        <label class="form-label small text-muted mb-0 d-block">${t('patients.fields.admissionDate')}</label>
                                         <div class="mlvh-date-badge mlvh-date-badge-readonly">
                                             <img src="${CALENDAR_ICON}" alt="">
                                             <span class="mlvh-date-badge-text" id="details-admission_date"></span>
                                         </div>
                                     </div>
                                     <div class="mb-2">
-                                        <label class="form-label small text-muted mb-0 d-block">Latest Record</label>
+                                        <label class="form-label small text-muted mb-0 d-block">${t('patients.fields.latestRecord')}</label>
                                         <textarea class="form-control form-control-sm mlvh-rounded-textarea" id="details-latest-record" rows="3" readonly></textarea>
                                     </div>
                                 </fieldset>
@@ -370,7 +371,7 @@ export const initPatientAdminLogic = () => {
     wireIconGroup(detailsSpeciesIconGroup, detailsSpecies);
     wireIconGroup(detailsSexIconGroup, detailsSex);
 
-    admissionDateInput.textContent = formatDisplayDate(new Date().toISOString().slice(0, 10));
+    admissionDateInput.textContent = formatDisplayDate(toLocalIsoDate());
     setUnknownDefaults(speciesSelect, sexSelect, locationSelect, pronounsSelect, speciesIconGroup, sexIconGroup, avatarPreview);
 
     speciesSelect.addEventListener('change', () =>
@@ -399,8 +400,8 @@ export const initPatientAdminLogic = () => {
             renderPatients(localPatients);
         } catch (error) {
             console.error('API Error:', error);
-            patientGallery.innerHTML = '<div class="col-12 text-center text-danger">Failed to connect to database.</div>';
-            patientCount.textContent = 'API Error';
+            patientGallery.innerHTML = `<div class="col-12 text-center text-danger">${t('patients.loadError')}</div>`;
+            patientCount.textContent = t('patients.count.error');
         }
     };
 
@@ -416,17 +417,15 @@ export const initPatientAdminLogic = () => {
 
     const renderPatients = (patients, query = '') => {
         if (patients.length === 0) {
-            patientGallery.innerHTML = query
-                ? '<p class="mlvh-card-subtitle text-center mb-0">No patients match your search.</p>'
-                : '<p class="mlvh-card-subtitle text-center mb-0">No patients admitted yet.</p>';
-            patientCount.textContent = query ? '0 patients found' : '0 patients';
+            patientGallery.innerHTML = `<p class="mlvh-card-subtitle text-center mb-0">${t(query ? 'patients.empty.noMatches' : 'patients.empty.none')}</p>`;
+            patientCount.textContent = t(query ? 'patients.count.noMatches' : 'patients.count.none');
             return;
         }
 
         patientGallery.innerHTML = patients.map((patient) => {
             const displayId = `${patient.location}-${patient.id_number}`;
             return `
-            <div class="card h-100 border-0 text-center patient-card" data-id="${patient.id}" role="button" tabindex="0" aria-label="Open profile for ${escapeHtml(patient.name)}" style="cursor: pointer; transition: transform 0.2s;">
+            <div class="card h-100 border-0 text-center patient-card" data-id="${patient.id}" role="button" tabindex="0" aria-label="${t('patients.card.open', { name: escapeHtml(patient.name) })}" style="cursor: pointer; transition: transform 0.2s;">
                 <img data-avatar-src="${AVATAR_BASE_PATH}/${patient.avatar_style}.png"
                      class="card-img-top p-2 mx-auto patient-avatar"
                      alt="${escapeHtml(patient.name)}"
@@ -442,8 +441,8 @@ export const initPatientAdminLogic = () => {
         }).join('');
 
         patientCount.textContent = query
-            ? `${patients.length} of ${localPatients.length} patients`
-            : `${patients.length} active patients`;
+            ? t('patients.count.filtered', { shown: patients.length, count: localPatients.length })
+            : t('patients.count.active', { count: patients.length });
 
         patientGallery.querySelectorAll('.patient-avatar').forEach((img) => {
             setAvatarWithFallback(img, img.dataset.avatarSrc, DEFAULT_AVATAR);
@@ -472,7 +471,7 @@ export const initPatientAdminLogic = () => {
         detailsSex.value = patient.sex;
         detailsLocation.value = patient.location;
         detailsIdNumber.value = patient.id_number;
-        detailsAdmissionDate.textContent = patient.created_at ? formatDisplayDate(patient.created_at.slice(0, 10)) : '';
+        detailsAdmissionDate.textContent = patient.created_at ? formatDisplayDate(toLocalIsoDate(new Date(patient.created_at))) : '';
         detailsLatestRecord.value = formatRecordSummary(patient.latest_record);
 
         syncIconGroup(detailsSpeciesIconGroup, detailsSpecies);
@@ -514,10 +513,10 @@ export const initPatientAdminLogic = () => {
 
             // Refresh
             openPatientDetails(currentEditingPatientId);
-            showToast('Patient updated successfully.');
+            showToast(t('patients.details.updated'));
         } catch (error) {
             console.error(error);
-            showToast(error instanceof ApiError ? error.message : 'Error saving changes.', 'error');
+            showToast(error instanceof ApiError ? error.message : t('patients.details.updateError'), 'error');
         } finally {
             editToggleBtn.disabled = false;
         }
@@ -531,10 +530,7 @@ export const initPatientAdminLogic = () => {
     });
 
     dischargeBtn.addEventListener('click', async () => {
-        const confirmed = await confirmAction(
-            'This patient will be discharged and removed from the active roster.',
-            'Yes, discharge'
-        );
+        const confirmed = await confirmAction(t('patients.details.dischargeConfirm'), t('patients.details.dischargeButton'));
         if (!confirmed) return;
 
         dischargeBtn.disabled = true;
@@ -543,10 +539,10 @@ export const initPatientAdminLogic = () => {
             await dischargePatient(currentEditingPatientId);
             bootstrap.Modal.getInstance(detailsModalElement)?.hide();
             await loadPatients();
-            showToast('Patient discharged successfully.');
+            showToast(t('patients.details.discharged'));
         } catch (error) {
             console.error(error);
-            showToast(error instanceof ApiError ? error.message : 'Error discharging patient.', 'error');
+            showToast(error instanceof ApiError ? error.message : t('patients.details.dischargeError'), 'error');
         } finally {
             dischargeBtn.disabled = false;
         }
@@ -566,7 +562,7 @@ export const initPatientAdminLogic = () => {
         const submitBtn = patientForm.querySelector('button[type="submit"]');
         const originalBtnText = submitBtn.textContent;
         submitBtn.disabled = true;
-        submitBtn.textContent = 'Admitting...';
+        submitBtn.textContent = t('patients.create.submitting');
 
         const newPatient = {
             name: nameInput.value,
@@ -586,14 +582,14 @@ export const initPatientAdminLogic = () => {
             await loadPatients();
 
             patientForm.reset();
-            admissionDateInput.textContent = formatDisplayDate(new Date().toISOString().slice(0, 10));
+            admissionDateInput.textContent = formatDisplayDate(toLocalIsoDate());
             setUnknownDefaults(speciesSelect, sexSelect, locationSelect, pronounsSelect, speciesIconGroup, sexIconGroup, avatarPreview);
 
             bootstrap.Modal.getInstance(document.getElementById('createPatientModal'))?.hide();
-            showToast('Patient admitted successfully.');
+            showToast(t('patients.create.success'));
         } catch (error) {
             console.error(error);
-            showToast(error instanceof ApiError ? error.message : 'Make sure the Django server (port 8000) is running.', 'error');
+            showToast(error instanceof ApiError ? error.message : t('patients.create.error'), 'error');
         } finally {
             submitBtn.disabled = false;
             submitBtn.textContent = originalBtnText;

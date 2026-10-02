@@ -66,6 +66,7 @@ export const es = {
     },
     common: {
         close: 'Cerrar',
+        cancel: 'Cancelar',
     },
     home: {
         welcome: '¡¡Bienvenido a My Little Virtual Hospital!!',
@@ -142,6 +143,109 @@ export const es = {
         },
         contact: {
             message: 'puedes escribirme a {email}!',
+        },
+    },
+    patients: {
+        search: 'Buscar por nombre o ID...',
+        admit: 'Ingresar paciente',
+        loadError: 'No se pudo conectar con la base de datos.',
+        count: {
+            loading: 'Cargando registro...',
+            error: 'Error de API',
+            none: '0 pacientes',
+            noMatches: '0 pacientes encontrados',
+            active: {
+                one: '{count} paciente activo',
+                other: '{count} pacientes activos',
+            },
+            filtered: {
+                one: '{shown} de {count} paciente',
+                other: '{shown} de {count} pacientes',
+            },
+        },
+        empty: {
+            none: 'Aún no hay pacientes ingresados.',
+            noMatches: 'Ningún paciente coincide con tu búsqueda.',
+        },
+        card: {
+            open: 'Abrir el perfil de {name}',
+        },
+        fields: {
+            namePlaceholder: 'nombre',
+            sex: 'Sexo',
+            pronouns: 'Pronombre',
+            species: 'Especie',
+            age: 'Edad',
+            agePlaceholder: 'ej. 25',
+            location: 'Ubicación',
+            idNumber: 'Número de ID',
+            idHint: 'Hasta 5 caracteres alfanuméricos',
+            idPlaceholder: 'ej. 1234',
+            admissionDate: 'Fecha de ingreso',
+            consultationType: 'Tipo de consulta',
+            professional: 'Profesional',
+            description: 'Descripción',
+            descriptionPlaceholder: 'Describe por qué el paciente llega hoy al hospital...',
+            latestRecord: 'Último registro',
+        },
+        create: {
+            title: 'Ingresar paciente',
+            avatarAlt: 'Vista previa del avatar',
+            submit: 'Ingresar al hospital',
+            submitting: 'Ingresando...',
+            success: 'Paciente ingresado correctamente.',
+            error: 'No se pudo conectar con el servidor del hospital. Intenta de nuevo en un momento.',
+        },
+        details: {
+            title: 'Perfil del paciente',
+            avatarAlt: 'Avatar del paciente',
+            edit: 'Editar perfil',
+            history: 'Historial médico',
+            discharge: 'Dar de alta',
+            updated: 'Paciente actualizado correctamente.',
+            updateError: 'Error al guardar los cambios.',
+            dischargeConfirm: 'Este paciente será dado de alta y saldrá del registro activo.',
+            dischargeButton: 'Sí, dar de alta',
+            discharged: 'Paciente dado de alta correctamente.',
+            dischargeError: 'Error al dar de alta al paciente.',
+        },
+    },
+    locations: {
+        EA: 'Tierra (EA)',
+        PL: 'Plutón (PL)',
+        ET: 'Éter (ET)',
+        NW: 'Ninguna parte (NW)',
+        XX: 'Desconocida (XX)',
+    },
+    sexes: {
+        unknown: 'Desconocido',
+        male: 'Masculino',
+        female: 'Femenino',
+    },
+    pronouns: {
+        'she/her': 'ella',
+        'he/him': 'él',
+        'they/them': 'él',
+    },
+    professionals: {
+        dr_milo: 'Dr. Milo',
+        rn_tam: 'Enf. Tam',
+    },
+    recordTypes: {
+        admission: 'Ingreso',
+        consultation: 'Consulta',
+    },
+    records: {
+        empty: 'Aún no hay registros.',
+    },
+    api: {
+        errors: {
+            loadPatients: 'No se pudo cargar el registro de pacientes.',
+            loadRecords: 'No se pudo cargar el historial de este paciente.',
+            saveRecord: 'No se pudo guardar este registro.',
+            createPatient: 'No se pudo guardar el paciente en la base de datos.',
+            updatePatient: 'No se pudo actualizar el paciente.',
+            dischargePatient: 'No se pudo dar de alta al paciente.',
         },
     },
     species: {

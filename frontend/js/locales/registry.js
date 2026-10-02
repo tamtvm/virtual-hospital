@@ -23,8 +23,11 @@ const lookup = (locale, key) =>
 const interpolate = (message, values) =>
     message.replace(/\{(\w+)\}/g, (placeholder, name) => values[name] ?? placeholder);
 
+const selectPlural = (locale, forms, count) => forms[new Intl.PluralRules(locale).select(count)] ?? forms.other;
+
 export const translate = (locale, key, values) => {
-    const message = lookup(locale, key) ?? key;
+    const found = lookup(locale, key) ?? key;
+    const message = typeof found === 'object' ? selectPlural(locale, found, values?.count) : found;
     return values ? interpolate(message, values) : message;
 };
 
