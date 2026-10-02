@@ -16,6 +16,7 @@ import {
     ROUTE_PATHS,
 } from './constants/routes.js';
 import { applyRouteMeta } from './seo.js';
+import { initModalFocus } from './utils/modalFocus.js';
 import { initI18n } from './i18n.js';
 
 const appRoot = document.getElementById('app-root');
@@ -265,6 +266,7 @@ const initHeaderNav = () => {
 window.addEventListener('popstate', renderCurrentLocation);
 
 function bootstrap() {
+    initModalFocus();
     initI18n();
     initRouter();
     initSidebarToggle();
