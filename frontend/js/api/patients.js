@@ -1,43 +1,9 @@
 ﻿// --- API layer ---
 import { getApiBaseUrl } from '../config.js';
 import { t } from '../i18n.js';
+import { ApiError, buildErrorFromResponse } from './errors.js';
 
 const patientsUrl = async (path = '') => `${await getApiBaseUrl()}/patients/${path}`;
-
-export class ApiError extends Error {
-    constructor(message, fieldErrors = {}) {
-        super(message);
-        this.name = 'ApiError';
-        this.fieldErrors = fieldErrors;
-    }
-}
-
-
-// --- Error report --
-const buildErrorFromResponse = async (response, fallbackMessage) => {
-    let payload = {};
-    try {
-        payload = await response.json();
-    } catch {
-    }
-
-    if (typeof payload.detail === 'string') {
-        return new ApiError(payload.detail, payload);
-    }
-
-    const firstFieldWithError = Object.keys(payload).find(
-        (key) => Array.isArray(payload[key]) && payload[key].length > 0
-    );
-
-    if (firstFieldWithError) {
-        const message = firstFieldWithError === 'non_field_errors'
-            ? payload[firstFieldWithError][0]
-            : `${firstFieldWithError}: ${payload[firstFieldWithError][0]}`;
-        return new ApiError(message, payload);
-    }
-
-    return new ApiError(fallbackMessage, payload);
-};
 
 export const fetchPatients = async () => {
     const response = await fetch(await patientsUrl());

@@ -101,7 +101,7 @@ export const es = {
             contact: '¡Contáctame!',
         },
         whatIs: {
-            heading: 'hola!! soy tam, bievenido a my little virtual hospital!',
+            heading: 'hola!! soy tam, bienvenido a my little virtual hospital!',
             intro: 'My Little Virtual Hospital (MLVH) es un sistema gamificado de gestión hospitalaria que empecé a construir más que nada por aburrimiento en mi tiempo libre. Lo voy a usar como una colección de ideas + cosas que vaya aprendiendo en el camino, ¡así que quizás nunca tenga un final!',
             sandbox: 'El sitio es un sandbox en línea y en vivo, todo está hecho con herramientas gratuitas y fáciles de conseguir, y cada ilustración que ves aquí la hice a mano yo :+}',
             noLogin: 'no necesitas iniciar sesión, no hay cookies ni rastreo, solo es explorar por ahí (por ahora heh)',
@@ -121,7 +121,7 @@ export const es = {
             },
             patients: {
                 manage: 'Ingresa nuevos pacientes, busca en el registro y gestiona las altas.',
-                create: 'Crea tu propio personaje presionando el "+" junto a la barra de búsqueda. ¡Personaliza su avatar, nombre, pronombres, ubicación, entre otras cosas',
+                create: 'Crea tu propio personaje presionando el "+" junto a la barra de búsqueda. ¡Personaliza su avatar, nombre, pronombres, ubicación, entre otras cosas!',
                 profile: 'Haz clic en tus personajes para ver su perfil, editar su información, revisar su historial médico o darlos de alta.',
                 defaults: 'Pero si prefieres no crear un paciente, puedes usar cualquiera de nuestros 3 personajes predeterminados para seguir explorando el hospital.',
             },
@@ -171,6 +171,7 @@ export const es = {
             open: 'Abrir el perfil de {name}',
         },
         fields: {
+            name: 'Nombre',
             namePlaceholder: 'nombre',
             sex: 'Sexo',
             pronouns: 'Pronombre',
@@ -237,6 +238,24 @@ export const es = {
     },
     records: {
         empty: 'Aún no hay registros.',
+        search: 'Buscar paciente por nombre o ID...',
+        openHistory: 'Abrir el historial de {name}',
+        add: 'Agregar registro',
+        save: 'Guardar registro',
+        back: 'Volver al historial',
+        loading: 'Cargando historial...',
+        loadError: 'No se pudo cargar el historial de este paciente.',
+        saved: 'Registro guardado correctamente.',
+        saveError: 'Error al guardar el registro.',
+        diagnosis: 'Diagnóstico: {diagnosis}',
+        fields: {
+            date: 'Fecha',
+            diagnosis: 'Diagnóstico',
+            optional: 'Opcional',
+            descriptionPlaceholder: 'Describe lo que pasó en esta visita...',
+            procedures: 'Procedimientos realizados',
+            indications: 'Indicaciones',
+        },
     },
     api: {
         errors: {
@@ -246,6 +265,12 @@ export const es = {
             createPatient: 'No se pudo guardar el paciente en la base de datos.',
             updatePatient: 'No se pudo actualizar el paciente.',
             dischargePatient: 'No se pudo dar de alta al paciente.',
+            notFound: 'Este paciente ya no está en el hospital. Puede que el sandbox se haya reiniciado.',
+            duplicateId: 'Ya existe un paciente con este ID en esta ubicación.',
+            boardFull: 'La pizarra está llena! espera al próximo reinicio del sandbox.',
+            fieldRequired: 'El campo {field} es obligatorio.',
+            fieldTooLong: 'El campo {field} es demasiado largo.',
+            fieldInvalid: 'Revisa el campo {field}.',
         },
     },
     species: {

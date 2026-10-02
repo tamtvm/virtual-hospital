@@ -16,6 +16,8 @@ export const SEXES = defineOptions('sexes', ['unknown', 'male', 'female']);
 
 export const ID_NUMBER_PATTERN = '[a-zA-Z0-9]{1,5}';
 export const ID_NUMBER_MAXLENGTH = 5;
+export const NAME_MAXLENGTH = 20;
+export const DIAGNOSIS_MAXLENGTH = 200;
 
 export const renderOptions = (options) => {
     const shownLabels = new Set();

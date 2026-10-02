@@ -1,15 +1,13 @@
 // --- MODULE: medical records view ---
 
-import { fetchPatients, fetchPatientRecords, addPatientRecord, ApiError } from '../../api/patients.js';
+import { fetchPatients, fetchPatientRecords, addPatientRecord } from '../../api/patients.js';
+import { ApiError } from '../../api/errors.js';
 import { AVATAR_BASE_PATH, DEFAULT_AVATAR } from '../../config.js';
-import { escapeHtml, setAvatarWithFallback, formatDisplayDate, onActivate } from '../../utils/dom.js';
-import { LOCATIONS, SPECIES, SEXES, CONSULTATION_TYPES, PROFESSIONALS, CALENDAR_ICON, renderOptions } from '../../constants/patientOptions.js';
-import { formatRecordSummary, PROFESSIONAL_LABELS } from '../../constants/recordOptions.js';
+import { escapeHtml, setAvatarWithFallback, formatDisplayDate, toLocalIsoDate, onActivate } from '../../utils/dom.js';
+import { CONSULTATION_TYPES, PROFESSIONALS, CALENDAR_ICON, DIAGNOSIS_MAXLENGTH, renderOptions } from '../../constants/patientOptions.js';
+import { formatRecordSummary } from '../../constants/recordOptions.js';
 import { showToast } from '../../utils/toast.js';
-
-const LOCATION_LABELS = Object.fromEntries(LOCATIONS.map(({ value, label }) => [value, label]));
-const SPECIES_LABELS = Object.fromEntries(SPECIES.map(({ value, label }) => [value, label]));
-const SEX_LABELS = Object.fromEntries(SEXES.map(({ value, label }) => [value, label]));
+import { t, tOption } from '../../i18n.js';
 
 // --- Keeps the styled date text in sync with the (visually hidden) native date input ---
 const wireDateBadge = (inputId, textId) => {
@@ -29,7 +27,7 @@ export const getMedicalRecordsView = () => {
         <div class="mlvh-card-body">
             <div class="mlvh-search-field">
                 <img src="/assets/icons/misc/search.svg" alt="">
-                <input type="text" id="record-patient-search" class="form-control form-control-sm border-0 bg-transparent p-0" placeholder="Search patient by name or ID...">
+                <input type="text" id="record-patient-search" class="form-control form-control-sm border-0 bg-transparent p-0" placeholder="${t('records.search')}">
             </div>
             <div id="record-search-results" class="mlvh-record-results"></div>
         </div>
@@ -43,11 +41,11 @@ export const getMedicalRecordsView = () => {
 
 const buildSummaryRows = (patient) => {
     const rows = [
-        ['species', SPECIES_LABELS[patient.species] ?? patient.species],
-        ['sex', SEX_LABELS[patient.sex] ?? patient.sex],
-        ['pronouns', patient.pronouns],
-        ['age', patient.age],
-        ['location', LOCATION_LABELS[patient.location] ?? patient.location],
+        [t('patients.fields.species'), tOption('species', patient.species)],
+        [t('patients.fields.sex'), tOption('sexes', patient.sex)],
+        [t('patients.fields.pronouns'), tOption('pronouns', patient.pronouns)],
+        [t('patients.fields.age'), patient.age],
+        [t('patients.fields.location'), tOption('locations', patient.location)],
     ];
 
     return rows.map(([label, value]) => `
@@ -62,21 +60,21 @@ const buildSummaryRows = (patient) => {
 
 const buildHistoryEntries = (records) => {
     if (!records || records.length === 0) {
-        return '<p class="mlvh-card-subtitle text-center mb-0">No records yet.</p>';
+        return `<p class="mlvh-card-subtitle text-center mb-0">${t('records.empty')}</p>`;
     }
 
     return records.map((record) => {
-        const dateLabel = record.record_date ?? (record.created_at ? record.created_at.slice(0, 10) : '');
-        const professionalLabel = PROFESSIONAL_LABELS[record.assigned_professional];
+        const recordDate = record.record_date ?? (record.created_at ? toLocalIsoDate(new Date(record.created_at)) : '');
+        const professionalLabel = tOption('professionals', record.assigned_professional);
 
         return `
         <div class="mlvh-history-entry" data-record-id="${record.id}" role="button" tabindex="0">
             <div class="mlvh-history-entry-header">
-                <span class="mlvh-history-entry-date">${escapeHtml(dateLabel)}</span>
+                <span class="mlvh-history-entry-date">${escapeHtml(formatDisplayDate(recordDate))}</span>
                 ${professionalLabel ? `<span class="mlvh-history-entry-professional">${escapeHtml(professionalLabel)}</span>` : ''}
             </div>
             <div class="mlvh-history-entry-text">${escapeHtml(formatRecordSummary(record))}</div>
-            ${record.diagnosis ? `<div class="mlvh-history-entry-diagnosis">Diagnosis: ${escapeHtml(record.diagnosis)}</div>` : ''}
+            ${record.diagnosis ? `<div class="mlvh-history-entry-diagnosis">${t('records.diagnosis', { diagnosis: escapeHtml(record.diagnosis) })}</div>` : ''}
         </div>
         `;
     }).join('');
@@ -88,13 +86,13 @@ const getRecordFormHTML = () => `
         <fieldset id="record-fieldset">
             <div class="row">
                 <div class="col-6 mb-2">
-                    <label class="form-label small text-muted mb-0 d-block">Consultation Type</label>
+                    <label class="form-label small text-muted mb-0 d-block">${t('patients.fields.consultationType')}</label>
                     <select class="form-select form-select-sm mlvh-rounded-input" id="record-consultation-type" required>
                         ${renderOptions(CONSULTATION_TYPES)}
                     </select>
                 </div>
                 <div class="col-6 mb-2">
-                    <label class="form-label small text-muted mb-0 d-block">Date</label>
+                    <label class="form-label small text-muted mb-0 d-block">${t('records.fields.date')}</label>
                     <div class="mlvh-date-badge">
                         <img src="${CALENDAR_ICON}" alt="">
                         <span class="mlvh-date-badge-text" id="record-date-text"></span>
@@ -104,27 +102,27 @@ const getRecordFormHTML = () => `
             </div>
             <div class="row">
                 <div class="col-6 mb-2">
-                    <label class="form-label small text-muted mb-0 d-block">Professional</label>
+                    <label class="form-label small text-muted mb-0 d-block">${t('patients.fields.professional')}</label>
                     <select class="form-select form-select-sm mlvh-rounded-input" id="record-professional" required>
                         ${renderOptions(PROFESSIONALS)}
                     </select>
                 </div>
                 <div class="col-6 mb-2">
-                    <label class="form-label small text-muted mb-0 d-block">Diagnosis</label>
-                    <input type="text" class="form-control form-control-sm mlvh-rounded-input" id="record-diagnosis" placeholder="Optional">
+                    <label class="form-label small text-muted mb-0 d-block">${t('records.fields.diagnosis')}</label>
+                    <input type="text" class="form-control form-control-sm mlvh-rounded-input" id="record-diagnosis" maxlength="${DIAGNOSIS_MAXLENGTH}" placeholder="${t('records.fields.optional')}">
                 </div>
             </div>
             <div class="mb-2">
-                <label class="form-label small text-muted mb-0 d-block">Description</label>
-                <div class="mlvh-textarea-wrap"><textarea class="form-control form-control-sm mlvh-rounded-textarea" id="record-description" rows="2" placeholder="What happened during this visit..." required></textarea></div>
+                <label class="form-label small text-muted mb-0 d-block">${t('patients.fields.description')}</label>
+                <div class="mlvh-textarea-wrap"><textarea class="form-control form-control-sm mlvh-rounded-textarea" id="record-description" rows="2" placeholder="${t('records.fields.descriptionPlaceholder')}" required></textarea></div>
             </div>
             <div class="mb-2">
-                <label class="form-label small text-muted mb-0 d-block">Procedures Performed</label>
-                <div class="mlvh-textarea-wrap"><textarea class="form-control form-control-sm mlvh-rounded-textarea" id="record-procedures" rows="2" placeholder="Optional"></textarea></div>
+                <label class="form-label small text-muted mb-0 d-block">${t('records.fields.procedures')}</label>
+                <div class="mlvh-textarea-wrap"><textarea class="form-control form-control-sm mlvh-rounded-textarea" id="record-procedures" rows="2" placeholder="${t('records.fields.optional')}"></textarea></div>
             </div>
             <div class="mb-2">
-                <label class="form-label small text-muted mb-0 d-block">Indications</label>
-                <div class="mlvh-textarea-wrap"><textarea class="form-control form-control-sm mlvh-rounded-textarea" id="record-indications" rows="2" placeholder="Optional"></textarea></div>
+                <label class="form-label small text-muted mb-0 d-block">${t('records.fields.indications')}</label>
+                <div class="mlvh-textarea-wrap"><textarea class="form-control form-control-sm mlvh-rounded-textarea" id="record-indications" rows="2" placeholder="${t('records.fields.optional')}"></textarea></div>
             </div>
         </fieldset>
     </form>
@@ -177,7 +175,7 @@ export const initMedicalRecordsLogic = (initialPatientId = null) => {
         resultsList.innerHTML = patients.map((patient) => {
             const displayId = `${patient.location}-${patient.id_number}`;
             return `
-            <div class="mlvh-record-result-item" data-id="${patient.id}" role="button" tabindex="0" aria-label="Open history for ${escapeHtml(patient.name)}">
+            <div class="mlvh-record-result-item" data-id="${patient.id}" role="button" tabindex="0" aria-label="${t('records.openHistory', { name: escapeHtml(patient.name) })}">
                 <img data-avatar-src="${AVATAR_BASE_PATH}/${patient.avatar_style}.png" alt="${escapeHtml(patient.name)}" loading="lazy" decoding="async">
                 <div>
                     <div class="mlvh-record-result-name">${escapeHtml(patient.name)}</div>
@@ -199,12 +197,12 @@ export const initMedicalRecordsLogic = (initialPatientId = null) => {
         historyPlaceholder.innerHTML = `
         <div class="mlvh-card mlvh-history-card">
             <div class="mlvh-history-card-actions js-history-actions">
-                <button type="button" class="btn mlvh-admit-btn shadow-sm js-add-record" aria-label="Add Record">
+                <button type="button" class="btn mlvh-admit-btn shadow-sm js-add-record" aria-label="${t('records.add')}">
                     <img src="/assets/icons/misc/plus.svg" alt="" class="mlvh-btn-icon">
                 </button>
             </div>
             <div class="mlvh-folder-header d-flex justify-content-between align-items-center">
-                <h5 class="fw-bold mb-0 mlvh-folder-tab-title">medical history</h5>
+                <h5 class="fw-bold mb-0 mlvh-folder-tab-title">${t('patients.details.history')}</h5>
             </div>
             <div class="mlvh-card-body">
                 <div class="mlvh-history-columns">
@@ -219,7 +217,7 @@ export const initMedicalRecordsLogic = (initialPatientId = null) => {
                         </dl>
                     </div>
                     <div class="mlvh-history-add-mobile-row js-history-actions">
-                        <button type="button" class="btn mlvh-admit-btn shadow-sm js-add-record" aria-label="Add Record">
+                        <button type="button" class="btn mlvh-admit-btn shadow-sm js-add-record" aria-label="${t('records.add')}">
                             <img src="/assets/icons/misc/plus.svg" alt="" class="mlvh-btn-icon">
                         </button>
                     </div>
@@ -277,7 +275,7 @@ export const initMedicalRecordsLogic = (initialPatientId = null) => {
         if (!timelineCol) return;
 
         timelineCol.innerHTML = getRecordFormHTML();
-        document.getElementById('record-date').value = new Date().toISOString().slice(0, 10);
+        document.getElementById('record-date').value = toLocalIsoDate();
         wireDateBadge('record-date', 'record-date-text');
 
         const backToHistory = async () => {
@@ -290,8 +288,8 @@ export const initMedicalRecordsLogic = (initialPatientId = null) => {
         };
 
         setCardActions([
-            { icon: '/assets/icons/misc/back.svg', label: 'Cancel', onClick: backToHistory },
-            { icon: '/assets/icons/misc/save.svg', label: 'Save Record', type: 'submit', form: 'record-form' },
+            { icon: '/assets/icons/misc/back.svg', label: t('common.cancel'), onClick: backToHistory },
+            { icon: '/assets/icons/misc/save.svg', label: t('records.save'), type: 'submit', form: 'record-form' },
         ]);
 
         document.getElementById('record-form').addEventListener('submit', async (event) => {
@@ -309,11 +307,11 @@ export const initMedicalRecordsLogic = (initialPatientId = null) => {
 
             try {
                 await addPatientRecord(patient.id, payload);
-                showToast('Record saved successfully.');
+                showToast(t('records.saved'));
                 await backToHistory();
             } catch (error) {
                 console.error('API Error:', error);
-                showToast(error instanceof ApiError ? error.message : 'Error saving record.', 'error');
+                showToast(error instanceof ApiError ? error.message : t('records.saveError'), 'error');
             }
         });
     };
@@ -336,7 +334,7 @@ export const initMedicalRecordsLogic = (initialPatientId = null) => {
         document.getElementById('record-fieldset').disabled = true;
 
         setCardActions([
-            { icon: '/assets/icons/misc/back.svg', label: 'Back to history', onClick: () => renderHistoryCard(patient, currentRecords) },
+            { icon: '/assets/icons/misc/back.svg', label: t('records.back'), onClick: () => renderHistoryCard(patient, currentRecords) },
         ]);
     };
 
@@ -353,7 +351,7 @@ export const initMedicalRecordsLogic = (initialPatientId = null) => {
 
         historyPlaceholder.innerHTML = `
             <div class="mlvh-card text-center py-5">
-                <p class="mlvh-card-subtitle mb-0">Loading history...</p>
+                <p class="mlvh-card-subtitle mb-0">${t('records.loading')}</p>
             </div>
         `;
 
@@ -364,7 +362,7 @@ export const initMedicalRecordsLogic = (initialPatientId = null) => {
             console.error('API Error:', error);
             historyPlaceholder.innerHTML = `
                 <div class="mlvh-card text-center py-5">
-                    <p class="mlvh-card-subtitle mb-0">Could not load this patient's history.</p>
+                    <p class="mlvh-card-subtitle mb-0">${t('records.loadError')}</p>
                 </div>
             `;
         }

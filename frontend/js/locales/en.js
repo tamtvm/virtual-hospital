@@ -171,6 +171,7 @@ export const en = {
             open: 'Open profile for {name}',
         },
         fields: {
+            name: 'Name',
             namePlaceholder: 'name',
             sex: 'Sex',
             pronouns: 'Pronouns',
@@ -237,6 +238,24 @@ export const en = {
     },
     records: {
         empty: 'No records yet.',
+        search: 'Search patient by name or ID...',
+        openHistory: 'Open history for {name}',
+        add: 'Add Record',
+        save: 'Save Record',
+        back: 'Back to history',
+        loading: 'Loading history...',
+        loadError: "Could not load this patient's history.",
+        saved: 'Record saved successfully.',
+        saveError: 'Error saving record.',
+        diagnosis: 'Diagnosis: {diagnosis}',
+        fields: {
+            date: 'Date',
+            diagnosis: 'Diagnosis',
+            optional: 'Optional',
+            descriptionPlaceholder: 'What happened during this visit...',
+            procedures: 'Procedures Performed',
+            indications: 'Indications',
+        },
     },
     api: {
         errors: {
@@ -246,6 +265,12 @@ export const en = {
             createPatient: 'Failed to save patient to the database.',
             updatePatient: 'Failed to update patient.',
             dischargePatient: 'Failed to discharge patient.',
+            notFound: 'This patient is no longer in the hospital. The sandbox may have been reset.',
+            duplicateId: 'A patient with this ID already exists at this location.',
+            boardFull: 'The board is full!! wait till next sandbox reset.',
+            fieldRequired: 'The {field} field is required.',
+            fieldTooLong: 'The {field} field is too long.',
+            fieldInvalid: 'Check the {field} field.',
         },
     },
     species: {

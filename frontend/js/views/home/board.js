@@ -1,7 +1,7 @@
 // --- MODULE: reception whiteboard ---
 
 import { fetchBoardStrokes, createBoardStroke } from '../../api/board.js';
-import { ApiError } from '../../api/patients.js';
+import { ApiError } from '../../api/errors.js';
 import { showToast } from '../../utils/toast.js';
 import { t } from '../../i18n.js';
 

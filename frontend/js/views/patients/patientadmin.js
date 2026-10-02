@@ -1,7 +1,8 @@
 // --- MODULE: patient administration view ---
 
 import { AVATAR_BASE_PATH, DEFAULT_AVATAR } from '../../config.js';
-import { fetchPatients, createPatient, updatePatient, dischargePatient, ApiError } from '../../api/patients.js';
+import { fetchPatients, createPatient, updatePatient, dischargePatient } from '../../api/patients.js';
+import { ApiError } from '../../api/errors.js';
 import {
     LOCATIONS,
     SPECIES,
@@ -15,6 +16,7 @@ import {
     PENCIL_ICON,
     ID_NUMBER_PATTERN,
     ID_NUMBER_MAXLENGTH,
+    NAME_MAXLENGTH,
     renderOptions,
     renderIconButtons,
 } from '../../constants/patientOptions.js';
@@ -64,7 +66,7 @@ export const getPatientModal = () => {
                             <div class="mlvh-avatar-stage">
                                 <img id="avatar-preview" src="${DEFAULT_AVATAR}" alt="${t('patients.create.avatarAlt')}" class="img-fluid mb-2" style="max-height: 220px;">
                                 <div class="mlvh-name-field">
-                                    <input type="text" class="form-control form-control-sm text-center mlvh-name-input" id="name" placeholder="${t('patients.fields.namePlaceholder')}" required>
+                                    <input type="text" class="form-control form-control-sm text-center mlvh-name-input" id="name" maxlength="${NAME_MAXLENGTH}" placeholder="${t('patients.fields.namePlaceholder')}" required>
                                     <img src="${PENCIL_ICON}" alt="">
                                 </div>
                             </div>
@@ -166,7 +168,7 @@ export const getPatientModal = () => {
                                     <div class="mlvh-avatar-stage">
                                         <img id="details-avatar" src="${DEFAULT_AVATAR}" alt="${t('patients.details.avatarAlt')}" class="img-fluid mb-2 mlvh-detail-avatar-img">
                                         <div class="mlvh-name-field">
-                                            <input type="text" class="form-control form-control-sm text-center mlvh-name-input" id="details-name">
+                                            <input type="text" class="form-control form-control-sm text-center mlvh-name-input" id="details-name" maxlength="${NAME_MAXLENGTH}">
                                             <img src="${PENCIL_ICON}" alt="">
                                         </div>
                                         <p class="text-muted small mb-0 mt-2" id="details-patient-id"></p>
