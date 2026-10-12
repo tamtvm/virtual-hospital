@@ -4,7 +4,16 @@ import { fetchPatients, fetchPatientRecords, addPatientRecord } from '../../api/
 import { ApiError } from '../../api/errors.js';
 import { AVATAR_BASE_PATH, DEFAULT_AVATAR } from '../../config.js';
 import { escapeHtml, setAvatarWithFallback, formatDisplayDate, toLocalIsoDate, onActivate } from '../../utils/dom.js';
-import { CONSULTATION_TYPES, PROFESSIONALS, CALENDAR_ICON, DIAGNOSIS_MAXLENGTH, renderOptions } from '../../constants/patientOptions.js';
+import {
+    CONSULTATION_TYPES,
+    PROFESSIONALS,
+    CALENDAR_ICON,
+    DIAGNOSIS_MAXLENGTH,
+    DESCRIPTION_MAXLENGTH,
+    PROCEDURES_MAXLENGTH,
+    INDICATIONS_MAXLENGTH,
+    renderOptions,
+} from '../../constants/patientOptions.js';
 import { formatRecordSummary } from '../../constants/recordOptions.js';
 import { showToast } from '../../utils/toast.js';
 import { t, tOption } from '../../i18n.js';
@@ -114,15 +123,15 @@ const getRecordFormHTML = () => `
             </div>
             <div class="mb-2">
                 <label class="form-label small text-muted mb-0 d-block">${t('patients.fields.description')}</label>
-                <div class="mlvh-textarea-wrap"><textarea class="form-control form-control-sm mlvh-rounded-textarea" id="record-description" rows="2" placeholder="${t('records.fields.descriptionPlaceholder')}" required></textarea></div>
+                <div class="mlvh-textarea-wrap"><textarea class="form-control form-control-sm mlvh-rounded-textarea" id="record-description" rows="2" maxlength="${DESCRIPTION_MAXLENGTH}" placeholder="${t('records.fields.descriptionPlaceholder')}" required></textarea></div>
             </div>
             <div class="mb-2">
                 <label class="form-label small text-muted mb-0 d-block">${t('records.fields.procedures')}</label>
-                <div class="mlvh-textarea-wrap"><textarea class="form-control form-control-sm mlvh-rounded-textarea" id="record-procedures" rows="2" placeholder="${t('records.fields.optional')}"></textarea></div>
+                <div class="mlvh-textarea-wrap"><textarea class="form-control form-control-sm mlvh-rounded-textarea" id="record-procedures" rows="2" maxlength="${PROCEDURES_MAXLENGTH}" placeholder="${t('records.fields.optional')}"></textarea></div>
             </div>
             <div class="mb-2">
                 <label class="form-label small text-muted mb-0 d-block">${t('records.fields.indications')}</label>
-                <div class="mlvh-textarea-wrap"><textarea class="form-control form-control-sm mlvh-rounded-textarea" id="record-indications" rows="2" placeholder="${t('records.fields.optional')}"></textarea></div>
+                <div class="mlvh-textarea-wrap"><textarea class="form-control form-control-sm mlvh-rounded-textarea" id="record-indications" rows="2" maxlength="${INDICATIONS_MAXLENGTH}" placeholder="${t('records.fields.optional')}"></textarea></div>
             </div>
         </fieldset>
     </form>

@@ -2,7 +2,7 @@ import re
 
 from django.db import transaction
 from rest_framework import serializers
-from .models import Patient, PatientRecord
+from .models import Patient, PatientRecord, RECORD_DESCRIPTION_MAX_LENGTH
 
 ID_NUMBER_PATTERN = re.compile(r'^[A-Za-z0-9]{1,5}$')
 
@@ -50,7 +50,7 @@ class PatientSerializer(serializers.ModelSerializer):
         write_only=True,
     )
 
-    description = serializers.CharField(write_only=True)
+    description = serializers.CharField(write_only=True, max_length=RECORD_DESCRIPTION_MAX_LENGTH)
 
     latest_record = serializers.SerializerMethodField()
 

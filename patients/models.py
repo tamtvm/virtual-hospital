@@ -1,5 +1,11 @@
 from django.db import models
+from django.db.models.functions import Length
+from django.db.models.lookups import LessThanOrEqual
 from django.utils import timezone
+
+RECORD_DESCRIPTION_MAX_LENGTH = 1000
+RECORD_PROCEDURES_MAX_LENGTH = 500
+RECORD_INDICATIONS_MAX_LENGTH = 500
 
 class Patient(models.Model):
     """
@@ -115,16 +121,30 @@ class PatientRecord(models.Model):
     record_date = models.DateField(default=timezone.localdate)
 
     diagnosis = models.CharField(max_length=200, blank=True)
-    procedures = models.TextField(blank=True)
-    indications = models.TextField(blank=True)
+    procedures = models.TextField(max_length=RECORD_PROCEDURES_MAX_LENGTH, blank=True)
+    indications = models.TextField(max_length=RECORD_INDICATIONS_MAX_LENGTH, blank=True)
 
     # Future records tab reads and displays
-    description = models.TextField()
+    description = models.TextField(max_length=RECORD_DESCRIPTION_MAX_LENGTH)
 
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         ordering = ['-created_at']
+        constraints = [
+            models.CheckConstraint(
+                condition=LessThanOrEqual(Length('description'), RECORD_DESCRIPTION_MAX_LENGTH),
+                name='record_description_max_length',
+            ),
+            models.CheckConstraint(
+                condition=LessThanOrEqual(Length('procedures'), RECORD_PROCEDURES_MAX_LENGTH),
+                name='record_procedures_max_length',
+            ),
+            models.CheckConstraint(
+                condition=LessThanOrEqual(Length('indications'), RECORD_INDICATIONS_MAX_LENGTH),
+                name='record_indications_max_length',
+            ),
+        ]
 
     def __str__(self):
         return f"{self.get_record_type_display()} — {self.patient}"

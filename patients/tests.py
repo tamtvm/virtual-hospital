@@ -3,7 +3,13 @@ from django.test import TestCase
 from rest_framework.serializers import ValidationError
 from rest_framework.test import APITestCase
 
-from .models import Patient
+from .models import (
+    Patient,
+    PatientRecord,
+    RECORD_DESCRIPTION_MAX_LENGTH,
+    RECORD_INDICATIONS_MAX_LENGTH,
+    RECORD_PROCEDURES_MAX_LENGTH,
+)
 from .serializers import PatientSerializer
 
 # --- Fixtures ---
@@ -20,6 +26,19 @@ PATIENT_PAYLOAD = {
     'assigned_professional': 'dr_milo',
     'description': 'Admitted for a checkup.',
     'record_date': '2026-09-09',
+}
+
+RECORD_PAYLOAD = {
+    'consultation_type': 'preventive',
+    'assigned_professional': 'rn_tam',
+    'record_date': '2026-09-10',
+    'description': 'Routine follow-up.',
+}
+
+RECORD_TEXT_LIMITS = {
+    'description': RECORD_DESCRIPTION_MAX_LENGTH,
+    'procedures': RECORD_PROCEDURES_MAX_LENGTH,
+    'indications': RECORD_INDICATIONS_MAX_LENGTH,
 }
 
 def build_patient(**overrides):
@@ -144,3 +163,49 @@ class ApiErrorCodeTests(APITestCase):
 
         self.assertEqual(response.status_code, 404)
         self.assertEqual(response.data['detail']['code'], 'not_found')
+
+# --- Record text limits ---
+
+class RecordTextLimitApiTests(APITestCase):
+
+    def setUp(self):
+        self.patient = build_patient()
+        self.add_record_url = f'/api/patients/{self.patient.id}/add_record/'
+
+    def test_record_text_fields_accept_text_at_their_limit(self):
+        payload = {**RECORD_PAYLOAD, **{field: 'x' * limit for field, limit in RECORD_TEXT_LIMITS.items()}}
+        response = self.client.post(self.add_record_url, payload, format='json')
+
+        self.assertEqual(response.status_code, 201)
+
+    def test_record_text_fields_reject_text_over_their_limit(self):
+        for field, limit in RECORD_TEXT_LIMITS.items():
+            with self.subTest(field=field):
+                response = self.client.post(
+                    self.add_record_url, {**RECORD_PAYLOAD, field: 'x' * (limit + 1)}, format='json'
+                )
+
+                self.assertEqual(response.status_code, 400)
+                self.assertEqual(response.data[field][0]['code'], 'max_length')
+
+    def test_admission_rejects_a_description_over_the_limit(self):
+        response = self.client.post(
+            '/api/patients/',
+            {**PATIENT_PAYLOAD, 'description': 'x' * (RECORD_DESCRIPTION_MAX_LENGTH + 1)},
+            format='json',
+        )
+
+        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.data['description'][0]['code'], 'max_length')
+
+
+class RecordTextConstraintTests(TestCase):
+
+    def test_database_rejects_record_text_over_its_limit(self):
+        patient = build_patient()
+        for field, limit in RECORD_TEXT_LIMITS.items():
+            with self.subTest(field=field):
+                values = {'description': 'Routine follow-up.', field: 'x' * (limit + 1)}
+                with self.assertRaises(IntegrityError):
+                    with transaction.atomic():
+                        PatientRecord.objects.create(patient=patient, record_type='consultation', **values)

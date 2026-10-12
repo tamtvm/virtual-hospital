@@ -17,6 +17,7 @@ import {
     ID_NUMBER_PATTERN,
     ID_NUMBER_MAXLENGTH,
     NAME_MAXLENGTH,
+    DESCRIPTION_MAXLENGTH,
     renderOptions,
     renderIconButtons,
 } from '../../constants/patientOptions.js';
@@ -138,7 +139,7 @@ export const getPatientModal = () => {
                                 </div>
                                 <div class="mb-2">
                                     <label class="form-label small text-muted mb-0 d-block">${t('patients.fields.description')}</label>
-                                    <textarea class="form-control form-control-sm mlvh-rounded-textarea" id="record_description" rows="2" placeholder="${t('patients.fields.descriptionPlaceholder')}" required></textarea>
+                                    <textarea class="form-control form-control-sm mlvh-rounded-textarea" id="record_description" rows="2" maxlength="${DESCRIPTION_MAXLENGTH}" placeholder="${t('patients.fields.descriptionPlaceholder')}" required></textarea>
                                 </div>
                                 <div class="text-end mt-3">
                                     <button type="submit" class="btn btn-primary w-100">${t('patients.create.submit')}</button>
