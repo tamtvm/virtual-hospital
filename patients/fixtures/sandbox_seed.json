@@ -11,7 +11,6 @@
     "location": "EA",
     "id_number": "1234",
     "avatar_style": "monkey_male",
-    "main_symptom": "",
     "created_at": "2026-07-28T01:23:24.379Z",
     "is_active": true
   }
@@ -28,7 +27,6 @@
     "location": "EA",
     "id_number": "1111",
     "avatar_style": "human_female",
-    "main_symptom": "",
     "created_at": "2026-07-28T01:30:49.125Z",
     "is_active": true
   }
@@ -45,7 +43,6 @@
     "location": "XX",
     "id_number": "456",
     "avatar_style": "unknown_unknown",
-    "main_symptom": "",
     "created_at": "2026-08-04T21:26:30.034Z",
     "is_active": true
   }

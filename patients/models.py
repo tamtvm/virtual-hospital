@@ -53,7 +53,6 @@ class Patient(models.Model):
     id_number = models.CharField(max_length=5)
 
     avatar_style = models.CharField(max_length=50, blank=True)
-    main_symptom = models.CharField(max_length=200, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     # Flag for soft-delete
